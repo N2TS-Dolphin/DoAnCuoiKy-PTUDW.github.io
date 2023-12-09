@@ -1,0 +1,80 @@
+header {
+  padding-top: 10px;
+  background-color: black;
+}
+#header-text {
+  color: white;
+  font-family: "Yellowtail";
+  font-size: 40px;
+  font-weight: bold;
+
+  text-align: left;
+
+  padding: 0px;
+  margin: 0px;
+
+  width: fit-content;
+  height: 40px;
+
+  position: absolute;
+}
+
+#menu {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 20px;
+
+  transform: translateY(10px);
+}
+
+.nav {
+    display: flex;
+    justify-content: flex-end;
+    list-style-type: none;
+    padding: 10px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #fff; /* Màu chữ mặc định */
+}
+
+.nav-link:hover{
+    background-color: #f0f0f0; /* Màu nền là xám nhạt khi hover */
+    color: black; /* Màu chữ là đỏ khi hover */
+}
+
+.nav-item {
+  position: relative;
+}
+
+.sub-list {
+  display: none; /* Mặc định ẩn danh sách con */
+  background-color: #000;
+
+  position: absolute;
+  top: 100%; /* Hiển thị danh sách con dưới mục "Kỷ niệm" */
+  left: 0;
+  padding: 10px;
+}
+
+.nav-item:hover .sub-list {
+  display: block; /* Hiển thị danh sách con khi rê chuột vào mục "Kỷ niệm" */
+  width: max-content;
+}
+
+.sub-list li a {
+  color: white;
+}
+
+.sub-list li a {
+  padding: 5px 10px 5px 10px;
+}
+
+.sub-list li:hover {
+  background-color: #dbdbdb;
+}
+
+.sub-list a:hover {
+  text-decoration: none;
+  color: #000;
+}
