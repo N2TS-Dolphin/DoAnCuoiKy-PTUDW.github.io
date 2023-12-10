@@ -46,5 +46,13 @@ router.get('/', async function(req, res, next) {
     let product_url = '/product_details?id=' + product_id
     res.redirect(product_url)
   })
+const express = require("express");
+const router = express.Router();
+const productController = require("./product.controller");
+const reviewRouter = require("./review/index");
+
+/* GET product details page. */
+router.get("/:id", productController.detail);
+router.use("/:id/review", reviewRouter);
 
 module.exports = router;
