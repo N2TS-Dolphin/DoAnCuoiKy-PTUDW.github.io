@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { Product, Review } = require('./product.model')
+const { Product, Review } = require('../product_details/product.model')
 const Handlebars = require('hbs')
 var paginate = require('handlebars-paginate')
 

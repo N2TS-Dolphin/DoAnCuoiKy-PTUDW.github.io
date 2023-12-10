@@ -7,7 +7,7 @@
       <div class="col-md-12">
         <h3 class="breadcrumb-header">Product</h3>
         <ul class="breadcrumb-tree">
-          <li><a href="#">Home</a></li>
+          <li><a href="/home">Home</a></li>
           <li class="active">Product</li>
         </ul>
       </div>
@@ -75,7 +75,7 @@
           <span> Creation time: {{product.creation_time}}</span>
           <div>
             <div class="product-rating">
-              <span>Rating: {{product_rating}}</span>
+              <span>Rating: {{product.rating}}</span>
               <i class="fa fa-star"></i>
             </div>
           </div>
@@ -83,35 +83,8 @@
             <h3 class="product-price">{{product.price}}VND</h3>
             <span class="product-available">{{product.status}}</span>
           </div>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.</p>
-
-          {{!-- <div class="product-options">
-            <label>
-              Size
-              <select class="input-select">
-                <option value="0">X</option>
-              </select>
-            </label>
-            <label>
-              Color
-              <select class="input-select">
-                <option value="0">Red</option>
-              </select>
-            </label>
-          </div> --}}
-
+          <p>{{product.description}}</p>
           <div class="add-to-cart">
-            {{!-- <div class="qty-label">
-              Qty
-              <div class="input-number">
-                <input type="number" />
-                <span class="qty-up">+</span>
-                <span class="qty-down">-</span>
-              </div>
-            </div> --}}
             <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>
               add to cart</button>
           </div>
@@ -149,7 +122,7 @@
         <div id="product-tab">
           <!-- product tab nav -->
           <ul class="tab-nav">
-            <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
+            <li><a data-toggle="tab" href="#tab1">Description</a></li>
             <li><a data-toggle="tab" href="#tab2">Details</a></li>
             <li><a data-toggle="tab" href="#tab3">Reviews</a></li>
           </ul>
@@ -161,14 +134,7 @@
             <div id="tab1" class="tab-pane fade in active">
               <div class="row">
                 <div class="col-md-12">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.</p>
+                  <p>{{product.description}}</p>
                 </div>
               </div>
             </div>
@@ -178,14 +144,7 @@
             <div id="tab2" class="tab-pane fade in">
               <div class="row">
                 <div class="col-md-12">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.</p>
+                  <p>{{product.detail}}</p>
                 </div>
               </div>
             </div>
@@ -294,13 +253,6 @@
                       </li>
                       {{/each}}
                     </ul>
-                    <ul class="reviews-pagination">
-                      <li class="active">1</li>
-                      <li><a href="#">2</a></li>
-                      <li><a href="#">3</a></li>
-                      <li><a href="#">4</a></li>
-                      <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                    </ul>
                   </div>
                 </div>
                 <!-- /Reviews -->
@@ -308,7 +260,7 @@
                 <!-- Review Form -->
                 <div class="col-md-3">
                   <div id="review-form">
-                    <form class="review-form" action="/product_details/review?id={{product._id}}" method="POST">
+                    <form class="review-form" action="/product_details/{{product._id}}/review" method="POST">
                       <input
                         class="input"
                         type="text"
@@ -368,7 +320,7 @@
             </div>
             <div class="product-body">
               <p class="product-category">{{this.category}}</p>
-              <h3 class="product-name"><a href="/product_details?id={{this._id}}">{{this.product_name}}</a></h3>
+              <h3 class="product-name"><a href="/product_details/{{this._id}}">{{this.product_name}}</a></h3>
               <h4 class="product-price">{{this.price}}VND</h4>
               <div class="product-rating">
               </div>

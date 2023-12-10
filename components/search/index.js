@@ -1,7 +1,7 @@
 var express = require('express');
 const session = require('express-session');
 var router = express.Router();
-const { Product, Review } = require('../product/product.model')
+const { Product, Review } = require('../product_details/product.model')
 const Handlebars = require('hbs')
 var paginate = require('handlebars-paginate')
 
@@ -22,7 +22,7 @@ router.get('/', async (req, res, next) => {
   
   let search = {}
   if(req.session.product_name){
-    search.product_name = {'$regex': req.session.product_name,$options:'i'}
+    search.product_name = {'$regex': req.session.product_name, $options:'i'}
   }
 
 
