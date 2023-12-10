@@ -18,7 +18,6 @@ router.get('/', async (req, res, next) => {
 
   if(searchProduct){
     req.session.product_name = req.query.product_name;
-    
   }
   
   let search = {}
@@ -27,19 +26,19 @@ router.get('/', async (req, res, next) => {
   }
 
 
-  for (const key in req.session) {
-    if (key !== 'page') {
-      console.log(`${key}: ${req.session[key]}`);
-    }
-  }
+  // for (const key in req.session) {
+  //   if (key !== 'page') {
+  //     console.log(`${key}: ${req.session[key]}`);
+  //   }
+  // }
     // Concatenate values into a single string
     
-    const concatenated = Object.entries(req.session)
-    .filter(([key]) => key !== 'cookie' && key !== 'page')
-    .map(([key, value]) => `${key}=${value}`)
-    .join('&');
+  //   const concatenated = Object.entries(req.session)
+  //   .filter(([key]) => key !== 'cookie' && key !== 'page')
+  //   .map(([key, value]) => `${key}=${value}`)
+  //   .join('&');
 
-  console.log("Concatenated values in req.session (excluding 'page'):", concatenated);
+  // console.log("Concatenated values in req.session (excluding 'page'):", concatenated);
 
   const products = await Product
     .find(search)
@@ -50,21 +49,21 @@ router.get('/', async (req, res, next) => {
 
   const count = await Product.countDocuments();
 
-  console.log("Heloooooo");
-  console.log(req.session);
-  console.log(req.query);
-  console.log(req.params)
+  // console.log("Heloooooo");
+  // console.log(req.session);
+  // console.log(req.query);
+  // console.log(req.params)
 
   res.render('product/index', {
     products,
     layout: layout,
-    concatenatedValues: concatenated,
-    product_name: req.query.product_name,
+    // concatenatedValues: concatenated,
+    // product_name: req.query.product_name,
     pagination: {
       current: page,
       page,
       pageCount: Math.ceil(count / perPage),
-      concatenatedValues: concatenated
+      // concatenatedValues: concatenated
     },
   });
 });
