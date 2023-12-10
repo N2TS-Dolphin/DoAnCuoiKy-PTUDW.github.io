@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
-const { Product, Review } = require('../product/product.model')
+const { Product, Review } = require('../collection/product.model')
 
 /* GET product details page. */
 router.get('/', async function(req, res, next) {
-    const isLoggedIn = req.isAuthenticated(); // đang sử dụng Passport.js
-    const layout = isLoggedIn ? 'logged_user/layout.hbs' : 'user/layout.hbs';
+    // const isLoggedIn = req.isAuthenticated(); // đang sử dụng Passport.js
+    // const layout = isLoggedIn ? 'logged_user/layout.hbs' : 'user/layout.hbs';
     const id = req.query.id.toString()
     const product = await Product.findById(id).lean()
     const reviews = await Review.find({product_id: product._id}).limit(5).lean()
