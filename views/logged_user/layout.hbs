@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -53,11 +52,14 @@
                 1734 Stonecoal Road</a></li>
           </ul>
           <ul class="header-links pull-right">
-            <li><a href="/login"><i class="fa fa-user-o"></i>
-                Log in</a></li>
-                <li style="color: #fff;">/</li>
+            {{! <li><a href="/login"><i class="fa fa-user-o"></i>
+                Log in / </a></li> }}
+            <li style="color: #fff;"><i
+                class="fa fa-user-o"
+              ></i>{{user.email}}</li>
+            <li style="color: #fff;">/</li>
             <li>
-                <a href="/signup"><i class="fa "></i>Sign up</a>
+              <a href="/logout"><i class="fa"></i>Log out</a>
             </li>
           </ul>
         </div>
@@ -92,13 +94,13 @@
             <!-- SEARCH BAR -->
             <div class="col-md-6">
               <div class="header-search">
-                <form action="/search" method="get">
-                  {{!-- <select class="input-select">
+                <form>
+                  <select class="input-select">
                     <option value="0">All Categories</option>
                     <option value="1">Category 01</option>
                     <option value="1">Category 02</option>
-                  </select> --}}
-                  <input class="input" placeholder="Search here" name="product_name"{{#if product_name}}value="{{product_name}}"{{/if}}/>
+                  </select>
+                  <input class="input" placeholder="Search here" />
                   <button class="search-btn">Search</button>
                 </form>
               </div>
@@ -113,7 +115,7 @@
                   <a href="#">
                     <i class="fa fa-heart-o"></i>
                     <span>Your Wishlist</span>
-                    {{!-- <div class="qty">2</div> --}}
+                    {{! <div class="qty">2</div> }}
                   </a>
                 </div>
                 <!-- /Wishlist -->
@@ -127,11 +129,11 @@
                   >
                     <i class="fa fa-shopping-cart"></i>
                     <span>Your Cart</span>
-                    {{!-- <div class="qty">3</div> --}}
+                    {{! <div class="qty">3</div> }}
                   </a>
                   <div class="cart-dropdown">
                     <div class="cart-list">
-                      {{!-- <div class="product-widget">
+                      {{! <div class="product-widget">
                         <div class="product-img">
                           <img src="./img/product01.png" alt="" />
                         </div>
@@ -145,9 +147,9 @@
                         <button class="delete"><i
                             class="fa fa-close"
                           ></i></button>
-                      </div> --}}
+                      </div> }}
 
-                      {{!-- <div class="product-widget">
+                      {{! <div class="product-widget">
                         <div class="product-img">
                           <img src="./img/product02.png" alt="" />
                         </div>
@@ -161,12 +163,12 @@
                         <button class="delete"><i
                             class="fa fa-close"
                           ></i></button>
-                      </div> --}}
+                      </div> }}
                     </div>
-                    {{!-- <div class="cart-summary">
+                    {{! <div class="cart-summary">
                       <small>3 Item(s) selected</small>
                       <h5>SUBTOTAL: $2940.00</h5>
-                    </div> --}}
+                    </div> }}
                     <div class="cart-btns">
                       <a href="#">View Cart</a>
                       <a href="/checkout-user">Checkout
@@ -207,9 +209,9 @@
             <li><a href="/">Home</a></li>
             <li><a href="/product">Product</a></li>
             <li><a href="/categories">Categories</a></li>
-            {{!-- <li><a href="/checkout-user">Check Out</a></li> --}}
-            {{!-- <li><a href="/login-user">Login</a></li> --}}
-            {{!-- <li><a href="/home-admin">Admin's Page</a></li> --}}
+            {{! <li><a href="/checkout-user">Check Out</a></li> }}
+            {{! <li><a href="/login-user">Login</a></li> }}
+            {{! <li><a href="/home-admin">Admin's Page</a></li> }}
           </ul>
           <!-- /NAV -->
         </div>
@@ -221,7 +223,7 @@
 
     {{{body}}}
 
-    {{!-- <!-- NEWSLETTER -->
+    {{! <!-- NEWSLETTER -->
     <div id="newsletter" class="section">
       <!-- container -->
       <div class="container">
@@ -260,7 +262,7 @@
       </div>
       <!-- /container -->
     </div>
-    <!-- /NEWSLETTER --> --}}
+    <!-- /NEWSLETTER --> }}
 
     <!-- FOOTER -->
     <footer id="footer">

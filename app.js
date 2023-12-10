@@ -41,12 +41,11 @@ app.use(passport.session());
 var indexRouter = require('./components/user/home/index');
 var loginRouter = require('./components/user/login');
 var signupRouter = require('./components/user/signup');
-var homeLoggedUserRouter = require('./components/user/logged_user');
-var logoutRouter = require('./components/user/logout')
-var collectionRouter = require('./components/collection/index')
+var homeLoggedUserRouter = require('./components/logged_user/home');
+var logoutRouter = require('./components/logged_user/logout')
+var productRouter = require('./components/product/index')
 var prodectDetailsRouter = require('./components/product_details/index')
 var searchRouter = require('./components/search/index');
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -63,7 +62,7 @@ app.use('/login', loginRouter);
 app.use('/signup', signupRouter);
 app.use('/users', homeLoggedUserRouter);
 app.use('/logout', logoutRouter);
-app.use('/collection', collectionRouter)
+app.use('/product', productRouter)
 app.use('/product_details', prodectDetailsRouter)
 app.use('/search', searchRouter);
 
@@ -82,5 +81,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// app.post('/login', function (req,res){console.log("Hello")});
 
 module.exports = app;

@@ -286,9 +286,9 @@
               {{#paginate pagination type="middle" limit="5"}}
               <li {{#if active}}class="active" {{/if}}><a href="?page={{n}}">{{n}}</a></li>
               {{/paginate}}
-              {{!-- {{#paginate pagination type="next"}}
+              {{#paginate pagination type="next"}}
               <li {{#if disabled}}class="disabled" {{/if}}><a {{#if req.query}}class="disabled" {{/if}}href="?page={{n}}">Next</a></li>
-              {{/paginate}} --}}
+              {{/paginate}}
               {{!-- {{#paginate pagination type="next"}}
                 <li {{#if disabled}}class="disabled" {{/if}}>
                   <a href="?page={{n}}{{#if concatenatedValues}}&{{concatenatedValues}}{{/if}}">Next</a>
@@ -300,12 +300,12 @@
                 </li>
               {{/paginate}} --}}
               
-              {{#paginate pagination type="next"}}
+              {{!-- {{#paginate pagination type="next"}}
   <li {{#if disabled}}class="disabled" {{/if}}>
     <a href="?page={{n}}{{#if product_name}}&product_name={{product_name}}{{/if}}">Next</a>
     <label><h1>abc</h1><h1>{{#if product_name}}</h1></label>
   </li>
-{{/paginate}}
+{{/paginate}} --}}
 
 
               {{#paginate pagination type="last"}}
