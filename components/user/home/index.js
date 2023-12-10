@@ -16,7 +16,7 @@ router.get('/', async function(req, res, next) {
   const asusProduct = await Product.find({manufacturer: 'Asus'}).sort({creation_time: 'descending'}).limit(6).lean()
   const oppoProduct = await Product.find({manufacturer: 'OPPO'}).sort({creation_time: 'descending'}).limit(6).lean()
 
-  res.render('user/home/index', {
+  res.render('home/index', {
     newProduct: newProduct,
     msiProduct: msiProduct,
     asusProduct: asusProduct,
