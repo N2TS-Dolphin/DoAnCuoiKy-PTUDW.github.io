@@ -1,7 +1,7 @@
 // load các module
 var passport = require("passport");
 // load  user model
-var User = require("../components/user/user.model");
+var {User} = require("../components/user/user.model");
 var LocalStrategy = require("passport-local").Strategy;
 
 // passport session setup
