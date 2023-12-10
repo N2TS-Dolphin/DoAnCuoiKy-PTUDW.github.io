@@ -1,21 +1,21 @@
 <!-- BREADCRUMB -->
-{{!-- <div id="breadcrumb" class="section">
+<div id="breadcrumb" class="section">
   <!-- container -->
   <div class="container">
     <!-- row -->
     <div class="row">
       <div class="col-md-12">
-        <h3 class="breadcrumb-header">Collection</h3>
+        <h3 class="breadcrumb-header">Product</h3>
         <ul class="breadcrumb-tree">
           <li><a href="#">Home</a></li>
-          <li class="active">Collection</li>
+          <li class="active">Product</li>
         </ul>
       </div>
     </div>
     <!-- /row -->
   </div>
   <!-- /container -->
-</div> --}}
+</div>
 <!-- /BREADCRUMB -->
 
 <!-- SECTION -->
@@ -24,302 +24,331 @@
   <div class="container">
     <!-- row -->
     <div class="row">
-      <!-- ASIDE -->
-      <div id="aside" class="col-md-3">
-        <!-- aside Widget -->
-        <div class="aside">
-          <h3 class="aside-title">Categories</h3>
-          <div class="checkbox-filter">
-
-            <div class="input-checkbox">
-              <input type="checkbox" id="category-1" />
-              <label for="category-1">
-                <span></span>
-                Laptops
-                {{!-- <small>(120)</small> --}}
-              </label>
-            </div>
-
-            <div class="input-checkbox">
-              <input type="checkbox" id="category-2" />
-              <label for="category-2">
-                <span></span>
-                Smartphones
-                {{!-- <small>(740)</small> --}}
-              </label>
-            </div>
-
-            <div class="input-checkbox">
-              <input type="checkbox" id="category-3" />
-              <label for="category-3">
-                <span></span>
-                Tablets
-                {{!-- <small>(1450)</small> --}}
-              </label>
-            </div>
-
-            {{!-- <div class="input-checkbox">
-              <input type="checkbox" id="category-4" />
-              <label for="category-4">
-                <span></span>
-                Accessories
-                <small>(578)</small>
-              </label>
-            </div>
-
-            <div class="input-checkbox">
-              <input type="checkbox" id="category-5" />
-              <label for="category-5">
-                <span></span>
-                Laptops
-                <small>(120)</small>
-              </label>
-            </div> --}}
-
-            {{!-- <div class="input-checkbox">
-              <input type="checkbox" id="category-6" />
-              <label for="category-6">
-                <span></span>
-                Smartphones
-                <small>(740)</small>
-              </label>
-            </div> --}}
-          </div>
-        </div>
-        <!-- /aside Widget -->
-
-        <!-- aside Widget -->
-        <div class="aside">
-          <h3 class="aside-title">Price</h3>
-          <div class="price-filter">
-            <div id="price-slider"></div>
-            <div class="input-number price-min">
-              <input id="price-min" type="number" />
-              <span class="qty-up">+</span>
-              <span class="qty-down">-</span>
-            </div>
-            <span>-</span>
-            <div class="input-number price-max">
-              <input id="price-max" type="number" />
-              <span class="qty-up">+</span>
-              <span class="qty-down">-</span>
-            </div>
-          </div>
-        </div>
-        <!-- /aside Widget -->
-
-        <!-- aside Widget -->
-        <div class="aside">
-          <h3 class="aside-title">Brand</h3>
-          <div class="checkbox-filter">
-            <div class="input-checkbox">
-              <input type="checkbox" id="brand-1" />
-              <label for="brand-1">
-                <span></span>
-                SAMSUNG
-                <small>(578)</small>
-              </label>
-            </div>
-            <div class="input-checkbox">
-              <input type="checkbox" id="brand-2" />
-              <label for="brand-2">
-                <span></span>
-                LG
-                <small>(125)</small>
-              </label>
-            </div>
-            <div class="input-checkbox">
-              <input type="checkbox" id="brand-3" />
-              <label for="brand-3">
-                <span></span>
-                SONY
-                <small>(755)</small>
-              </label>
-            </div>
-            <div class="input-checkbox">
-              <input type="checkbox" id="brand-4" />
-              <label for="brand-4">
-                <span></span>
-                SAMSUNG
-                <small>(578)</small>
-              </label>
-            </div>
-            <div class="input-checkbox">
-              <input type="checkbox" id="brand-5" />
-              <label for="brand-5">
-                <span></span>
-                LG
-                <small>(125)</small>
-              </label>
-            </div>
-            <div class="input-checkbox">
-              <input type="checkbox" id="brand-6" />
-              <label for="brand-6">
-                <span></span>
-                SONY
-                <small>(755)</small>
-              </label>
-            </div>
-          </div>
-        </div>
-        <!-- /aside Widget -->
-
-        <!-- aside Widget -->
-        <div class="aside">
-          <h3 class="aside-title">Top selling</h3>
-          {{!-- <div class="product-widget">
-            <div class="product-img">
-              <img src="./img/product01.png" alt="" />
-            </div>
-            <div class="product-body">
-              <p class="product-category">Category</p>
-              <h3 class="product-name"><a href="#">product name goes here</a></h3>
-              <h4 class="product-price">$980.00
-                <del class="product-old-price">$990.00</del>
-              </h4>
-            </div>
+      <!-- Product main img -->
+      <div class="col-md-5 col-md-push-2">
+        <div id="product-main-img">
+          <div class="product-preview">
+            <img src="/img/{{product.product_img}}" alt="" />
           </div>
 
-          <div class="product-widget">
-            <div class="product-img">
-              <img src="./img/product02.png" alt="" />
-            </div>
-            <div class="product-body">
-              <p class="product-category">Category</p>
-              <h3 class="product-name"><a href="#">product name goes here</a></h3>
-              <h4 class="product-price">$980.00
-                <del class="product-old-price">$990.00</del>
-              </h4>
-            </div>
+          {{!-- <div class="product-preview">
+            <img src="./img/product03.png" alt="" />
           </div>
 
-          <div class="product-widget">
-            <div class="product-img">
-              <img src="./img/product03.png" alt="" />
-            </div>
-            <div class="product-body">
-              <p class="product-category">Category</p>
-              <h3 class="product-name"><a href="#">product name goes here</a></h3>
-              <h4 class="product-price">$980.00
-                <del class="product-old-price">$990.00</del>
-              </h4>
-            </div>
+          <div class="product-preview">
+            <img src="./img/product06.png" alt="" />
+          </div>
+
+          <div class="product-preview">
+            <img src="./img/product08.png" alt="" />
           </div> --}}
         </div>
-        <!-- /aside Widget -->
       </div>
-      <!-- /ASIDE -->
+      <!-- /Product main img -->
 
-      <!-- STORE -->
-      <div id="store" class="col-md-9">
-        <!-- store top filter -->
-        <div class="store-filter clearfix">
-          <div class="store-sort">
-            <label>
-              Sort By:
-              <select class="input-select">
-                <option value="0">Popular</option>
-                <option value="1">Position</option>
-              </select>
-            </label>
-
-            <label>
-              Show:
-              <select class="input-select">
-                <option value="0">20</option>
-                <option value="1">50</option>
-              </select>
-            </label>
+      <!-- Product thumb imgs -->
+      <div class="col-md-2 col-md-pull-5">
+        <div id="product-imgs">
+          <div class="product-preview">
+            <img src="/img/{{product.product_img}}" alt="" />
           </div>
-          <ul class="store-grid">
-            <li class="active"><i class="fa fa-th"></i></li>
-            <li><a href="#"><i class="fa fa-th-list"></i></a></li>
-          </ul>
-        </div>
-        <!-- /store top filter -->
 
-        <!-- store products -->
-        <div class="row">
-          <!-- product -->
-          {{#each products}}
-          <div class="col-md-4 col-xs-6">
-            <div class="product">
-              <div class="product-img">
-                <img src="{{this.product_img}}" alt="">
-              </div>
-              <div class="product-body">
-                <p class="product-category">{{this.category}}</p>
-                <h3 class="product-name"><a href="/product_details/{{this._id}}">{{this.product_name}}</a></h3>
-                <h4 class="product-price">${{this.price}}</h4>
-                <div class="product-rating">
-                </div>
-                <div class="product-btns">
-                  <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to
-                      wishlist</span></button>
-                  <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to
-                      compare</span></button>
-                  <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
-                      view</span></button>
-                </div>
-              </div>
-              <div class="add-to-cart">
-                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-              </div>
+          {{!-- <div class="product-preview">
+            <img src="./img/product03.png" alt="" />
+          </div>
+
+          <div class="product-preview">
+            <img src="./img/product06.png" alt="" />
+          </div>
+
+          <div class="product-preview">
+            <img src="./img/product08.png" alt="" />
+          </div> --}}
+        </div>
+      </div>
+      <!-- /Product thumb imgs -->
+
+      <!-- Product details -->
+      <div class="col-md-5">
+        <div class="product-details">
+          <h2 class="product-name">{{product.product_name}}</h2>
+          <span> Creation time: {{product.creation_time}}</span>
+          <div>
+            <div class="product-rating">
+              <span>Rating: {{product_rating}}</span>
+              <i class="fa fa-star"></i>
             </div>
           </div>
-          {{/each}}
-          <!-- /product -->
-        </div>
-        <!-- /store products -->
-
-        <!-- store bottom filter -->
-        <div class="store-filter clearfix">
-          <span class="store-qty">Showing {{productCount}} products</span>
           <div>
-            <ul class="store-pagination">
-              {{#paginate pagination type="first"}}
-              <li {{#if disabled}}class="disabled" {{/if}}><a href="?page={{n}}">First</a></li>
-              {{/paginate}}
-              {{#paginate pagination type="previous"}}
-              <li {{#if disabled}}class="disabled" {{/if}}><a href="?page={{n}}">Prev</a></li>
-              {{/paginate}}
-              {{#paginate pagination type="middle" limit="5"}}
-              <li {{#if active}}class="active" {{/if}}><a href="?page={{n}}">{{n}}</a></li>
-              {{/paginate}}
-              {{#paginate pagination type="next"}}
-              <li {{#if disabled}}class="disabled" {{/if}}><a {{#if req.query}}class="disabled" {{/if}}href="?page={{n}}">Next</a></li>
-              {{/paginate}}
-              {{!-- {{#paginate pagination type="next"}}
-                <li {{#if disabled}}class="disabled" {{/if}}>
-                  <a href="?page={{n}}{{#if concatenatedValues}}&{{concatenatedValues}}{{/if}}">Next</a>
-                </li>
-              {{/paginate}} --}}
-              {{!-- {{#paginate pagination type="next"}}
-                <li {{#if disabled}}class="disabled" {{/if}}>
-                  <a href="?page={{n}}{{#if concatenatedValues}}{{concatenatedValues}}&{{/if}}">Next</a>
-                </li>
-              {{/paginate}} --}}
-              
-              {{!-- {{#paginate pagination type="next"}}
-  <li {{#if disabled}}class="disabled" {{/if}}>
-    <a href="?page={{n}}{{#if product_name}}&product_name={{product_name}}{{/if}}">Next</a>
-    <label><h1>abc</h1><h1>{{#if product_name}}</h1></label>
-  </li>
-{{/paginate}} --}}
-
-
-              {{#paginate pagination type="last"}}
-              <li {{#if disabled}}class="disabled" {{/if}}><a href="?page={{n}}">Last</a></li>
-              {{/paginate}}
-            </ul>
+            <h3 class="product-price">{{product.price}}VND</h3>
+            <span class="product-available">{{product.status}}</span>
           </div>
+          <p>{{product.description}}</p>
+
+          <div class="add-to-cart">
+            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>
+              add to cart</button>
+          </div>
+
+          <ul class="product-btns">
+            <li><a href="#"><i class="fa fa-heart-o"></i>
+                add to wishlist</a></li>
+            <li><a href="#"><i class="fa fa-exchange"></i>
+                add to compare</a></li>
+          </ul>
+
+          <ul class="product-links">
+            <li>Category:</li>
+            <li><a href="/collection">{{product.category}}</a></li>
+          </ul>
+          <ul class="product-links">
+            <li>Manufacturer:</li>
+            <li><a href="/collection">{{product.manufacturer}}</a></li>
+          </ul>
+
+          <ul class="product-links">
+            <li>Share:</li>
+            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+            <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+          </ul>
+
         </div>
-        <!-- /store bottom filter -->
       </div>
-      <!-- /STORE -->
+      <!-- /Product details -->
+
+      <!-- Product tab -->
+      <div class="col-md-12">
+        <div id="product-tab">
+          <!-- product tab nav -->
+          <ul class="tab-nav">
+            <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
+            <li><a data-toggle="tab" href="#tab2">Details</a></li>
+            <li><a data-toggle="tab" href="#tab3">Reviews</a></li>
+          </ul>
+          <!-- /product tab nav -->
+
+          <!-- product tab content -->
+          <div class="tab-content">
+            <!-- tab1  -->
+            <div id="tab1" class="tab-pane fade in active">
+              <div class="row">
+                <div class="col-md-12">
+                  <p>{{product.description}}</p>
+                </div>
+              </div>
+            </div>
+            <!-- /tab1  -->
+
+            <!-- tab2  -->
+            <div id="tab2" class="tab-pane fade in">
+              <div class="row">
+                <div class="col-md-12">
+                  <p>{{product.detail}}</p>
+                </div>
+              </div>
+            </div>
+            <!-- /tab2  -->
+
+            <!-- tab3  -->
+            <div id="tab3" class="tab-pane fade in">
+              <div class="row">
+                <!-- Rating -->
+                <div class="col-md-3">
+                  <div id="rating">
+                    {{!-- <div class="rating-avg">
+                      <span>{{product_rating}}</span>
+                      <div class="rating-stars">
+                        <i class="fa fa-star"></i>
+                      </div>
+                    </div> --}}
+                    {{!-- <ul class="rating">
+                      <li>
+                        <div class="rating-stars">
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                        </div>
+                        <div class="rating-progress">
+                          <div style="width: 80%;"></div>
+                        </div>
+                        <span class="sum">3</span>
+                      </li>
+                      <li>
+                        <div class="rating-stars">
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star-o"></i>
+                        </div>
+                        <div class="rating-progress">
+                          <div style="width: 60%;"></div>
+                        </div>
+                        <span class="sum">2</span>
+                      </li>
+                      <li>
+                        <div class="rating-stars">
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star-o"></i>
+                          <i class="fa fa-star-o"></i>
+                        </div>
+                        <div class="rating-progress">
+                          <div></div>
+                        </div>
+                        <span class="sum">0</span>
+                      </li>
+                      <li>
+                        <div class="rating-stars">
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star-o"></i>
+                          <i class="fa fa-star-o"></i>
+                          <i class="fa fa-star-o"></i>
+                        </div>
+                        <div class="rating-progress">
+                          <div></div>
+                        </div>
+                        <span class="sum">0</span>
+                      </li>
+                      <li>
+                        <div class="rating-stars">
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star-o"></i>
+                          <i class="fa fa-star-o"></i>
+                          <i class="fa fa-star-o"></i>
+                          <i class="fa fa-star-o"></i>
+                        </div>
+                        <div class="rating-progress">
+                          <div></div>
+                        </div>
+                        <span class="sum">0</span>
+                      </li>
+                    </ul> --}}
+                  </div>
+                </div>
+                <!-- /Rating -->
+
+                <!-- Reviews -->
+                <div class="col-md-6">
+                  <div id="reviews">
+                    <ul class="reviews" style="overflow: hidden; overflow-y: scroll; max-hieght: 500px;">
+                      {{#each reviews}}
+                      <li style="border-bottom: black 1px solid; padding-bottom: 10px">
+                        <div class="review-heading">
+                          <h5 class="name">{{this.name}}</h5>
+                          <p class="date">{{this.date}}</p>
+                          <div class="review-rating">
+                            <span>{{this.rating}}</span>
+                            <i class="fa fa-star"></i>
+                          </div>
+                        </div>
+                        <div class="review-body">
+                          <p>{{this.content}}</p>
+                        </div>
+                      </li>
+                      {{/each}}
+                    </ul>
+                  </div>
+                </div>
+                <!-- /Reviews -->
+
+                <!-- Review Form -->
+                <div class="col-md-3">
+                  <div id="review-form">
+                    <form class="review-form" action="/product/review?id={{product._id}}" method="POST">
+                      <input
+                        class="input"
+                        type="text"
+                        name="review_name"
+                        placeholder="Your Name"
+                      />
+                      <input
+                        class="input"
+                        type="number"
+                        name="rating"
+                        placeholder="Your Rating"
+                      />
+                      <textarea
+                        class="input"
+                        name="content"
+                        placeholder="Your Review"
+                      ></textarea>
+                      <button type="submit" class="primary-btn">Submit</button>
+                    </form>
+                  </div>
+                </div>
+                <!-- /Review Form -->
+              </div>
+            </div>
+            <!-- /tab3  -->
+          </div>
+          <!-- /product tab content  -->
+        </div>
+      </div>
+      <!-- /product tab -->
     </div>
     <!-- /row -->
   </div>
   <!-- /container -->
 </div>
 <!-- /SECTION -->
+
+<!-- Section -->
+<div class="section">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row">
+
+      <div class="col-md-12">
+        <div class="section-title text-center">
+          <h3 class="title">Related Products</h3>
+        </div>
+      </div>
+
+      <!-- product -->
+      {{#each relatedProduct}}
+        <div class="col-md-3 col-xs-6">
+          <div class="product">
+            <div class="product-img">
+              <img src="/img/{{this.product_img}}" alt="" />
+            </div>
+            <div class="product-body">
+              <p class="product-category">{{this.category}}</p>
+              <h3 class="product-name"><a href="/product?id={{this._id}}">{{this.product_name}}</a></h3>
+              <h4 class="product-price">{{this.price}}VND</h4>
+              <div class="product-rating">
+              </div>
+              <div class="product-btns">
+                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
+                    class="tooltipp"
+                  >add to wishlist</span></button>
+                <button class="add-to-compare"><i class="fa fa-exchange"></i><span
+                    class="tooltipp"
+                  >add to compare</span></button>
+                <button class="quick-view"><i class="fa fa-eye"></i><span
+                    class="tooltipp"
+                  >quick view</span></button>
+              </div>
+            </div>
+            <div class="add-to-cart">
+              <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>
+                add to cart</button>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+      <!-- /product -->
+
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+</div>
+<!-- /Section -->
