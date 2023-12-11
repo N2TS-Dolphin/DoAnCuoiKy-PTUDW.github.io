@@ -41,8 +41,13 @@ app.use(passport.session());
 var indexRouter = require('./components/user/home/index');
 var loginRouter = require('./components/user/login');
 var signupRouter = require('./components/user/signup');
+<<<<<<< Updated upstream
 var homeLoggedUserRouter = require('./components/user/logged_user');
 var logoutRouter = require('./components/user/logout')
+=======
+var homeLoggedUserRouter = require('./components/logged_user/home');
+var logoutRouter = require('./components/logged_user/logout')
+>>>>>>> Stashed changes
 var collectionRouter = require('./components/collection/index')
 var prodectDetailsRouter = require('./components/product_details/index')
 var searchRouter = require('./components/search/index');
