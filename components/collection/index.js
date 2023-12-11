@@ -11,7 +11,7 @@ router.get('/', async (req, res, next) => {
   // const isLoggedIn = req.isAuthenticated(); // đang sử dụng Passport.js
   // const layout = isLoggedIn ? 'logged_user/layout.hbs' : 'user/layout.hbs';
 
-  let perPage = 9;
+  let perPage = 6;
   let page = parseInt(req.query.page) || 1;
 
   const products = await Product
@@ -27,6 +27,7 @@ router.get('/', async (req, res, next) => {
     products,
     layout: 'layout.hbs',
     user: req.user,
+    productCount: count,
     pagination: {
       current: page,
       page,
