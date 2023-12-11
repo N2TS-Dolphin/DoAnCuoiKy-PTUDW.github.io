@@ -8,8 +8,8 @@ Handlebars.registerHelper('paginate', paginate)
 
 /* GET product page. */
 router.get('/', async (req, res, next) => {
-  const isLoggedIn = req.isAuthenticated(); // đang sử dụng Passport.js
-  const layout = isLoggedIn ? 'logged_user/layout.hbs' : 'user/layout.hbs';
+  // const isLoggedIn = req.isAuthenticated(); // đang sử dụng Passport.js
+  // const layout = isLoggedIn ? 'logged_user/layout.hbs' : 'user/layout.hbs';
 
   let perPage = 9;
   let page = parseInt(req.query.page) || 1;
@@ -25,7 +25,8 @@ router.get('/', async (req, res, next) => {
 
   res.render('collection/index', {
     products,
-    layout: layout,
+    layout: 'user/layout.hbs',
+    user: req.user,
     pagination: {
       current: page,
       page,

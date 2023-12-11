@@ -36,7 +36,7 @@ router.get("/", ensureAuthenticated, async function (req, res, next) {
     msiProduct: msiProduct,
     asusProduct: asusProduct,
     oppoProduct: oppoProduct,
-    layout: "logged_user/layout.hbs",
+    layout: "user/layout.hbs",
     user: user,
   });
 });

@@ -21,7 +21,8 @@ router.get('/', async function(req, res, next) {
     msiProduct: msiProduct,
     asusProduct: asusProduct,
     oppoProduct: oppoProduct,
-    layout: 'user/layout.hbs'
+    layout: 'user/layout.hbs',
+    user: req.user
   });
 });
 
