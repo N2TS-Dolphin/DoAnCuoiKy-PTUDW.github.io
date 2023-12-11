@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { Product, Review } = require('../product_details/product.model')
+const { Product, Review } = require('../product/product.model')
 const Handlebars = require('hbs')
 var paginate = require('handlebars-paginate')
 
@@ -25,7 +25,7 @@ router.get('/', async (req, res, next) => {
 
   res.render('collection/index', {
     products,
-    layout: 'user/layout.hbs',
+    layout: 'layout.hbs',
     user: req.user,
     pagination: {
       current: page,

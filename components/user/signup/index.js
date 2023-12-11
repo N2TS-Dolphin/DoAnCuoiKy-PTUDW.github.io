@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
    
     res.render('user/signup/index',{ 
       messages: messages,
-      hasErrors: messages.length > 0, layout: 'user/layout.hbs'
+      hasErrors: messages.length > 0, layout: 'layout.hbs'
      })
   });
   
@@ -33,7 +33,7 @@ router.get('/', function(req, res, next) {
       });
       res.render('user/signup/index',{
         messages: messages,
-        hasErrors: messages.length > 0, layout: 'user/layout.hbs'
+        hasErrors: messages.length > 0, layout: 'layout.hbs'
       });
     }else{
        next();

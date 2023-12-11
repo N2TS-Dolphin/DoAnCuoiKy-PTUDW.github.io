@@ -15,13 +15,13 @@ const detail = async function(req, res, next) {
     }
     productRating = productRating / reviews.length
 
-    res.render("product_details/index", {
+    res.render("product/index", {
         product: product,
-        productRating: productRating.toFixed(1),
+        productRating: productRating.toFixed(0),
         reviews: reviews,
         relatedProduct: relatedProduct,
         user: req.user,
-        layout: '../views/user/layout.hbs'
+        layout: '../views/layout.hbs'
     });
 }
 

@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const { User } = require("../../user/user.model");
-const { Product, Review } = require("../../product_details/product.model")
+const { Product, Review } = require("../../product/product.model")
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
@@ -36,7 +36,7 @@ router.get("/", ensureAuthenticated, async function (req, res, next) {
     msiProduct: msiProduct,
     asusProduct: asusProduct,
     oppoProduct: oppoProduct,
-    layout: "user/layout.hbs",
+    layout: "layout.hbs",
     user: user,
   });
 });

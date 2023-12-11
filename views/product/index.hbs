@@ -1,3 +1,7 @@
+{{!-- {{#section "js"}}
+  <script></script>
+{{/section}} --}}
+
 <!-- BREADCRUMB -->
 <div id="breadcrumb" class="section">
   <!-- container -->
@@ -7,7 +11,8 @@
       <div class="col-md-12">
         <h3 class="breadcrumb-header">Product</h3>
         <ul class="breadcrumb-tree">
-          <li><a href="#">Home</a></li>
+          <li><a href="/home">Home</a></li>
+          <li><a href="/product">Collection</a></li>
           <li class="active">Product</li>
         </ul>
       </div>
@@ -28,20 +33,8 @@
       <div class="col-md-5 col-md-push-2">
         <div id="product-main-img">
           <div class="product-preview">
-            <img src="/img/{{product.product_img}}" alt="" />
+            <img src="/img/{{product.product_img}}" alt="{{product.product_img}}" />
           </div>
-
-          {{!-- <div class="product-preview">
-            <img src="./img/product03.png" alt="" />
-          </div>
-
-          <div class="product-preview">
-            <img src="./img/product06.png" alt="" />
-          </div>
-
-          <div class="product-preview">
-            <img src="./img/product08.png" alt="" />
-          </div> --}}
         </div>
       </div>
       <!-- /Product main img -->
@@ -50,20 +43,8 @@
       <div class="col-md-2 col-md-pull-5">
         <div id="product-imgs">
           <div class="product-preview">
-            <img src="/img/{{product.product_img}}" alt="" />
+            <img src="/img/{{product.product_img}}" alt="{{product.product_img}}" />
           </div>
-
-          {{!-- <div class="product-preview">
-            <img src="./img/product03.png" alt="" />
-          </div>
-
-          <div class="product-preview">
-            <img src="./img/product06.png" alt="" />
-          </div>
-
-          <div class="product-preview">
-            <img src="./img/product08.png" alt="" />
-          </div> --}}
         </div>
       </div>
       <!-- /Product thumb imgs -->
@@ -75,8 +56,8 @@
           <span> Creation time: {{product.creation_time}}</span>
           <div>
             <div class="product-rating">
-              <span>Rating: {{product_rating}}</span>
-              <i class="fa fa-star"></i>
+                <span>Rating: {{productRating}}</span>
+                <i class="fa fa-star"></i>
             </div>
           </div>
           <div>
@@ -84,7 +65,7 @@
             <span class="product-available">{{product.status}}</span>
           </div>
           <p>{{product.description}}</p>
-
+          
           <div class="add-to-cart">
             <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>
               add to cart</button>
@@ -123,7 +104,7 @@
         <div id="product-tab">
           <!-- product tab nav -->
           <ul class="tab-nav">
-            <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
+            <li><a data-toggle="tab" href="#tab1">Description</a></li>
             <li><a data-toggle="tab" href="#tab2">Details</a></li>
             <li><a data-toggle="tab" href="#tab3">Reviews</a></li>
           </ul>
@@ -261,7 +242,7 @@
                 <!-- Review Form -->
                 <div class="col-md-3">
                   <div id="review-form">
-                    <form class="review-form" action="/product/review?id={{product._id}}" method="POST">
+                    <form class="review-form" action="/product/{{product._id}}/review" method="POST">
                       <input
                         class="input"
                         type="text"
@@ -317,11 +298,11 @@
         <div class="col-md-3 col-xs-6">
           <div class="product">
             <div class="product-img">
-              <img src="/img/{{this.product_img}}" alt="" />
+              <img src="/img/{{this.product_img}}" alt="{{this.product_img}}" />
             </div>
             <div class="product-body">
               <p class="product-category">{{this.category}}</p>
-              <h3 class="product-name"><a href="/product?id={{this._id}}">{{this.product_name}}</a></h3>
+              <h3 class="product-name"><a href="/product/{{this._id}}">{{this.product_name}}</a></h3>
               <h4 class="product-price">{{this.price}}VND</h4>
               <div class="product-rating">
               </div>

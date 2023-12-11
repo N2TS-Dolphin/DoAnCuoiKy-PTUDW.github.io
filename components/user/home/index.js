@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { Product, Review } = require('../../../components/product_details/product.model')
+const { Product, Review } = require('../../product/product.model')
 const Handlebars = require('hbs')
 
 Handlebars.registerHelper('ifLowerThree', function(value, options){
@@ -21,7 +21,7 @@ router.get('/', async function(req, res, next) {
     msiProduct: msiProduct,
     asusProduct: asusProduct,
     oppoProduct: oppoProduct,
-    layout: 'user/layout.hbs',
+    layout: 'layout.hbs',
     user: req.user
   });
 });

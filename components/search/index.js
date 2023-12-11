@@ -1,7 +1,7 @@
 var express = require('express');
 const session = require('express-session');
 var router = express.Router();
-const { Product, Review } = require('../product_details/product.model')
+const { Product, Review } = require('../product/product.model')
 const Handlebars = require('hbs')
 var paginate = require('handlebars-paginate')
 
@@ -9,8 +9,6 @@ Handlebars.registerHelper('paginate', paginate)
 
 /* GET product page. */
 router.get('/', async (req, res, next) => {
-  const isLoggedIn = req.isAuthenticated(); // đang sử dụng Passport.js
-  const layout = isLoggedIn ? 'logged_user/layout.hbs' : 'user/layout.hbs';
 
   let perPage = 9;
   let page = parseInt(req.query.page) || 1;
@@ -56,7 +54,8 @@ router.get('/', async (req, res, next) => {
 
   res.render('product/index', {
     products,
-    layout: layout,
+    layout: "layout.hbs",
+    user: req.user,
     // concatenatedValues: concatenated,
     // product_name: req.query.product_name,
     pagination: {

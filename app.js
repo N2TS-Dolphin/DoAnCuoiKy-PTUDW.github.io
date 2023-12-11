@@ -44,7 +44,7 @@ var signupRouter = require('./components/user/signup');
 var homeLoggedUserRouter = require('./components/logged_user/home');
 var logoutRouter = require('./components/logged_user/logout')
 var collectionRouter = require('./components/collection/index')
-var prodectDetailsRouter = require('./components/product_details/index')
+var productRouter = require('./components/product/index')
 var searchRouter = require('./components/search/index');
 
 // view engine setup
@@ -63,7 +63,7 @@ app.use('/signup', signupRouter);
 app.use('/users', homeLoggedUserRouter);
 app.use('/logout', logoutRouter);
 app.use('/collection', collectionRouter)
-app.use('/product_details', prodectDetailsRouter)
+app.use('/product', productRouter),
 app.use('/search', searchRouter);
 
 // catch 404 and forward to error handler
