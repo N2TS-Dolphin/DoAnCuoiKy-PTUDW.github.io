@@ -41,8 +41,8 @@ app.use(passport.session());
 var indexRouter = require('./components/user/home/index');
 var loginRouter = require('./components/user/login');
 var signupRouter = require('./components/user/signup');
-var homeLoggedUserRouter = require('./components/user/logged_user');
-var logoutRouter = require('./components/user/logout')
+var homeLoggedUserRouter = require('./components/logged_user/home');
+var logoutRouter = require('./components/logged_user/logout')
 var collectionRouter = require('./components/collection/index')
 var prodectDetailsRouter = require('./components/product_details/index')
 var searchRouter = require('./components/search/index');
@@ -62,7 +62,7 @@ app.use('/login', loginRouter);
 app.use('/signup', signupRouter);
 app.use('/users', homeLoggedUserRouter);
 app.use('/logout', logoutRouter);
-app.use('/product', productRouter)
+app.use('/collection', collectionRouter)
 app.use('/product_details', prodectDetailsRouter)
 app.use('/search', searchRouter);
 
