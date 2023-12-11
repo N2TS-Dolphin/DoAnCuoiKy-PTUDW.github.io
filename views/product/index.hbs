@@ -1,6 +1,8 @@
-{{!-- {{#section "js"}}
-  <script></script>
-{{/section}} --}}
+{{#section 'js'}}
+    <script>
+        $.getJSON('/product/{{productDetail._id}}/reviews');
+    </script>
+{{/section}}
 
 <!-- BREADCRUMB -->
 <div id="breadcrumb" class="section">

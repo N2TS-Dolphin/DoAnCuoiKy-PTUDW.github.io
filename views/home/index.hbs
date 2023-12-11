@@ -187,7 +187,7 @@
           <div>
             <!-- product widget -->
             {{#each msiProduct}}
-              {{#ifLowerThree @index}}
+              {{#if (lt @index 3)}}
                 <div class="product-widget">
                   <div class="product-img">
                     <img src="/img/{{this.product_img}}" alt="" />
@@ -200,7 +200,7 @@
                     <h4 class="product-price">{{this.price}}VND</h4>
                   </div>
                 </div>
-              {{/ifLowerThree}}
+              {{/if}}
             {{/each}}
             <!-- /product widget -->
           </div>

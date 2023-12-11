@@ -6,6 +6,11 @@ const addNewReview = async (req, res, next) => {
     res.redirect("/product/" + req.params.id)
 }
 
+const getReviewJson = async (req, res, next) => {
+    res.json(await reviewService.getProductReview(req.params.id))
+}
+
 module.exports = {
     addNewReview,
+    getReviewJson
 }

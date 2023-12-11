@@ -8,6 +8,9 @@ var session = require('express-session')
 var passport = require('passport');
 var mongoose = require('mongoose');
 var dotenv = require('dotenv').config();
+const express_handlebars = require("express-handlebars");
+const express_handlebars_sections = require('express-handlebars-sections');
+var paginate = require('handlebars-paginate')
 
 // // Kết nối đến database
 // mongoose.connect('mongodb+srv://404foundbugs:404foundbugs@websitedatabase.746k9dj.mongodb.net/GA2?retryWrites=true&w=majority', {useNewUrlParser:true, useUnifiedTopology: true});
@@ -25,6 +28,45 @@ mongoose.connect(process.env.DATABASE_URL,
       console.log('Could not connect to the database. Exiting now...', err);
       process.exit();
   });
+
+// Create an instance of the express-handlebars
+const hbs = express_handlebars.create({
+  extname: ".hbs",
+  defaultLayout: "layout",
+  layoutsDir: path.join(__dirname, "views"),
+  // partialsDir: [
+  //     path.join(__dirname, "views/user/partials"),
+  // ],
+  helpers: {
+      section: express_handlebars_sections(),
+      lt(value1, value2){
+        return value1 < value2;
+      },
+      lte(value1, value2){
+        return value1 <= value2;
+      },
+      gt(value1, value2){
+        return value1 > value2;
+      },
+      gte(value1, value2){
+        return value1 >= value2;
+      },
+      add(value1, value2){
+        return value1 + value2;
+      },
+      sub(value1, value2){
+        return value1 - value2;
+      },
+      mult(value1, value2){
+        return value1 * value2;
+      },
+      divide(value1, value2){
+        return value1 / value2;
+      },
+      paginate: paginate
+  }
+});
+
 
 var app = express();
 // Passport
@@ -48,8 +90,10 @@ var productRouter = require('./components/product/index')
 var searchRouter = require('./components/search/index');
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.engine("hbs", hbs.engine);
 app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'views'));
+
 
 app.use(logger('dev'));
 app.use(express.json());
