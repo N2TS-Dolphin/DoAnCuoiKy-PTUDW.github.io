@@ -23,7 +23,7 @@ router.get('/', async (req, res, next) => {
 
   const count = await Product.countDocuments();
 
-  res.render('product/index', {
+  res.render('collection/index', {
     products,
     layout: layout,
     pagination: {
