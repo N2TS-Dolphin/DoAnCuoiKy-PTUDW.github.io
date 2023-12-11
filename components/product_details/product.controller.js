@@ -13,7 +13,7 @@ const detail = async function(req, res, next) {
         reviews: reviews,
         relatedProduct: relatedProduct,
         user: req.user,
-        layout: 'user/layout.hbs'
+        layout: '../views/user/layout.hbs'
     });
 }
 
