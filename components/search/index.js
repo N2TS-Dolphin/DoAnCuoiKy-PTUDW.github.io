@@ -1,7 +1,6 @@
 var express = require('express');
 const session = require('express-session');
 var router = express.Router();
-const { Product, Review } = require('../collection/product.model')
 const { Product, Review } = require('../product_details/product.model')
 const Handlebars = require('hbs')
 var paginate = require('handlebars-paginate')

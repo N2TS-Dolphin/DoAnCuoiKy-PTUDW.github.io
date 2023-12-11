@@ -1,18 +1,19 @@
-const productModel = require("../product.model")
+const { Product, Review} = require("../product.model")
 
 const createNewReview = async (productID, reviewName, reviewRating, reviewContent) => {
-    const review = new productModel.Review({
+    var review = new Review({
         product_id: productID,
         name: reviewName,
         rating: reviewRating,
-        content: reviewContent
+        content: reviewContent,
     })
-    await review.save()
+    return await review.save()
 }
 
 const getProductReview = async (productID) => {
-    return await productModel.Review.find({product_id: productID}).lean()
+    return await Review.find({product_id: productID}).lean()
 }
+
 module.exports = {
     createNewReview,
     getProductReview
