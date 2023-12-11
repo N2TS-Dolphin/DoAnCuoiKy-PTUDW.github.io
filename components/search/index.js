@@ -10,7 +10,7 @@ Handlebars.registerHelper('paginate', paginate)
 /* GET product page. */
 router.get('/', async (req, res, next) => {
 
-  let perPage = 9;
+  let perPage = 6;
   let page = parseInt(req.query.page) || 1;
   let searchProduct = req.query.product_name;
 
@@ -31,20 +31,17 @@ router.get('/', async (req, res, next) => {
     .lean()
     .exec();
 
-  const count = await Product.countDocuments();
+  const count = await Product.countDocuments(search);
 
   res.render('collection/index.hbs', {
     products,
     layout: "layout.hbs",
     user: req.user,
-    // concatenatedValues: concatenated,
-    // product_name: req.query.product_name,
-    user: req.user,
+    productCount: count,
     pagination: {
       current: page,
       page,
       pageCount: Math.ceil(count / perPage),
-      // concatenatedValues: concatenated
     },
   });
 });
