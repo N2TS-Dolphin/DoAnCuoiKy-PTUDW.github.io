@@ -40,8 +40,7 @@ const sortProductsByPriceAsc = (productData) => {
 		return priceA - priceB;
 	});
 
-    console.log("sort asc");
-    console.log(sortedProducts);
+    
 	return sortedProducts;
 };
 module.exports = {
