@@ -217,29 +217,51 @@
           <div class="store-sort">
             <label>
               Sort By:
-              <select class="input-select">
-                <option value="0">Popular</option>
-                <option value="1">Position</option>
+              <select class="input-select" name="sort-by" id="sort-by">
+                <option value="1">Price Ascending</option>
+                <option value="2">Price Descending</option>
+                <option value="3">Creation time</option>
               </select>
             </label>
+            <script>
+							document.addEventListener('DOMContentLoaded', function (currentCategory) {
+							const sortSelect = document.querySelector('#sort-by');
 
-            <label>
-              Show:
-              <select class="input-select">
-                <option value="0">20</option>
-                <option value="1">50</option>
-              </select>
-            </label>
-          </div>
-          <ul class="store-grid">
-            <li class="active"><i class="fa fa-th"></i></li>
-            <li><a href="#"><i class="fa fa-th-list"></i></a></li>
-          </ul>
-        </div>
+							// Lấy giá trị sort từ tham số trên URL
+							const urlParams = new URLSearchParams(window.location.search);
+							const selectedSortFromUrl = urlParams.get('sort');
+
+							// Thiết lập giá trị mặc định cho dropdown sort
+							if (selectedSortFromUrl) {
+								sortSelect.value = selectedSortFromUrl;
+							}
+
+							sortSelect.addEventListener('change', function (currentCategory) {
+								const selectedSort = sortSelect.value;
+								let sortValue;
+
+								// Set sortValue based on the selected option
+								sortValue = selectedSort;
+
+								// Get the current URL
+								const currentUrl = window.location.href;
+
+								// Create a URL object from the current URL
+								const url = new URL(currentUrl);
+								url.searchParams.delete('page');
+
+								// Set the new sort parameter
+								url.searchParams.set('sort', sortValue);
+
+								// Redirect to the updated URL
+								window.location.href = url.toString();
+							});
+						});
+						</script>
         <!-- /store top filter -->
 
         <!-- store products -->
-        <div class="row">
+        <div class="row" >
           <!-- product -->
           {{#each products}}
           <div class="col-md-4 col-xs-6">
