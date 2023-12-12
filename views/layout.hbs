@@ -54,9 +54,10 @@
         <ul class="header-links pull-right">
           {{#if user}}
             <li style="color: #fff;">
-              <p>{{user.email}}</p>
+              <p><i class="fa fa-user-o"></i>{{user.email}}</p>
             </li>
-            <li><a href="/logout"><i class="fa fa-user-o"></i>
+            <li style="color: #fff;">/</li>
+            <li><a href="/logout">
                   Log out</a></li>
           {{else}}
             <li><a href="/login"><i class="fa fa-user-o"></i>
@@ -197,7 +198,6 @@
         <ul class="main-nav nav navbar-nav">
           <li><a href="/">Home</a></li>
           <li><a href="/collection">Collection</a></li>
-          <li><a href="/categories">Categories</a></li>
           {{!-- <li><a href="/checkout-user">Check Out</a></li> --}}
           {{!-- <li><a href="/login-user">Login</a></li> --}}
           {{!-- <li><a href="/home-admin">Admin's Page</a></li> --}}
