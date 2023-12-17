@@ -1,26 +1,39 @@
 const mongoose = require("mongoose")
 
 const productSchema = new mongoose.Schema({
-    product_name: String,
-    price: Number,
-    product_img: String,
-    status: String,
-    category: String,
-    manufacturer: String,
-    creation_time: Date
+    productName: { type: String, required: true },
+    price: { type: Number, required: true },
+    productImg: [{ type: String }],
+    status: { type: String, required: true },
+    category: { type: String, required: true },
+    manufacturer: { type: String, required: true },
+    creationTime: { type: Date, required: true },
+    rating: { type: Number, required: true },
+    totalPurchase: { type: Number, required: true }
 }, {collection: "product"})
 
 const reviewSchema = new mongoose.Schema({
-    product_id: String,
-    name: String,
-    rating: Number,
-    content: String
+    productID: { type: mongoose.Schema.Types.ObjectId, required: true },
+    accountID: { type: mongoose.Schema.Types.ObjectId, required: true },
+    rating: { type: Number, required: true },
+    content: { type: String },
+    creationTime: { type: Date, required: true },
 }, {collection: "reviews"})
 
-const Product = mongoose.model("product", productSchema, "product")
-const Review = mongoose.model("reviews", reviewSchema, "reviews")
+const revenueSchema = new mongoose.Schema({
+    productID: { type: mongoose.Schema.Types.ObjectId, required: true },
+    orderID: { type: mongoose.Schema.Types.ObjectId, required: true },
+    quantity: { type: Number, required: true },
+    price: { type: Number, required: true },
+    purchaseTime: { type: Date, required: true }
+}, {collection: "revenues"})
+
+const Product = mongoose.model("product", productSchema)
+const Review = mongoose.model("reviews", reviewSchema)
+const Revenue = mongoose.model("revenues", revenueSchema)
 
 module.exports = {
     Product, 
-    Review
+    Review,
+    Revenue
 }
