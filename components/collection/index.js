@@ -61,6 +61,14 @@ async function generateData(category, page, sort = null, manufacturer=null, pric
   if (price_min || price_max) {
     allProduct = await generatePrice(price_min, price_max, allProduct);
   } 
+  if(manufacturer){
+    allProduct = allProduct.filter(product => product.manufacturer === manufacturer);
+  }
+  if(category){
+    allProduct = allProduct.filter(product => product.category === category);
+  }
+
+
   const productData = allProduct.slice((page - 1) * 6, page * 6);
   const categories = [...new Set(allProduct.map(product => product.category))];
   const manufacturers = [...new Set(allProduct.map(product => product.manufacturer))];
