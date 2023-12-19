@@ -17,7 +17,11 @@
   <!-- /container -->
 </div> --}}
 <!-- /BREADCRUMB -->
-
+<style>
+  .dropdown-filter select {
+    width: 100%; /* Đặt giá trị kích thước tối đa cho dropdown, bạn có thể điều chỉnh theo ý muốn */
+  }
+</style>
 <!-- SECTION -->
 <div class="section">
   <!-- container -->
@@ -29,62 +33,34 @@
         <!-- aside Widget -->
         <div class="aside">
           <h3 class="aside-title">Categories</h3>
-          <div class="checkbox-filter">
 
-            <div class="input-checkbox">
-              <input type="checkbox" id="category-1" />
-              <label for="category-1">
-                <span></span>
-                Laptops
-                {{!-- <small>(120)</small> --}}
-              </label>
-            </div>
-
-            <div class="input-checkbox">
-              <input type="checkbox" id="category-2" />
-              <label for="category-2">
-                <span></span>
-                Smartphones
-                {{!-- <small>(740)</small> --}}
-              </label>
-            </div>
-
-            <div class="input-checkbox">
-              <input type="checkbox" id="category-3" />
-              <label for="category-3">
-                <span></span>
-                Tablets
-                {{!-- <small>(1450)</small> --}}
-              </label>
-            </div>
-
-            {{!-- <div class="input-checkbox">
-              <input type="checkbox" id="category-4" />
-              <label for="category-4">
-                <span></span>
-                Accessories
-                <small>(578)</small>
-              </label>
-            </div>
-
-            <div class="input-checkbox">
-              <input type="checkbox" id="category-5" />
-              <label for="category-5">
-                <span></span>
-                Laptops
-                <small>(120)</small>
-              </label>
-            </div> --}}
-
-            {{!-- <div class="input-checkbox">
-              <input type="checkbox" id="category-6" />
-              <label for="category-6">
-                <span></span>
-                Smartphones
-                <small>(740)</small>
-              </label>
-            </div> --}}
+          <div class="dropdown-filter" class="">
+            <select id="category-dropdown">
+              {{#each categories}}
+                <option value={{this}}>{{this}}</option>
+              {{/each}}
+            </select>
           </div>
+          <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              const categorySelect = document.querySelector('#category-dropdown');
+              const urlParams = new URLSearchParams(window.location.search);
+              const selectedCategoryFromUrl = urlParams.get('category');
+              if (selectedCategoryFromUrl) {
+                categorySelect.value = selectedCategoryFromUrl;
+              }
+              categorySelect.addEventListener('change', function () {
+                const selectedCategory = categorySelect.value;
+                let categoryValue = selectedCategory;
+                const currentUrl = window.location.href;
+                const url = new URL(currentUrl);
+                url.searchParams.delete('page');
+                url.searchParams.set('category', categoryValue);
+                window.location.href = url.toString();
+              })
+
+            });
+          </script>
         </div>
         <!-- /aside Widget -->
 
@@ -92,17 +68,62 @@
         <div class="aside">
           <h3 class="aside-title">Price</h3>
           <div class="price-filter">
-            <div id="price-slider"></div>
             <div class="input-number price-min">
-              <input id="price-min" type="number" />
-              <span class="qty-up">+</span>
-              <span class="qty-down">-</span>
+              <input id="price-min" type="number" placeholder="Minium" />
             </div>
+            <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              const urlParams = new URLSearchParams(window.location.search);
+
+              const priceMinSelect = document.querySelector('#price-min');
+              const selectedPriceMinFromUrl = urlParams.get('price_min');
+              if (selectedPriceMinFromUrl) {
+                priceMinSelect.value = selectedPriceMinFromUrl;
+              }
+              priceMinSelect.addEventListener('change', function () {
+                const selectedPriceMin = priceMinSelect.value;
+                let priceMinValue = selectedPriceMin;
+                const currentUrl = window.location.href;
+                const url = new URL(currentUrl);
+                url.searchParams.delete('page');
+                url.searchParams.set('price_min', priceMinValue);
+                window.location.href = url.toString();
+              })
+
+              const priceMaxSelect = document.querySelector('#price-max');
+              const selectedPriceMaxFromUrl = urlParams.get('price_max');
+              if (selectedPriceMaxFromUrl) {
+                priceMaxSelect.value = selectedPriceMaxFromUrl;
+              }
+              priceMaxSelect.addEventListener('change', function () {
+                const selectedPriceMax = priceMaxSelect.value;
+                let priceMaxValue = selectedPriceMax;
+                const currentUrl = window.location.href;
+                const url = new URL(currentUrl);
+                url.searchParams.delete('page');
+                url.searchParams.set('price_max', priceMaxValue);
+                window.location.href = url.toString();
+              })
+
+              const manufacturerSelect = document.querySelector('#manufacturer-dropdown');
+              const selectedManufacturerFromUrl = urlParams.get('manufacturer');
+              if (selectedManufacturerFromUrl) {
+                manufacturerSelect.value = selectedManufacturerFromUrl;
+              }
+              manufacturerSelect.addEventListener('change', function () {
+                const selectedManufacturer = manufacturerSelect.value;
+                let manufacturerValue = selectedManufacturer;
+                const currentUrl = window.location.href;
+                const url = new URL(currentUrl);
+                url.searchParams.delete('page');
+                url.searchParams.set('manufacturer', manufacturerValue);
+                window.location.href = url.toString();
+              })
+            });
+          </script>
             <span>-</span>
             <div class="input-number price-max">
-              <input id="price-max" type="number" />
-              <span class="qty-up">+</span>
-              <span class="qty-down">-</span>
+              <input id="price-max" type="number" placeholder="Maximum" />
             </div>
           </div>
         </div>
@@ -111,55 +132,14 @@
         <!-- aside Widget -->
         <div class="aside">
           <h3 class="aside-title">Brand</h3>
-          <div class="checkbox-filter">
-            <div class="input-checkbox">
-              <input type="checkbox" id="brand-1" />
-              <label for="brand-1">
-                <span></span>
-                SAMSUNG
-                <small>(578)</small>
-              </label>
-            </div>
-            <div class="input-checkbox">
-              <input type="checkbox" id="brand-2" />
-              <label for="brand-2">
-                <span></span>
-                LG
-                <small>(125)</small>
-              </label>
-            </div>
-            <div class="input-checkbox">
-              <input type="checkbox" id="brand-3" />
-              <label for="brand-3">
-                <span></span>
-                SONY
-                <small>(755)</small>
-              </label>
-            </div>
-            <div class="input-checkbox">
-              <input type="checkbox" id="brand-4" />
-              <label for="brand-4">
-                <span></span>
-                SAMSUNG
-                <small>(578)</small>
-              </label>
-            </div>
-            <div class="input-checkbox">
-              <input type="checkbox" id="brand-5" />
-              <label for="brand-5">
-                <span></span>
-                LG
-                <small>(125)</small>
-              </label>
-            </div>
-            <div class="input-checkbox">
-              <input type="checkbox" id="brand-6" />
-              <label for="brand-6">
-                <span></span>
-                SONY
-                <small>(755)</small>
-              </label>
-            </div>
+          <div class="dropdown-filter">
+            <select id="manufacturer-dropdown">
+              {{#each manufacturers}}
+                <option value={{this}}>{{this}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="checkbox-filter">       
           </div>
         </div>
         <!-- /aside Widget -->
@@ -224,105 +204,98 @@
               </select>
             </label>
             <script>
-							document.addEventListener('DOMContentLoaded', function (currentCategory) {
-							const sortSelect = document.querySelector('#sort-by');
+              document.addEventListener('DOMContentLoaded', function () {
+                const sortSelect = document.querySelector('#sort-by');
+                // Lấy giá trị sort từ tham số trên URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const selectedSortFromUrl = urlParams.get('sort');
+                // Thiết lập giá trị mặc định cho dropdown sort
+                if (selectedSortFromUrl) {
+                  sortSelect.value = selectedSortFromUrl;
+                }
+                sortSelect.addEventListener('change', function () {
+                  const selectedSort = sortSelect.value;
+                  let sortValue;
+                  // Set sortValue based on the selected option
+                  sortValue = selectedSort;
+                  // Get the current URL
+                  const currentUrl = window.location.href;
+                  // Create a URL object from the current URL
+                  const url = new URL(currentUrl);
+                  url.searchParams.delete('page');
+                  // Set the new sort parameter
+                  url.searchParams.set('sort', sortValue);
+                  // Redirect to the updated URL
+                  window.location.href = url.toString();
+                });
 
-							// Lấy giá trị sort từ tham số trên URL
-							const urlParams = new URLSearchParams(window.location.search);
-							const selectedSortFromUrl = urlParams.get('sort');
+              });
+            </script>
+            <!-- /store top filter -->
 
-							// Thiết lập giá trị mặc định cho dropdown sort
-							if (selectedSortFromUrl) {
-								sortSelect.value = selectedSortFromUrl;
-							}
-
-							sortSelect.addEventListener('change', function (currentCategory) {
-								const selectedSort = sortSelect.value;
-								let sortValue;
-
-								// Set sortValue based on the selected option
-								sortValue = selectedSort;
-
-								// Get the current URL
-								const currentUrl = window.location.href;
-
-								// Create a URL object from the current URL
-								const url = new URL(currentUrl);
-								url.searchParams.delete('page');
-
-								// Set the new sort parameter
-								url.searchParams.set('sort', sortValue);
-
-								// Redirect to the updated URL
-								window.location.href = url.toString();
-							});
-						});
-						</script>
-        <!-- /store top filter -->
-
-        <!-- store products -->
-        <div class="row" >
-          <!-- product -->
-          {{#each products}}
-          <div class="col-md-4 col-xs-6">
-            <div class="product">
-              <div class="product-img">
-                <img src="/img/{{this.product_img}}" alt="">
-              </div>
-              <div class="product-body">
-                <p class="product-category">{{this.category}}</p>
-                <h3 class="product-name"><a href="/product/{{this._id}}">{{this.product_name}}</a></h3>
-                <h4 class="product-price">${{this.price}}</h4>
-                <div class="product-rating">
-                </div>
-                <div class="product-btns">
-                  <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to
-                      wishlist</span></button>
-                  <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to
-                      compare</span></button>
-                  <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
-                      view</span></button>
+            <!-- store products -->
+            <div class="row">
+              <!-- product -->
+              {{#each products}}
+              <div class="col-md-4 col-xs-6">
+                <div class="product">
+                  <div class="product-img">
+                    <img src="/img/{{this.product_img}}" alt="">
+                  </div>
+                  <div class="product-body">
+                    <p class="product-category">{{this.category}}</p>
+                    <h3 class="product-name"><a href="/product/{{this._id}}">{{this.product_name}}</a></h3>
+                    <h4 class="product-price">${{this.price}}</h4>
+                    <div class="product-rating">
+                    </div>
+                    <div class="product-btns">
+                      <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to
+                          wishlist</span></button>
+                      <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to
+                          compare</span></button>
+                      <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
+                          view</span></button>
+                    </div>
+                  </div>
+                  <div class="add-to-cart">
+                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                  </div>
                 </div>
               </div>
-              <div class="add-to-cart">
-                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+              {{/each}}
+              <!-- /product -->
+            </div>
+            <!-- /store products -->
+
+            <!-- store bottom filter -->
+            <div class="store-filter clearfix">
+              <span class="store-qty">Showing {{productCount}} products</span>
+              <div>
+                <ul class="store-pagination">
+                  {{#paginate pagination type="first"}}
+                  <li {{#if disabled}}class="disabled" {{/if}}><a href="?page={{n}}">First</a></li>
+                  {{/paginate}}
+                  {{#paginate pagination type="previous"}}
+                  <li {{#if disabled}}class="disabled" {{/if}}><a href="?page={{n}}">Prev</a></li>
+                  {{/paginate}}
+                  {{#paginate pagination type="middle" limit="5"}}
+                  <li {{#if active}}class="active" {{/if}}><a href="?page={{n}}">{{n}}</a></li>
+                  {{/paginate}}
+                  {{#paginate pagination type="next"}}
+                  <li {{#if disabled}}class="disabled" {{/if}}><a href="?page={{n}}">Next</a></li>
+                  {{/paginate}}
+                  {{#paginate pagination type="last"}}
+                  <li {{#if disabled}}class="disabled" {{/if}}><a href="?page={{n}}">Last</a></li>
+                  {{/paginate}}
+                </ul>
               </div>
             </div>
+            <!-- /store bottom filter -->
           </div>
-          {{/each}}
-          <!-- /product -->
+          <!-- /STORE -->
         </div>
-        <!-- /store products -->
-
-        <!-- store bottom filter -->
-        <div class="store-filter clearfix">
-          <span class="store-qty">Showing {{productCount}} products</span>
-          <div>
-            <ul class="store-pagination">
-              {{#paginate pagination type="first"}}
-              <li {{#if disabled}}class="disabled" {{/if}}><a href="?page={{n}}">First</a></li>
-              {{/paginate}}
-              {{#paginate pagination type="previous"}}
-              <li {{#if disabled}}class="disabled" {{/if}}><a href="?page={{n}}">Prev</a></li>
-              {{/paginate}}
-              {{#paginate pagination type="middle" limit="5"}}
-              <li {{#if active}}class="active" {{/if}}><a href="?page={{n}}">{{n}}</a></li>
-              {{/paginate}}
-              {{#paginate pagination type="next"}}
-              <li {{#if disabled}}class="disabled" {{/if}}><a href="?page={{n}}">Next</a></li>
-              {{/paginate}}
-              {{#paginate pagination type="last"}}
-              <li {{#if disabled}}class="disabled" {{/if}}><a href="?page={{n}}">Last</a></li>
-              {{/paginate}}
-            </ul>
-          </div>
-        </div>
-        <!-- /store bottom filter -->
+        <!-- /row -->
       </div>
-      <!-- /STORE -->
+      <!-- /container -->
     </div>
-    <!-- /row -->
-  </div>
-  <!-- /container -->
-</div>
-<!-- /SECTION -->
+    <!-- /SECTION -->

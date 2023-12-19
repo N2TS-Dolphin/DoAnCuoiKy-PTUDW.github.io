@@ -41,13 +41,14 @@ async function generateData(category, page, sort = null, filter=null) {
   if (filter) {
     allProduct = await generatePrice(filter, allProduct);
   } 
-  // console.log(allProduct);
   const productData = allProduct.slice((page - 1) * 6, page * 6);
+  const categories = [...new Set(allProduct.map(product => product.category))];
+  const manufacturers = [...new Set(allProduct.map(product => product.manufacturer))];
 
-  // const bestsellerData =
-  //     await productController.getBestsellerProductsInCategory(category, type);
   return {
     products: productData,
+    categories,
+    manufacturers,
       productCount: count,
       pagination: {
         current: page,
@@ -60,46 +61,15 @@ async function generateData(category, page, sort = null, filter=null) {
 }
 /* GET product page. */
 router.get('/', async (req, res, next) => {
-
-
-  let perPage = 6;
   let page = parseInt(req.query.page) || 1;
-  const cate = req.query.cate;
+  const category = req.query.category;
   const sort = req.query.sort;
   const filter = req.query.filter;
-  const data = await generateData(cate, page, sort, filter);
-
-  // var products = await Product
-  //   .find()
-  //   .skip((perPage * page) - perPage)
-  //   .limit(perPage)
-  //   .lean()
-  //   .exec();
-
-  //   if (sort) {
-  //     products = await generateSort(sort, products);
-      
-  //   }
-  //   if (filter) {
-  //     products = await generatePrice(filter, products);
-  //   } 
-  // const count = await Product.countDocuments();
-  console.log("sort: " + sort);
+  const manufacturer = req.query.manufacturer;
+  console.log(category);
+  console.log(filter);
+  const data = await generateData(category, page, sort, filter);
   res.render("collection/index", { ...data, user: req.user });
-  // console.log(products);
-  // res.render('collection/index', {
-  //   products,
-  //   layout: 'layout.hbs',
-  //   user: req.user,
-  //   productCount: count,
-  //   pagination: {
-  //     current: page,
-  //     page,
-  //     pageCount: Math.ceil(count / perPage)
-  //   },
-  // });
 });
-
-
 
 module.exports = router;
