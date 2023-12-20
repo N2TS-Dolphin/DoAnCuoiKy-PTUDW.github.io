@@ -3,7 +3,8 @@ var router = express.Router();
 const { Product, Review } = require('../product/product.model')
 const Handlebars = require('hbs')
 var paginate = require('handlebars-paginate')
-const productController = require('../product/product.service')
+const productController = require('../product/product.service');
+const { search } = require('../product');
 
 Handlebars.registerHelper('paginate', paginate)
 
@@ -47,31 +48,43 @@ async function generatePrice(price_min, price_max, allProducts) {
     return productPrice >= price_min && productPrice <= price_max;
   });
 }
-async function generateData(category, page, sort = null, manufacturer=null, price_min=null, price_max=null) {
+async function generateData(category, page, sort = null, manufacturer=null, price_min=null, price_max=null, search) {
 
-  let allProduct = await Product
+  var products = await Product
           .find()
           .lean()
           .exec();
+          
 
-  let count = await Product.countDocuments();
+  if(search){
+    let productSearch = {};
+    productSearch.product_name = {'$regex': search, $options:'i'}
+    products = await Product.find(productSearch).lean().exec();
+    console.log(products);
+  }
   if (sort) {
-    allProduct = await generateSort(sort, allProduct);
+    products = await generateSort(sort, products);
   }
   if (price_min || price_max) {
-    allProduct = await generatePrice(price_min, price_max, allProduct);
+    products = await generatePrice(price_min, price_max, products);
   } 
   if(manufacturer){
-    allProduct = allProduct.filter(product => product.manufacturer === manufacturer);
+    products = products.filter(product => product.manufacturer === manufacturer);
   }
   if(category){
-    allProduct = allProduct.filter(product => product.category === category);
+    products = products.filter(product => product.category === category);
   }
 
+  let allProducts = await Product
+  .find()
+  .lean()
+  .exec();
 
-  const productData = allProduct.slice((page - 1) * 6, page * 6);
-  const categories = [...new Set(allProduct.map(product => product.category))];
-  const manufacturers = [...new Set(allProduct.map(product => product.manufacturer))];
+  const productData = products.slice((page - 1) * 6, page * 6);
+  const categories = [...new Set(allProducts.map(product => product.category))];
+  const manufacturers = [...new Set(allProducts.map(product => product.manufacturer))];
+
+  const count = products.length ;
 
   return {
     products: productData,
@@ -95,8 +108,11 @@ router.get('/', async (req, res, next) => {
   const manufacturer = req.query.manufacturer;
   const price_min = req.query.price_min;
   const price_max = req.query.price_max;
+  const search = req.query.search;
+
+  console.log(search);
   
-  const data = await generateData(category, page, sort, manufacturer, price_min, price_max);
+  const data = await generateData(category, page, sort, manufacturer, price_min, price_max, search);
   res.render("collection/index", { ...data, user: req.user });
 });
 
