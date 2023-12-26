@@ -2,10 +2,20 @@ var express = require('express');
 const session = require('express-session');
 var router = express.Router();
 const { Product, Review } = require('../product/product.model')
-const Handlebars = require('hbs')
-var paginate = require('handlebars-paginate')
+// const Handlebars = require('hbs')
+// var paginate = require('handlebars-paginate')
 
-Handlebars.registerHelper('paginate', paginate)
+// Handlebars.registerHelper('paginate', paginate)
+
+function getFivePage(totalPage, page){
+  let fivePage = []
+  for(let i = 1; i <= totalPage; i++){
+    if(i >= (page - 2) || i <= (page + 2)){
+      fivePage.push(i)
+    }
+  }
+  return fivePage
+}
 
 /* GET product page. */
 router.get('/', async (req, res, next) => {
@@ -32,17 +42,16 @@ router.get('/', async (req, res, next) => {
     .exec();
 
   const count = await Product.countDocuments(search);
+  const fivePage = getFivePage(count, page)
 
   res.render('collection/index.hbs', {
     products,
     layout: "layout.hbs",
     user: req.user,
     productCount: count,
-    pagination: {
-      current: page,
-      page,
-      pageCount: Math.ceil(count / perPage),
-    },
+    currentPage: page,
+    fivePage: fivePage,
+    totalPage: count,
   });
 });
 
