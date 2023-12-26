@@ -1,26 +1,26 @@
 var express = require('express');
 var router = express.Router();
 const { Product, Review } = require('../product/product.model')
-const Handlebars = require('hbs')
-var paginate = require('handlebars-paginate')
-const productController = require('../product/product.service');
+// const Handlebars = require('hbs')
+// var paginate = require('handlebars-paginate')
+const productService = require('../product/product.service');
 const { search } = require('../product');
 
-Handlebars.registerHelper('paginate', paginate)
+// Handlebars.registerHelper('paginate', paginate)
 
 async function generateSort(type, allProducts) {
-  
   if (type == "1") {
-    return  productController.sortProductsByPriceAsc(allProducts);
+    return  productService.sortProductsByPriceAsc(allProducts);
   }
   if (type == "2") {
-    return  productController.sortProductsByPriceDes(allProducts);
+    return  productService.sortProductsByPriceDes(allProducts);
   }
   if (type == "3") {
-    return  productController.sortProductsByTime(allProducts);
+    return  productService.sortProductsByTime(allProducts);
 }
   return allProducts;
 }
+
 async function generatePrice(price_min, price_max, allProducts) {
 
   let minPrice=Number.MAX_SAFE_INTEGER;
@@ -48,6 +48,17 @@ async function generatePrice(price_min, price_max, allProducts) {
     return productPrice >= price_min && productPrice <= price_max;
   });
 }
+
+function getFivePage(totalPage, page){
+  let fivePage = []
+  for(let i = 1; i <= totalPage; i++){
+    if(i >= (page - 2) || i <= (page + 2)){
+      fivePage.push(i)
+    }
+  }
+  return fivePage
+}
+
 async function generateData(category, page, sort = null, manufacturer=null, price_min=null, price_max=null, search) {
 
   var products = await Product
@@ -84,19 +95,21 @@ async function generateData(category, page, sort = null, manufacturer=null, pric
   const categories = [...new Set(allProducts.map(product => product.category))];
   const manufacturers = [...new Set(allProducts.map(product => product.manufacturer))];
 
-  const count = products.length ;
+  const productCount = products.length ;
+
+  const totalPage = Math.ceil(productCount / 6)
+  let fivePage = getFivePage(totalPage, page)
 
   return {
     products: productData,
     categories,
     manufacturers,
-    productCount: count,
-      pagination: {
-        current: page,
-        page,
-        pageCount: Math.ceil(count / 6)
-      },
-    curPage: page,
+    productCount: productCount,
+    
+    currentPage: page,
+    fivePage: fivePage,
+    totalPage: totalPage,
+    
     sortType: sort,
   };
 }
@@ -115,5 +128,20 @@ router.get('/', async (req, res, next) => {
   const data = await generateData(category, page, sort, manufacturer, price_min, price_max, search);
   res.render("collection/index", { ...data, user: req.user });
 });
+
+router.get('/pagination', async (req, res, next) => {
+  let page = parseInt(req.query.page) || 1;
+  const category = req.query.category;
+  const sort = req.query.sort;
+  const manufacturer = req.query.manufacturer;
+  const price_min = req.query.price_min;
+  const price_max = req.query.price_max;
+  const search = req.query.search;
+  
+  console.log(search);
+  
+  const data = await generateData(category, page, sort, manufacturer, price_min, price_max, search);
+  res.json({ ...data});
+})
 
 module.exports = router;

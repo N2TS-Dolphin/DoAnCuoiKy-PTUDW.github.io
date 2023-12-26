@@ -95,9 +95,9 @@
           <!-- SEARCH BAR -->
           <div class="col-md-6">
             <div class="header-search">
-              <form action="" method="get">
-                <input class="input" placeholder="Search here" name="search" {{#if
-                  product_name}}value="{{product_name}}" {{/if}} />
+              <form action="/search" method="get">
+                <input id="search" class="input" placeholder="Search here" name="search" 
+                  {{#if product_name}} value="{{product_name}}" {{/if}} />
                 <button class="search-btn">Search</button>
               </form>
             </div>
@@ -165,7 +165,7 @@
 
               <!-- Menu Toogle -->
               <div class="menu-toggle">
-                <a href="#">
+                <a href="/collection">
                   <i class="fa fa-bars"></i>
                   <span>Menu</span>
                 </a>
@@ -193,9 +193,6 @@
         <ul class="main-nav nav navbar-nav">
           <li><a href="/">Home</a></li>
           <li><a href="/collection">Collection</a></li>
-          {{!-- <li><a href="/checkout-user">Check Out</a></li> --}}
-          {{!-- <li><a href="/login-user">Login</a></li> --}}
-          {{!-- <li><a href="/home-admin">Admin's Page</a></li> --}}
         </ul>
         <!-- /NAV -->
       </div>

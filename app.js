@@ -38,7 +38,10 @@ const hbs = express_handlebars.create({
   //     path.join(__dirname, "views/user/partials"),
   // ],
   helpers: {
-      section: express_handlebars_sections(),
+      sections: express_handlebars_sections(),
+      eq(value1, value2){
+        return value1 == value2;
+      },
       lt(value1, value2){
         return value1 < value2;
       },
