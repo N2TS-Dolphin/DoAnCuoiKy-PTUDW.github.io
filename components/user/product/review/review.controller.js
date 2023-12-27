@@ -1,8 +1,8 @@
-const reviewService = require("./review.service")
+const reviewService = require("../review/review.service")
 
 const addNewReview = async (req, res, next) => {
-    reviewService.createNewReview(req.params.id, req.body.review_name, req.body.rating, req.body.content)
-
+    await reviewService.createNewReview(req.params.id, req.body.review_name, req.body.rating, req.body.content)
+    await reviewService.updateProductRating(req.params.id)
     res.redirect("/product/" + req.params.id)
 }
 

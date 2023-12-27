@@ -126,7 +126,7 @@ router.get('/', async (req, res, next) => {
   console.log(search);
   
   const data = await generateData(category, page, sort, manufacturer, price_min, price_max, search);
-  res.render("collection/index", { ...data, user: req.user });
+  res.render("user/collection/index", { ...data, user: req.user, layout: "userLayout" });
 });
 
 router.get('/pagination', async (req, res, next) => {

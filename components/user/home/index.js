@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { Product, Review } = require('../../product/product.model')
+const { Product, Review } = require('../product/product.model')
 const Handlebars = require('hbs')
 
 Handlebars.registerHelper('ifLowerThree', function(value, options){
@@ -16,13 +16,13 @@ router.get('/', async function(req, res, next) {
   const asusProduct = await Product.find({manufacturer: 'Asus'}).sort({creation_time: 'descending'}).limit(6).lean()
   const oppoProduct = await Product.find({manufacturer: 'OPPO'}).sort({creation_time: 'descending'}).limit(6).lean()
 
-  res.render('home/index', {
+  res.render('user/home/index', {
     newProduct: newProduct,
     msiProduct: msiProduct,
     asusProduct: asusProduct,
     oppoProduct: oppoProduct,
-    layout: 'layout.hbs',
-    user: req.user
+    user: req.user,
+    layout: "userLayout"
   });
 });
 

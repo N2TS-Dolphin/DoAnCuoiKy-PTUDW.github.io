@@ -32,11 +32,7 @@ mongoose.connect(process.env.DATABASE_URL,
 // Create an instance of the express-handlebars
 const hbs = express_handlebars.create({
   extname: ".hbs",
-  defaultLayout: "layout",
-  layoutsDir: path.join(__dirname, "views"),
-  // partialsDir: [
-  //     path.join(__dirname, "views/user/partials"),
-  // ],
+  layoutsDir: path.join(__dirname, "views/layouts"),
   helpers: {
       sections: express_handlebars_sections(),
       eq(value1, value2){
@@ -87,10 +83,9 @@ var indexRouter = require('./components/user/home/index');
 var loginRouter = require('./components/user/login');
 var signupRouter = require('./components/user/signup');
 // var homeLoggedUserRouter = require('./components/logged_user/home');
-var logoutRouter = require('./components/logged_user/logout')
-var collectionRouter = require('./components/collection/index')
-var productRouter = require('./components/product/index')
-var searchRouter = require('./components/search/index');
+var logoutRouter = require('./components/user/logout')
+var collectionRouter = require('./components/user/collection/index')
+var productRouter = require('./components/user/product/index')
 
 // view engine setup
 app.engine("hbs", hbs.engine);
@@ -109,9 +104,8 @@ app.use('/login', loginRouter);
 app.use('/signup', signupRouter);
 // app.use('/users', homeLoggedUserRouter);
 app.use('/logout', logoutRouter);
-app.use('/collection', collectionRouter)
-app.use('/product', productRouter),
-app.use('/search', searchRouter);
+app.use('/collection', collectionRouter);
+app.use('/product', productRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

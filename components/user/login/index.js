@@ -9,7 +9,8 @@ router.get('/', function(req, res, next) {
     var messages = req.flash('error')
     res.render('user/login/index',{ 
       messages: messages,
-      hasErrors: messages.length > 0, layout: 'layout.hbs'
+      hasErrors: messages.length > 0,
+      layout: "userLayout"
      })
   });
 
