@@ -11,13 +11,13 @@ const accountSchema = new mongoose.Schema(
     facebookID: { type: String },
     googleID: { type: String },
     avatar: { type: String },
-    phone: { type: String, required: true },
-    name: { type: String, required: true },
-    gender: { type: String, required: true },
+    phone: { type: String, required: false },
+    name: { type: String, required: false },
+    gender: { type: String, required: false },
     birthday: { type: Date },
-    role: { type: String, required: true },
-    status: { type: Boolean, required: true },
-    registrationTime: { type: Date, required: true }
+    role: { type: String, required: false },
+    status: { type: Boolean, required: false },
+    registrationTime: { type: Date, required: false }
   },
   { collection: "accounts" }
 );
