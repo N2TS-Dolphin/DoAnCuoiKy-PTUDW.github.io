@@ -11,6 +11,8 @@ var dotenv = require('dotenv').config();
 const express_handlebars = require("express-handlebars");
 const express_handlebars_sections = require('express-handlebars-sections');
 var paginate = require('handlebars-paginate')
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 // // Kết nối đến database
 // mongoose.connect('mongodb+srv://404foundbugs:404foundbugs@websitedatabase.746k9dj.mongodb.net/GA2?retryWrites=true&w=majority', {useNewUrlParser:true, useUnifiedTopology: true});
@@ -69,7 +71,7 @@ const hbs = express_handlebars.create({
 
 var app = express();
 // Passport
-// require('./config/passport'); //vượt qua passport để config trang đăng nhâp/đăng ký
+require('./config/passport'); //vượt qua passport để config trang đăng nhâp/đăng ký
 app.use(session({
   secret: 'adsa897adsa98bs',
   resave: false,
@@ -79,9 +81,10 @@ app.use(flash());
 app.use(passport.initialize())
 app.use(passport.session());
 
-var indexRouter = require('./components/user/home/index');
-var loginRouter = require('./components/user/login');
-var signupRouter = require('./components/user/signup');
+var indexRouter = require('./components/user/home/index.js');
+var userRouter = require("./components/user/home/index.js")
+var loginRouter = require('./components/user/login/index.js');
+var signupRouter = require('./components/user/signup/index.js');
 // var homeLoggedUserRouter = require('./components/logged_user/home');
 var logoutRouter = require('./components/user/logout')
 var collectionRouter = require('./components/user/collection/index')

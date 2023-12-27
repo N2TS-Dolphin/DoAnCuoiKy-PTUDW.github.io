@@ -1,8 +1,7 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-const { check, validationResult } = require('express-validator');
-var  passport = require('passport')
-
+const { check, validationResult } = require("express-validator");
+var passport = require("passport");
 
 /* GET sign-in page. */
 router.get('/', function(req, res, next) {
@@ -12,15 +11,16 @@ router.get('/', function(req, res, next) {
       hasErrors: messages.length > 0,
       layout: "userLayout"
      })
-  });
+});
 
 // Xử lý thông tin khi có người đăng nhập
-router.post('/',
-  passport.authenticate('local.signin', { successRedirect: '/users',
-                                  failureRedirect: '/login',
-                                  failureFlash: true })
+router.post(
+  "/",
+  passport.authenticate("local.signin", {
+    successRedirect: "/users",
+    failureRedirect: "/login",
+    failureFlash: true,
+  })
 );
-
-
 
 module.exports = router;
