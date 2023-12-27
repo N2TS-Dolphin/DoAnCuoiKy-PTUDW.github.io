@@ -1,8 +1,76 @@
-{{#section 'js'}}
-    <script>
-        $.getJSON('/product/{{productDetail._id}}/reviews');
-    </script>
-{{/section}}
+{{#sections 'js'}}
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+    function HTMLreviews(reviews){
+      let html = "";
+      for(const review of reviews){
+        html += "<li style='border-bottom: black 1px solid; padding-bottom: 10px'>" +
+                  "<div class='review-heading'>" +
+                    "<h5 class='name'>" + review.name + "</h5>" +
+                    "<div class='review-rating'>" +
+                      "<span>" + review.rating + "</span>" +
+                      "<i class='fa fa-star'></i>" +
+                    "</div>" +
+                    "<p class='date'>" + review.creationTime + "</p>" +
+                  "</div>" +
+                  "<div class='review-body'>" +
+                    "<p>" + review.content + "</p>" +
+                  "</div>" +
+                "</li>";
+      }
+      return html;
+    }
+  </script>
+  <script>
+    function HTMLrating(product){
+      let html = "<span>Rating: " + product.rating + "</span>" +
+                  "<i class='fa fa-star'></i>";
+      return html;
+    }
+  </script>
+  <script>
+    function getReviews(url){
+      $.ajax({
+        url: url,
+        method: 'GET',
+        success: function (res) {
+          console.log(res.product.rating)
+          let html = HTMLreviews(res.reviews)
+          console.log(html);
+          $('.reviews').html(html);
+          let htmlRating = HTMLrating(res.product)
+          console.log(htmlRating)
+          $('.product-rating').html(htmlRating)
+        },
+        error: function (err) {
+          console.error(err);
+        },
+      });
+    }
+  </script>
+  <script>
+    $(document).ready(function () {
+      $('#submit-review').on('click', function(e){
+        e.preventDefault();
+        const rating = $('#send-rating').val();
+        const content = $('#send-content').val();
+        const url = "/product/{{product._id}}/review"
+        console.log(rating)
+        console.log(content)
+        $.post(url, {accountID: "658be1bf881362451cb95080", rating: rating, content: content})
+
+        getReviews(url)
+      });
+      $('#reviews-tab').on('click', function (e) {
+        e.preventDefault();
+        const url = "/product/{{product._id}}/review"
+        console.log(url)
+
+        getReviews(url)
+      });
+    });
+  </script>
+{{/sections}}
 
 <!-- BREADCRUMB -->
 <div id="breadcrumb" class="section">
@@ -34,9 +102,11 @@
       <!-- Product main img -->
       <div class="col-md-5 col-md-push-2">
         <div id="product-main-img">
+          {{#each product.productImg}}
           <div class="product-preview">
-            <img src="/img/{{product.product_img}}" alt="{{product.product_img}}" />
+            <img src="/img/{{this}}" alt="{{this}}" />
           </div>
+          {{/each}}
         </div>
       </div>
       <!-- /Product main img -->
@@ -44,9 +114,11 @@
       <!-- Product thumb imgs -->
       <div class="col-md-2 col-md-pull-5">
         <div id="product-imgs">
+          {{#each product.productImg}}
           <div class="product-preview">
-            <img src="/img/{{product.product_img}}" alt="{{product.product_img}}" />
+            <img src="/img/{{this}}" alt="{{this}}" />
           </div>
+          {{/each}}
         </div>
       </div>
       <!-- /Product thumb imgs -->
@@ -54,11 +126,11 @@
       <!-- Product details -->
       <div class="col-md-5">
         <div class="product-details">
-          <h2 class="product-name">{{product.product_name}}</h2>
-          <span> Creation time: {{product.creation_time}}</span>
+          <h2 class="product-name">{{product.productName}}</h2>
+          <span> Creation time: {{product.creationTime}}</span>
           <div>
             <div class="product-rating">
-                <span>Rating: {{productRating}}</span>
+                <span>Rating: {{product.rating}}</span>
                 <i class="fa fa-star"></i>
             </div>
           </div>
@@ -82,11 +154,11 @@
 
           <ul class="product-links">
             <li>Category:</li>
-            <li><a href="/collection">{{product.category}}</a></li>
+            <li><a href="/collection?category={{product.category}}">{{product.category}}</a></li>
           </ul>
           <ul class="product-links">
             <li>Manufacturer:</li>
-            <li><a href="/collection">{{product.manufacturer}}</a></li>
+            <li><a href="/collection?manufacturer={{product.manufacturer}}">{{product.manufacturer}}</a></li>
           </ul>
 
           <ul class="product-links">
@@ -108,7 +180,7 @@
           <ul class="tab-nav">
             <li><a data-toggle="tab" href="#tab1">Description</a></li>
             <li><a data-toggle="tab" href="#tab2">Details</a></li>
-            <li><a data-toggle="tab" href="#tab3">Reviews</a></li>
+            <li id="reviews-tab"><a data-toggle="tab" href="#tab3">Reviews</a></li>
           </ul>
           <!-- /product tab nav -->
 
@@ -128,7 +200,12 @@
             <div id="tab2" class="tab-pane fade in">
               <div class="row">
                 <div class="col-md-12">
-                  <p>{{product.detail}}</p>
+                  <p>Product name: {{product.productName}}</p>
+                  <p>Price: {{product.price}}VND</p>
+                  <p>Category: {{product.category}}</p>
+                  <p>Manufacturer: {{product.manufacturer}}</p>
+                  <p>Creation time: {{product.creationTime}}</p>
+                  <p>Status: {{product.status}}</p>
                 </div>
               </div>
             </div>
@@ -137,104 +214,24 @@
             <!-- tab3  -->
             <div id="tab3" class="tab-pane fade in">
               <div class="row">
-                <!-- Rating -->
-                <div class="col-md-3">
-                  <div id="rating">
-                    {{!-- <div class="rating-avg">
-                      <span>{{product_rating}}</span>
-                      <div class="rating-stars">
-                        <i class="fa fa-star"></i>
-                      </div>
-                    </div> --}}
-                    {{!-- <ul class="rating">
-                      <li>
-                        <div class="rating-stars">
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                        </div>
-                        <div class="rating-progress">
-                          <div style="width: 80%;"></div>
-                        </div>
-                        <span class="sum">3</span>
-                      </li>
-                      <li>
-                        <div class="rating-stars">
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star-o"></i>
-                        </div>
-                        <div class="rating-progress">
-                          <div style="width: 60%;"></div>
-                        </div>
-                        <span class="sum">2</span>
-                      </li>
-                      <li>
-                        <div class="rating-stars">
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star-o"></i>
-                          <i class="fa fa-star-o"></i>
-                        </div>
-                        <div class="rating-progress">
-                          <div></div>
-                        </div>
-                        <span class="sum">0</span>
-                      </li>
-                      <li>
-                        <div class="rating-stars">
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star-o"></i>
-                          <i class="fa fa-star-o"></i>
-                          <i class="fa fa-star-o"></i>
-                        </div>
-                        <div class="rating-progress">
-                          <div></div>
-                        </div>
-                        <span class="sum">0</span>
-                      </li>
-                      <li>
-                        <div class="rating-stars">
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star-o"></i>
-                          <i class="fa fa-star-o"></i>
-                          <i class="fa fa-star-o"></i>
-                          <i class="fa fa-star-o"></i>
-                        </div>
-                        <div class="rating-progress">
-                          <div></div>
-                        </div>
-                        <span class="sum">0</span>
-                      </li>
-                    </ul> --}}
-                  </div>
-                </div>
-                <!-- /Rating -->
-
                 <!-- Reviews -->
-                <div class="col-md-6">
+                <div class="col-md-9">
                   <div id="reviews">
                     <ul class="reviews" style="overflow: hidden; overflow-y: scroll; max-hieght: 500px;">
                       {{#each reviews}}
-                      <li style="border-bottom: black 1px solid; padding-bottom: 10px">
-                        <div class="review-heading">
-                          <h5 class="name">{{this.name}}</h5>
-                          <p class="date">{{this.date}}</p>
-                          <div class="review-rating">
-                            <span>{{this.rating}}</span>
-                            <i class="fa fa-star"></i>
+                        <li style="border-bottom: black 1px solid; padding-bottom: 10px">
+                          <div class="review-heading">
+                            <h5 class="name">{{this.name}}</h5>
+                            <div class="review-rating">
+                              <span>{{this.rating}}</span>
+                              <i class="fa fa-star"></i>
+                            </div>
+                            <p class="date">{{this.creationTime}}</p>
                           </div>
-                        </div>
-                        <div class="review-body">
-                          <p>{{this.content}}</p>
-                        </div>
-                      </li>
+                          <div class="review-body">
+                            <p>{{this.content}}</p>
+                          </div>
+                        </li>
                       {{/each}}
                     </ul>
                   </div>
@@ -244,26 +241,9 @@
                 <!-- Review Form -->
                 <div class="col-md-3">
                   <div id="review-form">
-                    <form class="review-form" action="/product/{{product._id}}/review" method="POST">
-                      <input
-                        class="input"
-                        type="text"
-                        name="review_name"
-                        placeholder="Your Name"
-                      />
-                      <input
-                        class="input"
-                        type="number"
-                        name="rating"
-                        placeholder="Your Rating"
-                      />
-                      <textarea
-                        class="input"
-                        name="content"
-                        placeholder="Your Review"
-                      ></textarea>
-                      <button type="submit" class="primary-btn">Submit</button>
-                    </form>
+                    <input class="input" type="number" id="send-rating" placeholder="Your Rating"/>
+                    <textarea class="input" id="send-content" placeholder="Your Review"></textarea>
+                    <button type="button" class="primary-btn" id="submit-review">Submit</button>
                   </div>
                 </div>
                 <!-- /Review Form -->
@@ -300,14 +280,12 @@
         <div class="col-md-3 col-xs-6">
           <div class="product">
             <div class="product-img">
-              <img src="/img/{{this.product_img}}" alt="{{this.product_img}}" />
+              <img src="/img/{{this.productImg}}" alt="{{this.productImg}}" />
             </div>
             <div class="product-body">
               <p class="product-category">{{this.category}}</p>
-              <h3 class="product-name"><a href="/product/{{this._id}}">{{this.product_name}}</a></h3>
+              <h3 class="product-name"><a href="/product/{{this._id}}">{{this.productName}}</a></h3>
               <h4 class="product-price">{{this.price}}VND</h4>
-              <div class="product-rating">
-              </div>
               <div class="product-btns">
                 <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
                     class="tooltipp"

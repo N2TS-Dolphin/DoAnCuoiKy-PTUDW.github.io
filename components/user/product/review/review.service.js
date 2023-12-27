@@ -3,17 +3,16 @@ const productService = require("../product.service")
 const mongoose = require("mongoose")
 
 const updateProductRating = async (productID) => {
-    const reviews = await getProductReview(productID)
-    const product = await productService.getProductByID(productID)
-
+    const reviews = await Review.find({productID: productID}).lean().exec()
+    
     var productRating = 0
-    for(let i = 0; i < reviews.length; i++){
-      productRating = (productRating + reviews[i].rating)
+    for(let review of reviews){
+        productRating = (productRating + review.rating)
     }
-    productRating = productRating / reviews.length
+    productRating = Math.ceil(productRating / reviews.length)
 
-    product.rating = productRating
-    await product.save()
+    var product = await Product.findOneAndUpdate({ _id: productID }, { rating: productRating }, { new: true })
+    return product
 }
 
 const createNewReview = async (productID, accountID, reviewRating, reviewContent) => {
@@ -28,20 +27,25 @@ const createNewReview = async (productID, accountID, reviewRating, reviewContent
 }
 
 const getProductReview = async (productID) => {
-    const reviews =  await Review.find({product_id: productID}).populate("accountID").lean().exec()
+    const reviews =  await Review.find({productID: productID}).sort({creationTime: 1}).populate("accountID")
 
     let productReviews = []
     for(let review of reviews){
-        const name = review.accountID.name
-        const rating = review.rating
-        const content = review.content
-        const creationTime = review.creationTime
+        const creationTime = review.creationTime.getDate() 
+                            + "/" + review.creationTime.getMonth() 
+                            + "/" + review.creationTime.getFullYear()
+        productReviews.push({
+            name: review.accountID.name,
+            rating: review.rating,
+            content: review.content,
+            creationTime: creationTime
+        })
     }
-    const name = reviews.accountID.name
-    const rating = reviews
+    return productReviews
 }
 
 module.exports = {
+    updateProductRating,
     createNewReview,
     getProductReview
 }

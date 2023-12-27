@@ -69,7 +69,7 @@ async function generateData(category, page, sort = null, manufacturer=null, pric
 
   if(search){
     let productSearch = {};
-    productSearch.product_name = {'$regex': search, $options:'i'}
+    productSearch.productName = {'$regex': search, $options:'i'}
     products = await Product.find(productSearch).lean().exec();
     console.log(products);
   }
@@ -104,6 +104,7 @@ async function generateData(category, page, sort = null, manufacturer=null, pric
     products: productData,
     categories,
     manufacturers,
+    currentSearch: search,
     productCount: productCount,
     
     currentPage: page,

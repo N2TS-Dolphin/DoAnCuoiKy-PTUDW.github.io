@@ -88,7 +88,7 @@ var signupRouter = require('./components/user/signup/index.js');
 // var homeLoggedUserRouter = require('./components/logged_user/home');
 var logoutRouter = require('./components/user/logout')
 var collectionRouter = require('./components/user/collection/index')
-var productRouter = require('./components/user/product/index')
+var productRouter = require('./components/user/product/index.js')
 
 // view engine setup
 app.engine("hbs", hbs.engine);
