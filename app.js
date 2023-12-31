@@ -89,6 +89,8 @@ var signupRouter = require('./components/user/signup/index.js');
 var logoutRouter = require('./components/user/logout')
 var collectionRouter = require('./components/user/collection/index')
 var productRouter = require('./components/user/product/index.js')
+var homeARouter = require('./components/admin/home/index.js')
+var productARouter = require('./components/admin/product/index.js')
 
 // view engine setup
 app.engine("hbs", hbs.engine);
@@ -109,6 +111,8 @@ app.use('/signup', signupRouter);
 app.use('/logout', logoutRouter);
 app.use('/collection', collectionRouter);
 app.use('/product', productRouter);
+app.use('/home-admin', homeARouter);
+app.use('/product-admin', productARouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

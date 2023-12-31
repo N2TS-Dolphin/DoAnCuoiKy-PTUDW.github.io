@@ -1,0 +1,24 @@
+.product-page{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto';
+    border: 1px outset white;
+    border-radius: 10px;
+    margin: 10px;
+}
+.section-one{
+    padding: 10px;
+}
+.content-title{
+    color: black;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 100%;
+    margin: 0;
+}
+.section-two{
+    display: flex;
+    flex-direction: column;
+    gap: 20px
+}

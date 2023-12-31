@@ -1,7 +1,7 @@
 const productService = require("./product.service")
 const reviewService = require("./review/review.service")
 
-const displayProduct = async function(req, res, next) {
+const displayProduct = async (req, res, next) => {
     const product = await productService.getProductByID(req.params.id)
     const reviews = await reviewService.getProductReview(req.params.id)
     const relatedProduct = await productService.getRelatedProduct(product.category, product._id)
