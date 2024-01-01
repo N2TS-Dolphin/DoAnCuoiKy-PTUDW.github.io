@@ -7,13 +7,13 @@ var LocalStrategy = require("passport-local").Strategy;
 // passport session setup
 
 // used to serialize the user for the session
-passport.serializeUser(function (account, done) {
-  done(null, account.id);
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
 });
 // used to deserialize the user
 passport.deserializeUser(function (id, done) {
-  Account.findById(id, function (err, account) {
-    done(err, account);
+  Account.findById(id, function (err, user) {
+    done(err, {email: user.email});
   });
 });
 // local sign-up
@@ -26,11 +26,11 @@ passport.use(
       passReqToCallback: true,
     },
     function (req, email, password, done) {
-      Account.findOne({ email: email }, function (err, account) {
+      Account.findOne({ email: email }, function (err, user) {
         if (err) {
           return done(err);
         }
-        if (account) {
+        if (user) {
           return done(null, false, { message: "Email is already in use." });
         }
         var newAccount = new Account();
@@ -57,17 +57,17 @@ passport.use(
       passReqToCallback: true,
     },
     function (req, email, password, done) {
-      Account.findOne({ email: email }, function (err, account) {
+      Account.findOne({ email: email }, function (err, user) {
         if (err) {
           return done(err);
         }
-        if (!account) {
+        if (!user) {
           return done(null, false, { message: "Not user found" });
         }
-        if (!account.validPassword(password)) {
+        if (!user.validPassword(password)) {
           return done(null, false, { message: "Wrong password" });
         }
-        return done(null, account);
+        return done(null, user);
       });
     }
   )

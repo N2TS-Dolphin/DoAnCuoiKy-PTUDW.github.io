@@ -82,7 +82,6 @@ app.use(passport.initialize())
 app.use(passport.session());
 
 var indexRouter = require('./components/user/home/index.js');
-var userRouter = require("./components/user/home/index.js")
 var loginRouter = require('./components/user/login/index.js');
 var signupRouter = require('./components/user/signup/index.js');
 // var homeLoggedUserRouter = require('./components/logged_user/home');
@@ -105,7 +104,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/signup', signupRouter);
-// app.use('/users', homeLoggedUserRouter);
 app.use('/logout', logoutRouter);
 app.use('/collection', collectionRouter);
 app.use('/product', productRouter);

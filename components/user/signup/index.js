@@ -10,7 +10,7 @@ router.get("/", function (req, res, next) {
   res.render("user/signup/index.hbs", {
     messages: messages,
     hasErrors: messages.length > 0,
-    layout: "layout.hbs",
+    layout: "userLayout.hbs",
   });
 });
 
@@ -36,7 +36,7 @@ router.post(
       res.render("user/signup/index.hbs", {
         messages: messages,
         hasErrors: messages.length > 0,
-        layout: "layout.hbs",
+        layout: "userLayout.hbs",
       });
     } else {
       next();
