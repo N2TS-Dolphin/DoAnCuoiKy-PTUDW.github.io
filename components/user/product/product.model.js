@@ -9,20 +9,21 @@ const productSchema = new mongoose.Schema({
     manufacturer: { type: String, required: true },
     creationTime: { type: Date, required: true },
     rating: { type: Number, required: true },
+    description: { type: String, required: true },
     totalPurchase: { type: Number, required: true }
 }, {collection: "product"})
 
 const reviewSchema = new mongoose.Schema({
-    productID: { type: mongoose.Schema.Types.ObjectId, required: true },
-    accountID: { type: mongoose.Schema.Types.ObjectId, required: true },
+    productID: { type: mongoose.Schema.Types.ObjectId, ref: "product", required: true },
+    accountID: { type: mongoose.Schema.Types.ObjectId, ref: "accounts", required: true },
     rating: { type: Number, required: true },
     content: { type: String },
     creationTime: { type: Date, required: true },
 }, {collection: "reviews"})
 
 const revenueSchema = new mongoose.Schema({
-    productID: { type: mongoose.Schema.Types.ObjectId, required: true },
-    orderID: { type: mongoose.Schema.Types.ObjectId, required: true },
+    productID: { type: mongoose.Schema.Types.ObjectId, ref: "product", required: true },
+    orderID: { type: mongoose.Schema.Types.ObjectId, ref: "orders", required: true },
     quantity: { type: Number, required: true },
     price: { type: Number, required: true },
     purchaseTime: { type: Date, required: true }

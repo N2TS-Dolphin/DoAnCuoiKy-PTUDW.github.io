@@ -7,11 +7,11 @@
         html += "<div class='col-md-4 col-xs-6'>" +
                   "<div class='product'>" +
                     "<div class='product-img'>" +
-                      "<img src='/img/" + product.product_img + "' alt=''>" +
+                      "<img src='/img/" + product.productImg + "' alt=''>" +
                     "</div>" +
                     "<div class='product-body'>" +
                       "<p class='product-category'>" + product.category + "</p>" +
-                      "<h3 class='product-name'><a href='/product/" + product._id + "'>" + product.product_name + "</a></h3>" +
+                      "<h3 class='product-name'><a href='/product/" + product._id + "'>" + product.productName + "</a></h3>" +
                       "<h4 class='product-price'>" + product.price + " VND</h4>" +
                       "<div class='product-rating'>" +
                       "</div>" +
@@ -178,11 +178,11 @@
                 <div class="col-md-4 col-xs-6 ">
                   <div class="product">
                     <div class="product-img">
-                      <img src="/img/{{this.product_img}}" alt="">
+                      <img src="/img/{{this.productImg}}" alt="">
                     </div>
                     <div class="product-body">
                       <p class="product-category">{{this.category}}</p>
-                      <h3 class="product-name"><a href="/product/{{this._id}}">{{this.product_name}}</a></h3>
+                      <h3 class="product-name"><a href="/product/{{this._id}}">{{this.productName}}</a></h3>
                       <h4 class="product-price">{{this.price}} VND</h4>
                       <div class="product-rating">
                       </div>
