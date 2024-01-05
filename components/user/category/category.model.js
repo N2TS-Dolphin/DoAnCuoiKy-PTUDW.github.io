@@ -7,17 +7,17 @@ const categorySchema = new mongoose.Schema(
     { collection: "categories"}
 );
 
-const manufaturerSchema = new mongoose.Schema(
+const manufacturerSchema = new mongoose.Schema(
     {
         name: { type: String, required: true},
     },
-    { collection: "manufaturers"}
+    { collection: "manufacturer"}
 );
 
 const Category = mongoose.model("categories", categorySchema)
-const Manufaturer = mongoose.model("manufaturers", manufaturerSchema)
+const Manufacturer = mongoose.model("manufacturer", manufacturerSchema)
 
 module.exports = {
     Category,
-    Manufaturer
+    Manufacturer
 }

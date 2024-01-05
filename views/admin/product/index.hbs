@@ -7,47 +7,148 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/plugins/pace.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#filter-button').on('click', function(e){
+                e.preventDefault();
+                const page = 1;
+                const name = $('#product-name').val();
+                const category = $('#category').val();
+                const manufaturer = $('#manufacturer').val();
+                const sortBy = $('#sort-by').val();
+                const sortOrder = $('#sort-order').val();
+                console.log(page, name, category, manufaturer, sortBy, sortOrder);
+
+                const url = "/product-admin?" + "page=" + page
+                + "&productName=" + name
+                + "&category=" + category
+                + "&manufaturer=" + manufaturer
+                + "&sortBy=" + sortBy
+                + "&sortOrder=" + sortOrder;
+                console.log(url)
+            })
+            $('#pagination').on('click', '.page-link', function (e) {
+                e.preventDefault();
+                const page = $(this).data('page');
+                const name = $('#product-name').val();
+                const category = $('#category').val();
+                const manufaturer = $('#manufacturer').val();
+                const sortBy = $('#sort-by').val();
+                const sortOrder = $('#sort-order').val();
+                console.log(page, name, category, manufaturer, sortBy, sortOrder);
+                
+                const url = "/product-admin?" + "page=" + page
+                + "&productName=" + name
+                + "&category=" + category
+                + "&manufacturer=" + manufaturer
+                + "&sortBy=" + sortBy
+                + "&sortOrder=" + sortOrder;
+                console.log(url)
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function (res) {
+                        console.log("Product: " + res.product)
+                    }
+                });
+            });
+        });
+    </script>
 {{/sections}}
 <main class="app-content">
     <div class="product-page">
         <div class="section-one">
-        <p class="content-title">Danh sách sản phẩm</p>
+            <p class="content-title">Danh sách sản phẩm</p>
+        </div>
+        <div class="section-two">
+            <div class="filter-line">
+                <div class="input">
+                    <span class="filter-label">Tìm kiếm: </span>
+                    <input type="text" class="input" id="product-name" placeholder="Tìm sản phẩm"/>
+                </div>
+                <div class="dropdown">
+                    <span class="filter-label">Danh mục: </span>
+                    <select id="category" id>
+                        <option value="">Không</option>
+                        {{#each category}}
+                            <option value="{{this.name}}">{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="dropdown">
+                    <span class="filter-label">Nhà sản xuất: </span>
+                    <select id="manufacturer" id>
+                        <option value="">Không</option>
+                        {{#each manufacturer}}
+                            <option value="{{this.name}}">{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="filter-line">
+                <div class="dropdown">
+                    <span class="filter-label">Lọc theo: </span>
+                    <select id="sort-by" id>
+                        <option value="">Không</option>
+                        <option value="creationTime">Ngày khởi tạo</option>
+                        <option value="price">Giá tiền</option>
+                        <option value="totalPrice">Tổng doanh số</option>
+                    </select>
+                </div>
+                <div class="dropdown">
+                    <span class="filter-label">Thứ tự: </span>
+                    <select id="sort-order" id>
+                        <option value="">Không</option>
+                        <option value="desc">Từ trên xuống</option>
+                        <option value="asc">Từ dưới lên</option>
+                    </select>
+                </div>
+                <button type="button" class="button" id="filter-button">Tìm kiếm</button>
+                <button type="button" class="button" id="add-button">Thêm sản phẩm</button>
+            </div>
+        </div>
+        <div class="section-three">
+            <div class="table">
+                <div class="table-row">
+                    <div class="table-column-cell"><p class="table-content">Tên sản phẩm</p></div>
+                    <div class="table-column-cell"><p class="table-content">Danh mục</p></div>
+                    <div class="table-column-cell"><p class="table-content">Nhà sản suất</p></div>
+                    <div class="table-column-cell"><p class="table-content">Trạng thái</p></div>
+                    <div class="table-column-cell"><p class="table-content">Ngày khởi tạo</p></div>
+                    <div class="table-column-cell"><p class="table-content">Giá tiền</p></div>
+                    <div class="table-column-cell"></div>
+                </div>
+                {{#each product}}
+                <div class="table-row">
+                    <div class="table-cell"><p class="table-content">{{this.productName}}</p></div>
+                    <div class="table-cell"><p class="table-content">{{this.category}}</p></div>
+                    <div class="table-cell"><p class="table-content">{{this.manufacturer}}</p></div>
+                    <div class="table-cell"><p class="table-content">{{this.status}}</p></div>
+                    <div class="table-cell"><p class="table-content">{{this.creationTime}}</p></div>
+                    <div class="table-cell"><p class="table-content">{{this.price}}VNĐ</p></div>
+                    <div class="table-cell">
+                        <button type="button" class="update-button" id="update-button">Sửa</button>
+                        <button type="button" class="delete-button" id="delete-button">Xóa</button>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+            <div id="pagination">
+                <ul class="table-pagination">
+                    <li><button type="button" class="page-link" data-page="1">
+                        <i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i>
+                    </button></li>
+                    {{#each fivePage}}
+                        <li {{#if (eq this page)}}class="active"{{/if}}>
+                            <button type="button" class="page-link" data-page="{{this}}">{{this}}</button>
+                        </li>
+                    {{/each}}
+                    <li><button type="button" class="page-link" data-page="{{totalPage}}">
+                        <i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i>
+                    </button></li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <div class="section-two">
-        <div class="input">
-            <input type="text" class="input" id="product-name" placeholder="Tìm sản phẩm"/>
-        </div>
-        <div class="dropdown">
-            <select id="category" id>
-                <option value="">Không</option>
-                <option value="Danh mục 1">Danh mục 1</option>
-            </select>
-        </div>
-        <div class="dropdown">
-            <select id="manufacturer" id>
-                <option value="">Không</option>
-                <option value="Danh mục 1">Danh mục 1</option>
-            </select>
-        </div>
-        <div class="dropdown">
-            <select id="creation-time" id>
-                <option value="">Không</option>
-                <option value="Danh mục 1">Danh mục 1</option>
-            </select>
-        </div>
-        <div class="dropdown">
-            <select id="price" id>
-                <option value="">Không</option>
-                <option value="Danh mục 1">Danh mục 1</option>
-            </select>
-        </div>
-        <div class="dropdown">
-            <select id="total-purchase" id>
-                <option value="">Không</option>
-                <option value="Danh mục 1">Danh mục 1</option>
-            </select>
-        </div>
-    </div>
-    </div>
-    
 </main>
