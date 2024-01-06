@@ -1,42 +1,14 @@
-const { Product } = require("../../user/product/product.model")
-const { Category, Manufacturer } = require("../../user/category/category.model")
+const productService = require("./product.service")
+const fs = require('fs/promises');
 
 const getAllProduct = async (req, res, next) => {
-    const page = req.query.page || 1
-    const filterCategory = req.query.category
-    const filterManufacturer = req.query.manufacturer
-    const sortBy = req.query.sortBy
-    const sortOrder = req.query.sortOrder
-    console.log(page, filterCategory, filterManufacturer, sortBy, sortOrder)
-    let filter = {}
-    if(filterCategory){filter.category = filterCategory}
-    if(filterManufacturer){filter.manufacturer = filterManufacturer}
-    let by = ""
-    switch(sortBy){
-        case 0: by = ""; break;
-        case 1: by = "creationTime"; break;
-        case 2: by = "price"; break;
-        case 3: by = "totalPrice"; break;
-    }
-    let order = ""
-    switch(sortOrder){
-        case 0: order = ""; break;
-        case 1: order = "desc"; break;
-        case 2: order = "asc"; break;
-    }
-    let sort = [[sortBy, sortOrder]]
-    console.log(sortBy, sortOrder)
-    console.log(filter, sort)
-    let product = await Product.find(filter).sort(sort).lean().exec()
-    product.slice((page - 1) * 10, page * 10)
-    const totalProductCount = await Product.countDocuments()
+    const page = 1
+    let product = await productService.getAllProduct(page)
+    const totalProductCount = await productService.countAllProduct()
     const totalPage = Math.ceil(totalProductCount / 10)
-    const fivePage = getFivePage(totalPage, page)
-    for(const p of product){
-        console.log(p.productName)
-    }
-    const category = await Category.find().lean().exec()
-    const manufacturer = await Manufacturer.find().lean().exec()
+    const fivePage = productService.getFivePage(totalPage, page)
+    const category = await productService.getAllCategory()
+    const manufacturer = await productService.getAllManufacturer()
     res.render("admin/product", {
         category: category,
         manufacturer: manufacturer,
@@ -48,53 +20,121 @@ const getAllProduct = async (req, res, next) => {
     })
 }
 
-function getFivePage(totalPage, page){
-    let fivePage = []
-    for(let i = 1; i <= totalPage; i++){
-        if(i >= (page - 2) || i <= (page + 2)){
-            fivePage.push(i)
-        }
-    }
-    return fivePage
-}
-
 const getFilterProduct = async (req, res, next) => {
     const page = req.query.page || 1
-    const category = req.query.category
-    const manufacturer = req.query.manufacturer
+    const name = req.query.productName
+    const filterCategory = req.query.category
+    const filterManufacturer = req.query.manufacturer
     const sortBy = req.query.sortBy
     const sortOrder = req.query.sortOrder
     let filter = {}
-    if(category){filter.category = category}
-    if(manufacturer){filter.manufacturer = manufacturer}
-    let by;
-    switch(sortBy){
-        case 0: by = ""; break;
-        case 1: by = "creationTime"; break;
-        case 2: by = "price"; break;
-        case 3: by = "totalPrice"; break;
-    }
-    let order
-    switch(sortOrder){
-        case 0: order = ""; break;
-        case 1: order = "desc"; break;
-        case 2: order = "asc"; break;
-    }
+    if(name){filter.productName = {'$regex': name, $options: 'i'}}
+    if(filterCategory){filter.category = filterCategory}
+    if(filterManufacturer){filter.manufacturer = filterManufacturer}
     let sort = []
-    if(sort !== "" && order !== ""){
-        sort.push([by, order])
+    if(sortBy != '' && sortOrder != ''){
+        const order = (sortOrder == "asc") ? 1 : -1
+        sort = [[sortBy, order]]
     }
-    console.log(page)
-    console.log(filter, sort)
-    let product = await Product.find(filter).sort(sort).lean().exec()
-    product.slice((page - 1) * 10, page * 10)
-    const totalProductCount = await Product.countDocuments()
+    let product = await productService.getFilterProduct(filter, sort, page)
+    const totalProductCount = await productService.countFilterProduct(filter, sort)
     const totalPage = Math.ceil(totalProductCount / 10)
-    console.log(product.productName)
-    console.log(totalProductCount, totalPage)
-    res.send(product)
+    const fivePage = productService.getFivePage(totalPage, page)
+    res.json({
+        product: product,
+        fivePage: fivePage, 
+        totalPage: totalPage
+    })
 }
+const createForm = async (req, res, next) => {
+    const message = req.query.mess
+    const category = await productService.getAllCategory()
+    const manufacturer = await productService.getAllManufacturer()
+    res.render("admin/product/create-product", {
+        category: category,
+        manufacturer: manufacturer,
+        message: message,
+        layout: "adminLayout"
+    })
+}
+const updateForm = async (req, res, next) => {
+    const productID = req.params.id
+    if(!productID){
+        res.redirect("/product-admin")
+    } else {
+        const product = await productService.getProductByID(productID)
+        res.render("admin/product/update-product", {
+            product: product,
+            layout: "adminLayout"
+        })
+    }
+}
+
+
+const createProduct = async (req, res, next) => {
+    let mess = ""
+    const fileNames = req.files.map(file => file.filename);
+    const productName = req.body.productName
+    let price = parseInt(req.body.price) || 0
+    const category = req.body.category
+    const manufacturer = req.body.manufacturer
+    const status = req.body.status
+    const description = req.body.description
+
+    if(!productName){
+        mess = "Vui lòng nhập tên sản phẩm."
+        await productService.deleteFile(fileNames)
+        res.redirect("/product-admin/create-product?mess=" + mess)
+    } else if(isNaN(price)){
+        mess = "Giá tiền phải là số."
+        await productService.deleteFile(fileNames)
+        res.redirect("/product-admin/create-product?mess=" + mess)
+    } else {
+        try{ 
+            await productService.createNewProduct(productName, price, category, manufacturer, status, description, fileNames)
+            mess = "Thêm sản phẩm thành công."
+        } catch(error){
+            mess = "Không thể lưu vào cơ sở dữ liệu."
+        }
+        res.redirect("/product-admin/create-product?mess=" + mess)
+    }
+}
+
+const updateProduct = async (req, res, next) => {
+    let mess = ""
+    const productID = req.params.id 
+    const fileNames = req.files.map(file => file.filename);
+    const oldImg = req.body.oldImg
+    const productName = req.body.productName
+    let price = parseInt(req.body.price) || 0
+    const category = req.body.category
+    const manufacturer = req.body.manufacturer
+    const status = req.body.status
+    const description = req.body.description
+    const product = await productService.getProductByID(productID)
+    if(oldImg){
+        
+    }else if(product.productImg.length >= 5){
+        await productService.deleteFile(fileNames)
+        mess = "Đã có đủ 5 hình ảnh."
+        res.redirect("/product-admin/update-product/" + productID + "?mess=" + mess)
+    }else if(!productName){
+        await productService.deleteFile(fileNames)
+        mess = "Sản phẩm phải có tên."
+        res.redirect("/product-admin/update-product/" + productID + "?mess=" + mess)
+    }
+}
+
+const deleteProduct = async (req, res, next) => {
+    const productID = req.params.id
+}
+
 module.exports = {
     getAllProduct,
     getFilterProduct,
+    createForm,
+    updateForm,
+    createProduct,
+    deleteProduct,
+    updateProduct
 }

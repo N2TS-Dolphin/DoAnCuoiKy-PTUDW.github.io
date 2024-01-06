@@ -1,0 +1,71 @@
+{{#sections "css"}}
+    <link rel="stylesheet" type="text/css" href="/css/create-product.css">
+{{/sections}}
+{{#sections "js"}}
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/plugins/pace.min.js"></script>
+{{/sections}}
+<main class="app-content">
+    <div class="product-page">
+        <div class="section-one">
+            <p class="content-title">Thêm sản phẩm mới</p>
+        </div>
+        <div class="section-two">
+            <form action="/product-admin/create-product" method="POST" enctype="multipart/form-data">
+                <div class="component-column">
+                    <span class="label">Hình ảnh: Tối đa 5 hình</span>
+                    <input class="input" type="file" name="productImg" multiple/>
+                </div>
+
+                <div class="component">
+                    <span class="label">Tên sản phẩm: </span>
+                    <input class="input" type="text" name="productName" placeholder="Tên sản phẩm"/>
+                </div>
+                
+                <div class="component">
+                    <span class="label">Giá tiền: </span>
+                    <input class="input" type="number" name="price" placeholder="Giá tiền"/>
+                </div>
+                
+
+                <div class="component">
+                    <span class="label">Danh mục: </span>
+                    <select class="dropdown" name="category">
+                        {{#each category}}
+                            <option value="{{this.name}}">{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="component">
+                    <span class="label">Nhà sản xuất: </span>
+                    <select class="dropdown" name="manufacturer">
+                        {{#each manufacturer}}
+                            <option value="{{this.name}}">{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="component">
+                    <span class="label">Trạng thái: </span>
+                    <select class="dropdown" name="status">
+                        <option class="option" value="Còn hàng">Còn hàng</option>
+                        <option class="option" value="Hết hàng">Hết hàng</option>
+                    </select>
+                </div>
+                
+
+                <div class="component-column">
+                    <p class="label">Giới thiệu sản phẩm: </p>
+                    <textarea class="textarea" name="description" rows="30" cols="100" placeholder="Giới thiệu sản phẩm"></textarea>
+                </div>
+                
+                {{#if message}}<p class="label">Thông báo: {{message}}</p>{{/if}}
+                <button type="submit" class="submit-button">Thêm sản phẩm</button>
+            </form>
+        </div>
+    </div>
+</main>

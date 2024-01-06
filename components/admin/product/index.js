@@ -1,8 +1,16 @@
 const express = require('express');
-const router = express.Router();
 const productController = require("./product.controller")
 
-router.get("/", productController.getAllProduct)
-// router.get("/filter", productController.getFilterProduct)
+const productARouter = (upload) => {
+    const router = express.Router();
+    router.get("/", productController.getAllProduct)
+    router.get("/filter", productController.getFilterProduct)
+    router.get("/create-product", productController.createForm)
+    router.post("/create-product", upload.array('productImg', 5), productController.createProduct)
+    router.get("/update-product/:id", productController.updateForm)
+    router.post("/update-product/:id", upload.array('productImg', 1), productController.updateProduct)
+    router.get("/delete-product/:id", productController.deleteProduct)
 
-module.exports = router;
+    return router
+}
+module.exports = productARouter;
