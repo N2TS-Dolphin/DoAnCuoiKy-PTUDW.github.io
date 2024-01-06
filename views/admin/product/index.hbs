@@ -183,9 +183,10 @@
                     </div>
                     {{/each}}
                 </div>
-                
-                
             </div>
+
+            {{#if message}}<div class="message"><p class="table-content">Thông báo: {{message}}</p></div>{{/if}}
+            
             <div id="pagination">
                 <ul class="table-pagination">
                     <li><button type="button" class="page-link" data-page="1">
@@ -201,6 +202,7 @@
                     </button></li>
                 </ul>
             </div>
+            
         </div>
     </div>
 </main>

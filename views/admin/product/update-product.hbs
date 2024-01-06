@@ -26,7 +26,7 @@
                     <input class="input" type="file" name="productImg"/>
                 </div>
 
-                <div class="component">
+                <div class="component-column">
                     <span class="label">Hình ảnh muốn xóa (1 hình/lần):</span>
                     <select class="dropdown" name="oldImg">
                         <option value="">Không xóa</option>
@@ -46,19 +46,13 @@
                     <input class="input" type="number" name="price" value="{{product.price}}"/>
                 </div>
 
-                <div class="component">
-                    <span class="label">Ngày khởi tạo: Ngày {{product.creationTime}}</span>
+                <div class="component-line">
+                    <p class="label">Ngày khởi tạo: Ngày {{product.creationTime}}</p>
+                    <p class="label">Đánh giá: {{product.rating}} sao</p>
+                    <p class="label">Đã bán: {{product.totalPurchase}} sản phẩm</p>
                 </div>
                 
-                <div class="component">
-                    <span class="label">Đánh giá: {{product.rating}} sao</span>
-                </div>
-
-                <div class="component">
-                    <span class="label">Đã bán: {{product.totalPurchase}} sản phẩm</span>
-                </div>
-
-                <div class="component">
+                <div class="component-column">
                     <span class="label">Danh mục hiện tại: {{product.category}}</span>
                     <select class="dropdown" name="category">
                         <option value="{{product.category}}">{{product.category}}</option>
@@ -68,8 +62,8 @@
                     </select>
                 </div>
 
-                <div class="component">
-                    <span class="label">Nhà sản xuất: </span>
+                <div class="component-column">
+                    <span class="label">Nhà sản xuất hiện tại: {{product.manufacturer}}</span>
                     <select class="dropdown" name="manufacturer">
                         <option value="{{product.manufacturer}}">{{product.manufacturer}}</option>
                         {{#each manufacturer}}
@@ -78,8 +72,8 @@
                     </select>
                 </div>
 
-                <div class="component">
-                    <span class="label">Trạng thái: </span>
+                <div class="component-column">
+                    <span class="label">Trạng thái hiện tại: {{product.status}}</span>
                     <select class="dropdown" name="status">
                         <option value="{{product.status}}">{{product.status}}</option>
                         <option class="option" value="Còn hàng">Còn hàng</option>
@@ -90,7 +84,7 @@
 
                 <div class="component-column">
                     <p class="label">Giới thiệu sản phẩm: </p>
-                    <textarea class="textarea" name="description" rows="30" cols="100" value="{{product.description}}"></textarea>
+                    <textarea class="textarea" name="description" rows="30" cols="100">{{product.description}}</textarea>
                 </div>
                 
                 {{#if message}}<p class="label">Thông báo: {{message}}</p>{{/if}}

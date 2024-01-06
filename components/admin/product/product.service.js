@@ -4,7 +4,10 @@ const fs = require('fs/promises');
 const path = require('path');
 
 const formatDate = (date) => {
-    const result = date.getDate() + "/" + date.getMonth() + "/" + date.getYear()
+    const day = date.getDate()
+    const month = date.getMonth() + 1
+    const year = date.getFullYear()
+    const result = day + "/" + month + "/" + year
     return result
 }
 
@@ -99,6 +102,7 @@ const getProductByID = async (productID) => {
         date = formatDate(product.creationTime)
     }
     const result = {
+        _id: product._id,
         productImg: product.productImg,
         productName: product.productName,
         price: product.price,
@@ -112,6 +116,54 @@ const getProductByID = async (productID) => {
     }
     return result 
 }
+
+const deleteProductImg = async (productID, oldImg) => {
+    const product = await Product.findOneAndUpdate(
+        {_id: productID}, {
+            $pullAll: {
+                productImg: [oldImg]
+            }
+        },{new: true}
+    )
+}
+
+const updateProduct = async (productID, productName, price, category,
+    manufacturer, status, description, fileNames) => {
+    if(productName){
+        const product = await Product.findOneAndUpdate({_id: productID}, {productName: productName},{new: true})
+    }
+    if(category){
+        const product = await Product.findOneAndUpdate({_id: productID}, {category: category},{new: true})
+    }
+    if(manufacturer){
+        const product = await Product.findOneAndUpdate({_id: productID}, {manufacturer: manufacturer},{new: true})
+    }
+    if(price){
+        const product = await Product.findOneAndUpdate({_id: productID}, {price: price},{new: true})
+    }
+    if(status){
+        const product = await Product.findOneAndUpdate({_id: productID}, {status: status},{new: true})
+    }
+    if(description){
+        const product = await Product.findOneAndUpdate({_id: productID}, {description: description},{new: true})
+    }
+    if(fileNames){
+        const product = await Product.findOneAndUpdate(
+            {_id: productID}, {
+                $push: {
+                    productImg: fileNames
+                }
+            },{new: true}
+        )
+        console.log("Updated productImg: " + product.productImg)
+    }
+}
+
+const deleteProduct = async (productID) => {
+    const product = await Product.findOne({_id: productID}).lean().exec()
+    await deleteFile(product.productImg)
+    return await Product.findOneAndDelete({_id: productID})
+}
 module.exports = {
     getAllProduct,
     countAllProduct,
@@ -122,5 +174,8 @@ module.exports = {
     countFilterProduct,
     createNewProduct,
     deleteFile,
-    getProductByID
+    getProductByID,
+    deleteProductImg,
+    updateProduct,
+    deleteProduct
 }

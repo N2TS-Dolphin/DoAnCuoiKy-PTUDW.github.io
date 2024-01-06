@@ -2,6 +2,7 @@ const productService = require("./product.service")
 const fs = require('fs/promises');
 
 const getAllProduct = async (req, res, next) => {
+    const message = req.query.mess 
     const page = 1
     let product = await productService.getAllProduct(page)
     const totalProductCount = await productService.countAllProduct()
@@ -16,6 +17,7 @@ const getAllProduct = async (req, res, next) => {
         page: page,
         totalPage: totalPage,
         fivePage: fivePage,
+        message: message,
         layout: "adminLayout"
     })
 }
@@ -58,13 +60,19 @@ const createForm = async (req, res, next) => {
     })
 }
 const updateForm = async (req, res, next) => {
+    const message = req.query.mess
     const productID = req.params.id
     if(!productID){
         res.redirect("/product-admin")
     } else {
         const product = await productService.getProductByID(productID)
+        const category = await productService.getAllCategory()
+        const manufacturer = await productService.getAllManufacturer()
         res.render("admin/product/update-product", {
+            category: category,
+            manufacturer: manufacturer,
             product: product,
+            message: message,
             layout: "adminLayout"
         })
     }
@@ -94,6 +102,7 @@ const createProduct = async (req, res, next) => {
             await productService.createNewProduct(productName, price, category, manufacturer, status, description, fileNames)
             mess = "Thêm sản phẩm thành công."
         } catch(error){
+            await productService.deleteFile(fileNames)
             mess = "Không thể lưu vào cơ sở dữ liệu."
         }
         res.redirect("/product-admin/create-product?mess=" + mess)
@@ -111,22 +120,46 @@ const updateProduct = async (req, res, next) => {
     const manufacturer = req.body.manufacturer
     const status = req.body.status
     const description = req.body.description
-    const product = await productService.getProductByID(productID)
+    
     if(oldImg){
-        
-    }else if(product.productImg.length >= 5){
+        await productService.deleteProductImg(productID, oldImg)
+        const deteteImg = [oldImg]
+        await productService.deleteFile(deteteImg)
+    } 
+    const product = await productService.getProductByID(productID)
+    if(product.productImg.length >= 5 && fileNames){
         await productService.deleteFile(fileNames)
         mess = "Đã có đủ 5 hình ảnh."
         res.redirect("/product-admin/update-product/" + productID + "?mess=" + mess)
-    }else if(!productName){
+    } else if(!productName){
         await productService.deleteFile(fileNames)
         mess = "Sản phẩm phải có tên."
+        res.redirect("/product-admin/update-product/" + productID + "?mess=" + mess)
+    } else if(isNaN(price)){
+        mess = "Giá tiền phải là số."
+        await productService.deleteFile(fileNames)
+        res.redirect("/product-admin/update-product/" + productID + "?mess=" + mess)
+    } else {
+        try{ 
+            await productService.updateProduct(productID, productName, price, category, manufacturer, status, description, fileNames)
+            mess = "Thay đổi thành công."
+        } catch(error){
+            mess = "Không thể lưu vào cơ sở dữ liệu."
+        }
         res.redirect("/product-admin/update-product/" + productID + "?mess=" + mess)
     }
 }
 
 const deleteProduct = async (req, res, next) => {
+    let mess = ""
     const productID = req.params.id
+    try{ 
+        await productService.deleteProduct(productID)
+        mess = "Đã xóa sản phẩm."
+    } catch(error){
+        mess = "Không thể xóa ra khỏi cơ sở dữ liệu."
+    }
+    res.redirect("/product-admin?mess=" + mess)
 }
 
 module.exports = {
