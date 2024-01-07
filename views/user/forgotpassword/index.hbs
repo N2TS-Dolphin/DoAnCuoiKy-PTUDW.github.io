@@ -5,9 +5,9 @@
     <!-- row -->
     <div class="row" style="width: 60%; margin: 0px auto;">
       <div class="col-sm-2" style="width: 100%; padding: 0px 10px 0px 0px;">
-        <p style="text-align: center;">Đăng nhập</p>
+        <p style="text-align: center;">Quên mật khẩu</p>
 
-        <form action="/login" method="post">
+        <form action="/forgotpassword" method="post">
 
           <div class="form-group">
             <label for="email">Email:</label>
@@ -20,20 +20,6 @@
             />
           </div>
 
-          <div class="form-group">
-            <label for="password">Password:</label>
-            <input
-              type="password"
-              class="form-control"
-              id="password"
-              placeholder="Enter password"
-              name="password"
-            />
-          </div>
-
-          <a href="/forgotpassword">Quên mật khẩu?</a><br>
-          <a href="/signup">Chưa có tài khoản?</a>
-
           <div style="background-color: red; margin-top: 10px;">
             {{#if hasErrors}}
               {{#each messages}}
@@ -45,7 +31,7 @@
             {{/if}}
           </div>
 
-          <button type="submit" class="btn btn-default">Log in</button>
+          <button type="submit" class="btn btn-default">Gửi</button>
 
         </form>
       </div>

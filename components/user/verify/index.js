@@ -2,7 +2,6 @@ var express = require("express");
 var passport = require("passport");
 var router = express.Router();
 const Account = require("../../account/account.model");
-var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
 
 router.get("/", function (req, res, next) {
