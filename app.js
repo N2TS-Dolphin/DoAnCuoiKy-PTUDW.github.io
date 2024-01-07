@@ -70,31 +70,30 @@ const hbs = express_handlebars.create({
   }
 });
 
-
 var app = express();
+
 // Passport
-require('./config/passport'); //vượt qua passport để config trang đăng nhâp/đăng ký
+require('./config/passport');
+
 app.use(session({
   secret: 'adsa897adsa98bs',
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false }
 }))
+
 app.use(flash());
 app.use(passport.initialize())
 app.use(passport.session());
 
-// Set up multer storage
-// let uploadCounter = 0
 const storage = multer.diskStorage({
-  destination: "./public/img/", // specify the folder where images will be stored
+  destination: "./public/img/",
   filename: function (req, file, cb) {
     // uploadCounter++
     setTimeout(() => {}, 100);
     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
   },
 });
-// uploadCounter = 0
 const upload = multer({ storage });
 
 
@@ -102,13 +101,13 @@ var indexRouter = require('./components/user/home/index.js');
 var loginRouter = require('./components/user/login/index.js');
 var signupRouter = require('./components/user/signup/index.js');
 var verifyRouter = require('./components/user/verify/index.js');
-// var homeLoggedUserRouter = require('./components/logged_user/home');
-var logoutRouter = require('./components/user/logout')
-var collectionRouter = require('./components/user/collection/index')
-var productRouter = require('./components/user/product/index.js')
-var homeARouter = require('./components/admin/home/index.js')
-var productARouter = require('./components/admin/product/index.js')
-var orderARouter = require('./components/admin/order/index.js')
+var logoutRouter = require('./components/user/logout');
+var collectionRouter = require('./components/user/collection/index');
+var productRouter = require('./components/user/product/index.js');
+var homeARouter = require('./components/admin/home/index.js');
+var productARouter = require('./components/admin/product/index.js');
+var orderARouter = require('./components/admin/order/index.js');
+var cartRouter = require('./components/user/shoppingcart/index.js');
 
 // view engine setup
 app.engine("hbs", hbs.engine);
@@ -132,6 +131,7 @@ app.use('/product', productRouter);
 app.use('/home-admin', homeARouter);
 app.use('/product-admin', productARouter(upload));
 app.use('/order-admin', orderARouter);
+app.use('/shoppingcart', cartRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
