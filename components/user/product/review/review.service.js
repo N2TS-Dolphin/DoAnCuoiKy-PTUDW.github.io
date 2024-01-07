@@ -35,7 +35,7 @@ const getProductReview = async (productID) => {
                             + "/" + review.creationTime.getMonth() 
                             + "/" + review.creationTime.getFullYear()
         productReviews.push({
-            name: review.accountID.name,
+            name: review.accountID.email,
             rating: review.rating,
             content: review.content,
             creationTime: creationTime
