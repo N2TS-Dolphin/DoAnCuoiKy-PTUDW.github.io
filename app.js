@@ -92,7 +92,7 @@ const storage = multer.diskStorage({
   destination: "./public/img/",
   filename: function (req, file, cb) {
     uploadCounter++
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    cb(null, file.fieldname + '-' + Date.now() + "-" + uploadCounter + path.extname(file.originalname));
   },
 });
 const upload = multer({ storage });
