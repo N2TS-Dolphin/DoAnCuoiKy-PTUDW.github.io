@@ -9,7 +9,6 @@ const displayProduct = async (req, res, next) => {
       product.category,
       product._id
     );
-    console.log(req.session.user);
     res.render("user/product/index", {
       product: product,
       reviews: reviews,

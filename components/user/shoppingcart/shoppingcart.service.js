@@ -1,24 +1,59 @@
-const {OrderItem, Order} = require('../order/order.model');
+const { OrderItem, Order } = require("../order/order.model");
+const { Account } = require("../../account/account.model");
+const mongoose = require('mongoose');
 
-const ShoppingCartService = {
-    cart: [],
+async function getAccountID(username) {
+  const account = await Account.findOne({ email: username }).lean();
+  const id = account._id
+  return id;
+}
+
+const createShoppingCart = async function (req, res, next) {
+  const accountID = getAccountID(req.session.user);
   
-    // Thêm sản phẩm vào giỏ hàng
-    addToCart: function (product) {
-      this.cart.push(product);
-    },
-  
-    // Xóa sản phẩm khỏi giỏ hàng
-    removeFromCart: function (productName) {
-      this.cart = this.cart.filter(product => product.name !== productName);
-    },
-  
-    // Lấy thông tin giỏ hàng
-    getCart: function () {
-      return this.cart;
-    }
+  let newCart = new Order({
+    accountID: mongoose.Types.ObjectId(accountID),
+    totalPrice: 0,
+    status: "Đang giao",
+  });
+
+  return newCart;
+};
+
+const createOrderItem = async function (product) {
+  let newOrder = new OrderItem({
+    name: product.name,
+    quantity: product.quantity,
+    price: product.price,
+  });
+};
+
+const getShoppingCart = async (id) => {
+  const cartData = await Order.findOne({ accountID: id })
+    .populate("orderItemID")
+    .lean();
+
+  let totalPrice = 0;
+  for (let orderItem of cartData.orderItemID) {
+    totalPrice += orderItem.price * orderItem.quantity;
+  }
+
+  const cart = {
+    _id: cartData._id,
+    orderItemID: cartData.orderItemID,
+    totalPrice: totalPrice,
+    address: "",
+    status: "Chờ",
+    orderTime: "",
   };
-  
-  // Xuất đối tượng để có thể sử dụng từ các tệp khác
-  export default ShoppingCartService;
-  
+
+  return cart;
+};
+
+// Xuất đối tượng để có thể sử dụng từ các tệp khác
+module.exports = {
+  getAccountID,
+  createShoppingCart,
+  createOrderItem,
+  getShoppingCart,
+};

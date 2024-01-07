@@ -86,12 +86,13 @@ app.use(flash());
 app.use(passport.initialize())
 app.use(passport.session());
 
+// Set up multer storage
+let uploadCounter = 0
 const storage = multer.diskStorage({
   destination: "./public/img/",
   filename: function (req, file, cb) {
-    // uploadCounter++
-    setTimeout(() => {}, 100);
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    uploadCounter++
+    cb(null, file.fieldname + '-' + Date.now() + "-" + uploadCounter + path.extname(file.originalname));
   },
 });
 const upload = multer({ storage });
@@ -109,6 +110,7 @@ var productARouter = require('./components/admin/product/index.js');
 var orderARouter = require('./components/admin/order/index.js');
 var cartRouter = require('./components/user/shoppingcart/index.js');
 var forgotpasswordRouter = require('./components/user/forgotpassword/index.js');
+var userProfilePath = require('./components/user/profile/index.js')
 
 // view engine setup
 app.engine("hbs", hbs.engine);
@@ -134,6 +136,7 @@ app.use('/product-admin', productARouter(upload));
 app.use('/order-admin', orderARouter);
 app.use('/shoppingcart', cartRouter);
 app.use('/forgotpassword', forgotpasswordRouter);
+app.use('/user-profile', userProfilePath);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

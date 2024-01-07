@@ -1,68 +1,87 @@
-const { Product, Review } = require("./product.model")
+const { Product, Review } = require("./product.model");
 
 const getProductByID = async (id) => {
-	const products = await Product.findById(id).lean()
-	const creationTime = products.creationTime.getDate() 
-                            + "/" + products.creationTime.getMonth() 
-                            + "/" + products.creationTime.getFullYear() 
-	const product = {
-		_id: products._id,
-		productName: products.productName,
-		price: products.price,
-		productImg: products.productImg,
-		status: products.status,
-		category: products.category,
-		manufacturer: products.manufacturer,
-		creationTime: creationTime,
-		rating: products.rating,
-		description: products.description,
-		totalPurchase: products.totalPurchase
-	}
-    return product
-}
+  const products = await Product.findById(id).lean();
+  const creationTime =
+    products.creationTime.getDate() +
+    "/" +
+    products.creationTime.getMonth() +
+    "/" +
+    products.creationTime.getFullYear();
+  const product = {
+    _id: products._id,
+    productName: products.productName,
+    price: products.price,
+    productImg: products.productImg,
+    status: products.status,
+    category: products.category,
+    manufacturer: products.manufacturer,
+    creationTime: creationTime,
+    rating: products.rating,
+    description: products.description,
+    totalPurchase: products.totalPurchase,
+  };
+  return product;
+};
 const getRelatedProduct = async (category, currentID) => {
-    return await Product.find({category: category, _id: {$ne: currentID}}).lean()
-}
-const sortProductsByTime = (productData) => {
-	const sortedProducts = [...productData];
+  const product = await Product.find({
+    category: category,
+    _id: { $ne: currentID },
+  }).limit(8).lean();
 
-	sortedProducts.sort((a, b) => {
-	  const timeA = new Date(a.creationTime).getTime();
-	  const timeB = new Date(b.creationTime).getTime();
-	  return timeB - timeA;
-	});
-  
-	return sortedProducts;
+  let productsData = []
+  for(const each of product){
+    const temp = {
+      _id: each._id,
+      productName: each.productName,
+      category: each.category,
+      manufacturer: each.manufacturer,
+      price: each.price,
+      productImg: each.productImg[0]
+    }
+    productsData.push(temp)
+  }
+  return productsData
+};
+const sortProductsByTime = (productData) => {
+  const sortedProducts = [...productData];
+
+  sortedProducts.sort((a, b) => {
+    const timeA = new Date(a.creationTime).getTime();
+    const timeB = new Date(b.creationTime).getTime();
+    return timeB - timeA;
+  });
+
+  return sortedProducts;
 };
 
 const sortProductsByPriceDes = (productData) => {
-	const sortedProducts = [...productData];
+  const sortedProducts = [...productData];
 
-	sortedProducts.sort((a, b) => {
-		const priceA = a.price;
-		const priceB = b.price;
-		return priceB - priceA;
-	});
+  sortedProducts.sort((a, b) => {
+    const priceA = a.price;
+    const priceB = b.price;
+    return priceB - priceA;
+  });
 
-	return sortedProducts;
+  return sortedProducts;
 };
 
 const sortProductsByPriceAsc = (productData) => {
-	const sortedProducts = [...productData];
+  const sortedProducts = [...productData];
 
-	sortedProducts.sort((a, b) => {
-		const priceA = a.price;
-		const priceB = b.price;
-		return priceA - priceB;
-	});
+  sortedProducts.sort((a, b) => {
+    const priceA = a.price;
+    const priceB = b.price;
+    return priceA - priceB;
+  });
 
-    
-	return sortedProducts;
+  return sortedProducts;
 };
 module.exports = {
-    getProductByID,
-    getRelatedProduct,
-    sortProductsByTime,
-    sortProductsByPriceDes,
-    sortProductsByPriceAsc
-}
+  getProductByID,
+  getRelatedProduct,
+  sortProductsByTime,
+  sortProductsByPriceDes,
+  sortProductsByPriceAsc,
+};
