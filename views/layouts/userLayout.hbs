@@ -53,21 +53,23 @@
         </ul>
         <ul class="header-links pull-right">
           {{#if account}}
-            <li style="color: #fff;">
+          <li style="color: #fff;">
+            <a href="/user-profile">
               <p><i class="fa fa-user-o"></i>{{account}}</p>
-            </li>
-            <li style="color: #fff;">/</li>
-            <li><a href="/logout">
-                  Log out</a></li>
+            </a>
+          </li>
+          <li style="color: #fff;">/</li>
+          <li><a href="/logout">
+              Log out</a></li>
           {{else}}
-            <li><a href="/login"><i class="fa fa-user-o"></i>
-                Log in</a></li>
-            <li style="color: #fff;">/</li>
-            <li>
-              <a href="/signup"><i class="fa "></i>Sign up</a>
-            </li>
+          <li><a href="/login"><i class="fa fa-user-o"></i>
+              Log in</a></li>
+          <li style="color: #fff;">/</li>
+          <li>
+            <a href="/signup"><i class="fa "></i>Sign up</a>
+          </li>
           {{/if}}
-          
+
         </ul>
       </div>
     </div>
@@ -96,8 +98,8 @@
           <div class="col-md-6">
             <div class="header-search">
               <form action="/collection" method="get">
-                <input id="search" class="input" placeholder="Search here" name="search" 
-                  {{#if currentSearch}} value="{{currentSearch}}" {{/if}} />
+                <input id="search" class="input" placeholder="Search here" name="search" {{#if currentSearch}}
+                  value="{{currentSearch}}" {{/if}} />
                 <button class="search-btn">Search</button>
               </form>
             </div>
