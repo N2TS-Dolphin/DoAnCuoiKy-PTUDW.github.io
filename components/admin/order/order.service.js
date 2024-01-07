@@ -65,13 +65,16 @@ const findOrderByID = async (orderID) => {
     for(const each of order.orderItemID){
         const orderItem = await OrderItem.findOne({_id: each._id}).populate("productID").exec()
         if(orderItem){
-            const temp = {
-                productName: orderItem.productID.productName,
-                productPrice: orderItem.productID.price,
-                quantity: orderItem.quantity,
-                price: orderItem.price
-            }
-            orderItems.push(temp)
+            try{
+                console.log(orderItem)
+                const temp = {
+                    productName: orderItem.productID.productName,
+                    productPrice: orderItem.productID.price,
+                    quantity: orderItem.quantity,
+                    price: orderItem.price
+                }
+                orderItems.push(temp)
+            }catch(error){}
         } 
     }
 

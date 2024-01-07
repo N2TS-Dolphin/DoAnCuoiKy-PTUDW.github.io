@@ -3,15 +3,14 @@ const { Account } = require("../../account/account.model");
 const mongoose = require('mongoose');
 
 async function getAccountID(username) {
-  const account = await Account.findOne({ email: username });
-
-  return account._id;
+  const account = await Account.findOne({ email: username }).lean();
+  const id = account._id
+  return id;
 }
 
 const createShoppingCart = async function (req, res, next) {
   const accountID = getAccountID(req.session.user);
-  console.log(accountID);
-
+  
   let newCart = new Order({
     accountID: mongoose.Types.ObjectId(accountID),
     totalPrice: 0,
