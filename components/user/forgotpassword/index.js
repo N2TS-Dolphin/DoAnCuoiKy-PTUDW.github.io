@@ -6,13 +6,13 @@ var router = express.Router();
 const { Account } = require("../../account/account.model");
 
 var transporter = nodemailer.createTransport({
-    // configure your email service
-    service: "gmail",
-    auth: {
-      user: "ntson21@clc.fitus.edu.vn",
-      pass: "Ntson2101296773776",
-    },
-  });
+  // configure your email service
+  service: "gmail",
+  auth: {
+    user: "ntson21@clc.fitus.edu.vn",
+    pass: "Ntson2101296773776",
+  },
+});
 
 router.get("/", function (req, res, next) {
   var messages = req.flash("error");
