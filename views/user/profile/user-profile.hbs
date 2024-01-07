@@ -1,8 +1,14 @@
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right"> 
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold"></span><span class="text-black-50">{{account}}</span><span> </span></div>
-            <div class="mt-5 text-center" style="margin: 20px;"><button class="btn btn-primary profile-button" type="button">Change avatar</button></div>
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img class="rounded-circle mt-5" width="150px" id="profile-image" src="">
+                <span class="text-black-50">{{account}}</span>
+            </div>
+            <div class="mt-5 text-center" style="margin: 20px;">
+                <button class="btn btn-primary profile-button" type="button" onclick="openFileInput()">Change avatar</button>
+                <input type="file" id="avatar-input" style="display: none;" accept="image/*">
+            </div>
         </div>
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
@@ -15,7 +21,7 @@
                     <div class="col-md-12"><label class="labels">New password</label><input type="text" class="form-control" placeholder="New password" value=""></div>
                 </div>
                 
-                <div class="mt-5 text-center" style="margin: 20px;""><button class="btn btn-primary profile-button" type="button">Change password</button></div>
+                <div class="mt-5 text-center" style="margin: 20px;"><button class="btn btn-primary profile-button" type="button">Change password</button></div>
             </div>
         </div>
        
@@ -23,3 +29,50 @@
 </div>
 </div>
 </div>
+<script>
+    function openFileInput() {
+    const input = document.getElementById('avatar-input');
+    input.click();
+
+    input.addEventListener('change', () => {
+        const file = input.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('avatar', file);
+
+            fetch('/user-profile/api/avatar', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('profile-image').src = data.avatar;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+}
+
+</script>
+<script>
+    // Assume avatarPath là đường dẫn avatar trả về từ máy chủ
+    const avatarPath = '/avatar/{{account}}.png'; // Đường dẫn mẫu, thay đổi tùy theo cách bạn lưu trữ avatar
+
+    const imgElement = document.getElementById('profile-image');
+
+    // Kiểm tra xem tệp tồn tại hay không
+    fetch(avatarPath)
+        .then(response => {
+            if (response.ok) {
+                imgElement.src = avatarPath;
+            } else {
+                // Sử dụng ảnh mặc định nếu không tìm thấy avatar
+                imgElement.src = 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Xử lý lỗi và sử dụng ảnh mặc định
+            imgElement.src = 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg';
+        });
+</script>
