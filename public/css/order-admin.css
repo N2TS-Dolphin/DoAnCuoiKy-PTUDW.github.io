@@ -98,10 +98,17 @@
     border: 1px solid black;
 }
 .table-cell{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     width: 140px;
     background-color: white;
     padding: 5px;
     border: 1px solid black;
+}
+.order-id{
+    width: 300px !important;
 }
 .table-content{
     color: black;
@@ -112,16 +119,6 @@
 }
 .update-button{
     background-color: yellow;
-    color: black;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 100%;
-    padding: 2px;
-    border: 1px solid black;
-    margin: 0;
-}
-.delete-button{
-    background-color: red;
     color: black;
     font-weight: 400;
     font-size: 16px;
