@@ -31,6 +31,7 @@ router.post("/", async (req, res) => {
 
   if (!user) {
     // Người dùng không tồn tại, có thể thêm xử lý lỗi tại đây
+    req.flash("error", "Not Found User.");
     return res.redirect("/forgotpassword");
   }
 
