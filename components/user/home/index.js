@@ -34,6 +34,7 @@ router.get("/", async function (req, res, next) {
     msiProduct: msiProduct,
     asusProduct: asusProduct,
     oppoProduct: oppoProduct,
+    account: req.session.user,
     layout: "userLayout",
   });
 });
