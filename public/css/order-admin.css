@@ -1,0 +1,146 @@
+.order-page{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto';
+    border: 1px outset white;
+    border-radius: 10px;
+    margin: 10px;
+}
+.section-one{
+    padding: 30px 30px 0px 30px;
+}
+.content-title{
+    color: black;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 100%;
+    margin: 0;
+}
+.section-two{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 30px 30px 0px 30px;
+}
+.filter-line{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 20px
+}
+.input{
+    width: fit-content;
+    color: black;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 100%;
+    margin: 0;
+}
+.dropdown{
+    width: fit-content;
+    color: black;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 100%;
+    margin: 0;
+}
+.filter-label{
+    color: black;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 100%;
+    margin: 0;
+}
+.button{
+    background-color: greenyellow;
+    color: black;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 100%;
+    padding: 5px;
+    border: 1px solid black;
+    margin: 0;
+}
+.link{
+    text-decoration: none;
+}
+.section-three{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 30px 30px 0px 30px;
+}
+.table{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: fit-content;
+    gap: 0px;
+    margin: 0;
+    border: 1px solid black;
+}
+.table-row{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0px;
+    margin: 0;
+}
+.table-column-cell{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 140px;
+    background-color: greenyellow;
+    padding: 5px;
+    border: 1px solid black;
+}
+.table-cell{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 140px;
+    background-color: white;
+    padding: 5px;
+    border: 1px solid black;
+}
+.order-id{
+    width: 300px !important;
+}
+.table-content{
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 100%;
+    margin: 0;
+}
+.update-button{
+    background-color: yellow;
+    color: black;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 100%;
+    padding: 2px;
+    border: 1px solid black;
+    margin: 0;
+}
+.table-pagination{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 5px;
+    list-style-type: none;
+}
+.page-link{
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 100%;
+    padding: 10px 15px 10px 15px;
+    border: 1px solid black;
+    margin: 0;
+}

@@ -1,0 +1,151 @@
+{{#sections "css"}}
+    <link rel="stylesheet" type="text/css" href="/css/order-admin.css">
+{{/sections}}
+{{#sections "js"}}
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/plugins/pace.min.js"></script>
+    <script>
+        function htmlOrder(order){
+            let html = ""
+            for(const o of order){
+                html += "<div class='table-row'>" +
+                            "<div class='table-cell order-id'><p class='table-content'>" + o._id + "</p></div>" +
+                            "<div class='table-cell'><p class='table-content'>" + o.address + "</p></div>" +
+                            "<div class='table-cell'><p class='table-content'>" + o.orderTime + "</p></div>" +
+                            "<div class='table-cell'><p class='table-content'>" + o.status + "</p></div>" +
+                            "<div class='table-cell'><p class='table-content'>" + o.totalPrice + "VNĐ</p></div>" +
+                            "<div class='table-cell'>" +
+                                "<a class='link' href='/order-admin/order-detail/" + o._id + "'><button type='button' class='update-button' id='update-button'>Sửa</button></a>" +
+                            "</div>" +
+                        "</div>"
+            }
+            return html
+        }
+        function html2Gen(fivePage, totalPage){
+            let html = "<ul class='table-pagination'>" +
+                            "<li><button type='button' class='page-link' data-page='1'>" +
+                                "<i class='fa fa-angle-left'></i><i class='fa fa-angle-left'></i>" +
+                            "</button></li>";
+            for(const each of fivePage){
+                html += "<li>" +
+                            "<button type='button' class='page-link' data-page='" + each + "'>" + each + "</button>" +
+                        "</li>";
+            }
+            html += "<li><button type='button' class='page-link' data-page='"+ totalPage + "'>" +
+                        "<i class='fa fa-angle-right'></i><i class='fa fa-angle-right'></i>" +
+                    "</button></li>" +
+                "</ul>";
+            return html
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#filter-button').on('click', function(e){
+                e.preventDefault();
+                const page = 1;
+                const status = $('#status').val();
+                console.log(page, status)
+                const url = "/order-admin/filter?" + "page=" + page
+                + "&status=" + status
+                console.log(url)
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function (res) {
+                        let html = htmlOrder(res.order)
+                        $("#table-content").html(html)
+                        html = html2Gen(res.fivePage, res.totalPage)
+                        $("#pagination").html(html)
+                    }
+                });
+            })
+            $('#pagination').on('click', '.page-link', function (e) {
+                e.preventDefault();
+                const page = $(this).data('page');
+                const status = $('#status').val();
+
+                const url = "/order-admin/filter?" + "page=" + page
+                + "&status=" + status
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function (res) {
+                        let html = htmlOrder(res.order)
+                        $("#table-content").html(html)
+                        html = html2Gen(res.fivePage, res.totalPage)
+                        $("#pagination").html(html)
+                    }
+                });
+            });
+        });
+    </script>
+{{/sections}}
+<main class="app-content">
+    <div class="order-page">
+        <div class="section-one">
+            <p class="content-title">Danh sách đơn hàng</p>
+        </div>
+        <div class="section-two">
+            <div class="filter-line">
+                <div class="dropdown">
+                    <span class="filter-label">Trạng thái: </span>
+                    <select id="status" id>
+                        <option value="">Không lọc</option>
+                        <option value="Đang giao">Đang giao</option>
+                        <option value="Hoàn thành">Hoàn thành</option>
+                        <option value="Đã hủy">Đã hủy</option>
+                    </select>
+                </div>
+                <button type="button" class="button" id="filter-button">Tìm kiếm</button>
+            </div>
+        </div>
+        <div class="section-three">
+            <div class="table">
+                <div class="table-row">
+                    <div class="table-column-cell order-id"><p class="table-content">ID đơn hàng</p></div>
+                    <div class="table-column-cell"><p class="table-content">Địa chỉ</p></div>
+                    <div class="table-column-cell"><p class="table-content">Ngày đặt hàng</p></div>
+                    <div class="table-column-cell"><p class="table-content">Trạng thái</p></div>
+                    <div class="table-column-cell"><p class="table-content">Tổng giá tiền</p></div>
+                    <div class="table-column-cell"></div>
+                </div>
+                
+                <div id="table-content">
+                    {{#each order}}
+                    <div class="table-row">
+                        <div class="table-cell order-id"><p class="table-content">{{this._id}}</p></div>
+                        <div class="table-cell"><p class="table-content">{{this.address}}</p></div>
+                        <div class="table-cell"><p class="table-content">{{this.orderTime}}</p></div>
+                        <div class="table-cell"><p class="table-content">{{this.status}}</p></div>
+                        <div class="table-cell"><p class="table-content">{{this.totalPrice}}VNĐ</p></div>
+                        <div class="table-cell">
+                            <a class="link" href="/order-admin/order-detail/{{this._id}}"><button type="button" class="update-button" id="update-button">Sửa</button></a>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+
+            <div id="pagination">
+                <ul class="table-pagination">
+                    <li><button type="button" class="page-link" data-page="1">
+                        <i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i>
+                    </button></li>
+                    {{#each fivePage}}
+                        <li>
+                            <button type="button" class="page-link" data-page="{{this}}">{{this}}</button>
+                        </li>
+                    {{/each}}
+                    <li><button type="button" class="page-link" data-page="{{totalPage}}">
+                        <i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i>
+                    </button></li>
+                </ul>
+            </div>
+            
+        </div>
+    </div>
+</main>

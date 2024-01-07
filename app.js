@@ -13,6 +13,8 @@ const express_handlebars_sections = require('express-handlebars-sections');
 var paginate = require('handlebars-paginate')
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
+const multer = require('multer');
+const fs = require('fs/promises');
 
 // // Kết nối đến database
 // mongoose.connect('mongodb+srv://404foundbugs:404foundbugs@websitedatabase.746k9dj.mongodb.net/GA2?retryWrites=true&w=majority', {useNewUrlParser:true, useUnifiedTopology: true});
@@ -82,6 +84,20 @@ app.use(flash());
 app.use(passport.initialize())
 app.use(passport.session());
 
+// Set up multer storage
+// let uploadCounter = 0
+const storage = multer.diskStorage({
+  destination: "./public/img/", // specify the folder where images will be stored
+  filename: function (req, file, cb) {
+    // uploadCounter++
+    setTimeout(() => {}, 100);
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  },
+});
+// uploadCounter = 0
+const upload = multer({ storage });
+
+
 var indexRouter = require('./components/user/home/index.js');
 var loginRouter = require('./components/user/login/index.js');
 var signupRouter = require('./components/user/signup/index.js');
@@ -92,6 +108,7 @@ var collectionRouter = require('./components/user/collection/index')
 var productRouter = require('./components/user/product/index.js')
 var homeARouter = require('./components/admin/home/index.js')
 var productARouter = require('./components/admin/product/index.js')
+var orderARouter = require('./components/admin/order/index.js')
 
 // view engine setup
 app.engine("hbs", hbs.engine);
@@ -113,7 +130,8 @@ app.use('/logout', logoutRouter);
 app.use('/collection', collectionRouter);
 app.use('/product', productRouter);
 app.use('/home-admin', homeARouter);
-app.use('/product-admin', productARouter);
+app.use('/product-admin', productARouter(upload));
+app.use('/order-admin', orderARouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

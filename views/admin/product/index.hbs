@@ -2,11 +2,47 @@
     <link rel="stylesheet" type="text/css" href="/css/product-admin.css">
 {{/sections}}
 {{#sections "js"}}
-    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/plugins/pace.min.js"></script>
+    <script>
+        function htmlProduct(product){
+            let html = ""
+            for(const p of product){
+                html += "<div class='table-row'>" +
+                            "<div class='table-cell'><p class='table-content'>" + p.productName + "</p></div>" +
+                            "<div class='table-cell'><p class='table-content'>" + p.category + "</p></div>" +
+                            "<div class='table-cell'><p class='table-content'>" + p.manufacturer + "</p></div>" +
+                            "<div class='table-cell'><p class='table-content'>" + p.status + "</p></div>" +
+                            "<div class='table-cell'><p class='table-content'>" + p.creationTime + "</p></div>" +
+                            "<div class='table-cell'><p class='table-content'>" + p.price + "VNĐ</p></div>" +
+                            "<div class='table-cell'>" +
+                                "<a class='link' href='/product-admin/update-product/" + p._id + "'><button type='button' class='update-button' id='update-button'>Sửa</button></a>" +
+                                "<a class='link' href='/product-admin/delete-product/" + p._id + "'><button type='button' class='delete-button' id='delete-button'>Xóa</button></a>" +
+                            "</div>" +
+                        "</div>"
+            }
+            return html
+        }
+        function html2Gen(fivePage, totalPage){
+            let html = "<ul class='table-pagination'>" +
+                            "<li><button type='button' class='page-link' data-page='1'>" +
+                                "<i class='fa fa-angle-left'></i><i class='fa fa-angle-left'></i>" +
+                            "</button></li>";
+            for(const each of fivePage){
+                html += "<li>" +
+                            "<button type='button' class='page-link' data-page='" + each + "'>" + each + "</button>" +
+                        "</li>";
+            }
+            html += "<li><button type='button' class='page-link' data-page='"+ totalPage + "'>" +
+                        "<i class='fa fa-angle-right'></i><i class='fa fa-angle-right'></i>" +
+                    "</button></li>" +
+                "</ul>";
+            return html
+        }
+    </script>
     <script>
         $(document).ready(function () {
             $('#filter-button').on('click', function(e){
@@ -14,18 +50,27 @@
                 const page = 1;
                 const name = $('#product-name').val();
                 const category = $('#category').val();
-                const manufaturer = $('#manufacturer').val();
+                const manufacturer = $('#manufacturer').val();
                 const sortBy = $('#sort-by').val();
                 const sortOrder = $('#sort-order').val();
-                console.log(page, name, category, manufaturer, sortBy, sortOrder);
 
-                const url = "/product-admin?" + "page=" + page
+                const url = "/product-admin/filter?" + "page=" + page
                 + "&productName=" + name
                 + "&category=" + category
-                + "&manufaturer=" + manufaturer
+                + "&manufacturer=" + manufacturer
                 + "&sortBy=" + sortBy
                 + "&sortOrder=" + sortOrder;
-                console.log(url)
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function (res) {
+                        let html = htmlProduct(res.product)
+                        $("#table-content").html(html)
+                        html = html2Gen(res.fivePage, res.totalPage)
+                        $("#pagination").html(html)
+                    }
+                });
             })
             $('#pagination').on('click', '.page-link', function (e) {
                 e.preventDefault();
@@ -35,21 +80,22 @@
                 const manufaturer = $('#manufacturer').val();
                 const sortBy = $('#sort-by').val();
                 const sortOrder = $('#sort-order').val();
-                console.log(page, name, category, manufaturer, sortBy, sortOrder);
                 
-                const url = "/product-admin?" + "page=" + page
+                const url = "/product-admin/filter?" + "page=" + page
                 + "&productName=" + name
                 + "&category=" + category
                 + "&manufacturer=" + manufaturer
                 + "&sortBy=" + sortBy
                 + "&sortOrder=" + sortOrder;
-                console.log(url)
 
                 $.ajax({
                     url: url,
                     method: 'GET',
                     success: function (res) {
-                        console.log("Product: " + res.product)
+                        let html = htmlProduct(res.product)
+                        $("#table-content").html(html)
+                        html = html2Gen(res.fivePage, res.totalPage)
+                        $("#pagination").html(html)
                     }
                 });
             });
@@ -105,7 +151,8 @@
                     </select>
                 </div>
                 <button type="button" class="button" id="filter-button">Tìm kiếm</button>
-                <button type="button" class="button" id="add-button">Thêm sản phẩm</button>
+                <a href="/product-admin/create-product" class="link">
+                <button type="button" class="button" id="add-button">Thêm sản phẩm</button></a>
             </div>
         </div>
         <div class="section-three">
@@ -119,28 +166,34 @@
                     <div class="table-column-cell"><p class="table-content">Giá tiền</p></div>
                     <div class="table-column-cell"></div>
                 </div>
-                {{#each product}}
-                <div class="table-row">
-                    <div class="table-cell"><p class="table-content">{{this.productName}}</p></div>
-                    <div class="table-cell"><p class="table-content">{{this.category}}</p></div>
-                    <div class="table-cell"><p class="table-content">{{this.manufacturer}}</p></div>
-                    <div class="table-cell"><p class="table-content">{{this.status}}</p></div>
-                    <div class="table-cell"><p class="table-content">{{this.creationTime}}</p></div>
-                    <div class="table-cell"><p class="table-content">{{this.price}}VNĐ</p></div>
-                    <div class="table-cell">
-                        <button type="button" class="update-button" id="update-button">Sửa</button>
-                        <button type="button" class="delete-button" id="delete-button">Xóa</button>
+                
+                <div id="table-content">
+                    {{#each product}}
+                    <div class="table-row">
+                        <div class="table-cell"><p class="table-content">{{this.productName}}</p></div>
+                        <div class="table-cell"><p class="table-content">{{this.category}}</p></div>
+                        <div class="table-cell"><p class="table-content">{{this.manufacturer}}</p></div>
+                        <div class="table-cell"><p class="table-content">{{this.status}}</p></div>
+                        <div class="table-cell"><p class="table-content">{{this.creationTime}}</p></div>
+                        <div class="table-cell"><p class="table-content">{{this.price}}VNĐ</p></div>
+                        <div class="table-cell">
+                            <a class="link" href="/product-admin/update-product/{{this._id}}"><button type="button" class="update-button" id="update-button">Sửa</button></a>
+                            <a class="link" href="/product-admin/update-product/{{this._id}}"><button type="button" class="delete-button" id="delete-button">Xóa</button></a>
+                        </div>
                     </div>
+                    {{/each}}
                 </div>
-                {{/each}}
             </div>
+
+            {{#if message}}<div class="message"><p class="table-content">Thông báo: {{message}}</p></div>{{/if}}
+            
             <div id="pagination">
                 <ul class="table-pagination">
                     <li><button type="button" class="page-link" data-page="1">
                         <i class="fa fa-angle-left"></i><i class="fa fa-angle-left"></i>
                     </button></li>
                     {{#each fivePage}}
-                        <li {{#if (eq this page)}}class="active"{{/if}}>
+                        <li>
                             <button type="button" class="page-link" data-page="{{this}}">{{this}}</button>
                         </li>
                     {{/each}}
@@ -149,6 +202,7 @@
                     </button></li>
                 </ul>
             </div>
+            
         </div>
     </div>
 </main>

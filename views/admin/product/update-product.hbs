@@ -1,0 +1,95 @@
+{{#sections "css"}}
+    <link rel="stylesheet" type="text/css" href="/css/update-product.css">
+{{/sections}}
+{{#sections "js"}}
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/plugins/pace.min.js"></script>
+{{/sections}}
+<main class="app-content">
+    <div class="product-page">
+        <div class="section-one">
+            <p class="content-title">Thêm sản phẩm mới</p>
+        </div>
+        <div class="section-two">
+            <form action="/product-admin/update-product/{{product._id}}" method="POST" enctype="multipart/form-data">
+                <div class="component">
+                    {{#each product.productImg}}
+                        <img class="image-size" src="/img/{{this}}" alt="{{this}}">
+                    {{/each}}
+                </div>
+
+                <div class="component-column">
+                    <span class="label">Hình ảnh mới: Tối đa 1 hình</span>
+                    <input class="input" type="file" name="productImg"/>
+                </div>
+
+                <div class="component-column">
+                    <span class="label">Hình ảnh muốn xóa (1 hình/lần):</span>
+                    <select class="dropdown" name="oldImg">
+                        <option value="">Không xóa</option>
+                        {{#each product.productImg}}
+                            <option value="{{this}}">{{this}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="component">
+                    <span class="label">Tên sản phẩm: </span>
+                    <input class="input" type="text" name="productName" value="{{product.productName}}"/>
+                </div>
+                
+                <div class="component">
+                    <span class="label">Giá tiền: </span>
+                    <input class="input" type="number" name="price" value="{{product.price}}"/>
+                </div>
+
+                <div class="component-line">
+                    <p class="label">Ngày khởi tạo: Ngày {{product.creationTime}}</p>
+                    <p class="label">Đánh giá: {{product.rating}} sao</p>
+                    <p class="label">Đã bán: {{product.totalPurchase}} sản phẩm</p>
+                </div>
+                
+                <div class="component-column">
+                    <span class="label">Danh mục hiện tại: {{product.category}}</span>
+                    <select class="dropdown" name="category">
+                        <option value="{{product.category}}">{{product.category}}</option>
+                        {{#each category}}
+                            <option value="{{this.name}}">{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="component-column">
+                    <span class="label">Nhà sản xuất hiện tại: {{product.manufacturer}}</span>
+                    <select class="dropdown" name="manufacturer">
+                        <option value="{{product.manufacturer}}">{{product.manufacturer}}</option>
+                        {{#each manufacturer}}
+                            <option value="{{this.name}}">{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="component-column">
+                    <span class="label">Trạng thái hiện tại: {{product.status}}</span>
+                    <select class="dropdown" name="status">
+                        <option value="{{product.status}}">{{product.status}}</option>
+                        <option class="option" value="Còn hàng">Còn hàng</option>
+                        <option class="option" value="Hết hàng">Hết hàng</option>
+                    </select>
+                </div>
+                
+
+                <div class="component-column">
+                    <p class="label">Giới thiệu sản phẩm: </p>
+                    <textarea class="textarea" name="description" rows="30" cols="100">{{product.description}}</textarea>
+                </div>
+                
+                {{#if message}}<p class="label">Thông báo: {{message}}</p>{{/if}}
+                <button type="submit" class="submit-button">Thay đổi</button>
+            </form>
+        </div>
+    </div>
+</main>

@@ -1,0 +1,134 @@
+.order-page{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto';
+    border: 1px outset white;
+    border-radius: 10px;
+    margin: 10px;
+}
+.section-one{
+    padding: 30px 30px 0px 30px;
+}
+.content-title{
+    color: black;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 100%;
+    margin: 0;
+}
+.section-two{
+    gap: 30px;
+    padding: 30px 30px 30px 30px;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.component{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.component-column{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.component-line{
+    display: flex;
+    flex-direction: row;
+    gap: 50px
+}
+.label{
+    color: black;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 100%;
+    margin: 0;
+}
+.input{
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 100%;
+    margin: 0;
+    padding: 5px;
+    border: 1px solid black;
+}
+.dropdown{
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 100%;
+    margin: 0;
+    padding: 5px;
+    border: 1px solid black;
+}
+.option{
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 100%;
+    margin: 0;
+}
+.submit-button{
+    width: fit-content;
+    background-color: greenyellow;
+    color: black;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 100%;
+    padding: 10px;
+    margin: 0;
+}
+.img{
+    width: 100%;
+    height: 100%;
+}
+.table{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: fit-content;
+    gap: 0px;
+    margin: 0;
+    border: 1px solid black;
+}
+.table-row{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0px;
+    margin: 0;
+}
+.table-column-cell{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 230px;
+    background-color: greenyellow;
+    padding: 5px;
+    border: 1px solid black;
+}
+.table-cell{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 230px;
+    background-color: white;
+    padding: 5px;
+    border: 1px solid black;
+}
+.table-content{
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 100%;
+    margin: 0;
+}
