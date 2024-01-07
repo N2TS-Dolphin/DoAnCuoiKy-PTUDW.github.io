@@ -110,7 +110,7 @@ var productARouter = require('./components/admin/product/index.js');
 var orderARouter = require('./components/admin/order/index.js');
 var cartRouter = require('./components/user/shoppingcart/index.js');
 var userProfilePath = require('./components/user/profile/index.js')
-
+var forgotpasswordRouter = require('./components/user/forgotpassword/index.js');
 
 // view engine setup
 app.engine("hbs", hbs.engine);
@@ -136,7 +136,7 @@ app.use('/product-admin', productARouter(upload));
 app.use('/order-admin', orderARouter);
 app.use('/shoppingcart', cartRouter);
 app.use('/user-profile', userProfilePath);
-
+app.use('/forgotpassword', forgotpasswordRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

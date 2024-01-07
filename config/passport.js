@@ -23,6 +23,18 @@ function generateVerificationCode() {
   return Math.floor(100000 + Math.random() * 900000);
 }
 
+function generateRandomPassword(length) {
+  const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:',.<>?";
+  let password = "";
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    password += charset[randomIndex];
+  }
+
+  return password;
+}
+
 // Configure nodemailer for sending emails
 var transporter = nodemailer.createTransport({
   // configure your email service
