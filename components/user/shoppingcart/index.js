@@ -1,13 +1,17 @@
 var express = require("express");
 var router = express.Router();
 const { Order, OrderItem } = require("../order/order.model");
+const shoppingcartService = require("./shoppingcart.service");
 
-router.get("/", function (req, res, next) {
+router.get("/", async function (req, res, next) {
   if (req.session.user) {
+    const cart = await shoppingcartService.getShoppingCart(shoppingcartService.getAccountID(req.session.user));
+
     var messages = req.flash("error");
     res.render("user/shoppingcart/index", {
       messages: messages,
       hasErrors: messages.length > 0,
+      cart: cart,
       account: req.session.user,
       layout: "userLayout",
     });
@@ -15,7 +19,5 @@ router.get("/", function (req, res, next) {
     res.redirect("/login");
   }
 });
-
-
 
 module.exports = router;

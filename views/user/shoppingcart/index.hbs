@@ -1,46 +1,38 @@
 <main>
   <div class="container">
     <div class="section-three-content">
-      {{#if orderDetail.orderItems}}
-        {{#each orderDetail.orderItems}}
-          <div class="item-card">
-            <div class="item-card-col-1">
-              <p class="item-title-font">SẢN PHẨM</p>
-              <div class="item-info">
-                <img
-                  class="item-img"
-                  src="{{this.itemImage}}"
-                  alt="{{this.itemImage}}"
-                />
-                <div class="item-name">
-                  <p class="item-title-font">{{this.itemName}}</p>
-                  <p class="item-normal-font">{{this.itemType}}</p>
-                </div>
-              </div>
-            </div>
-            <div class="item-card-col-2">
-              <div class="price-col">
-                <p class="item-title-font text-align-center">GIÁ</p>
-                <p
-                  class="item-normal-font text-align-center"
-                >{{this.itemPrice}}Đ</p>
-              </div>
-              <div class="price-col">
-                <p class="item-title-font text-align-center">SỐ LƯỢNG</p>
-                <p
-                  class="item-normal-font text-align-center"
-                >{{this.itemQuantity}}</p>
-              </div>
-              <div class="price-col">
-                <p class="item-title-font text-align-center">THÀNH TIỀN</p>
-                <p
-                  class="item-normal-font text-align-center"
-                >{{this.itemTotal}}Đ</p>
+      {{#each cart.orderItemID}}
+        <div class="item-card">
+          <div class="item-card-col-1">
+            <p class="item-title-font">SẢN PHẨM</p>
+            <div class="item-info">
+              <div class="item-name">
+                <p class="item-title-font">{{this.name}}</p>
               </div>
             </div>
           </div>
-        {{/each}}
-      {{/if}}
+          <div class="item-card-col-2">
+            <div class="price-col">
+              <p class="item-title-font text-align-center">GIÁ</p>
+              <p
+                class="item-normal-font text-align-center"
+              >{{this.price}}Đ</p>
+            </div>
+            <div class="price-col">
+              <p class="item-title-font text-align-center">SỐ LƯỢNG</p>
+              <p
+                class="item-normal-font text-align-center"
+              >{{this.quantity}}</p>
+            </div>
+            <div class="price-col">
+              <p class="item-title-font text-align-center">THÀNH TIỀN</p>
+              <p
+                class="item-normal-font text-align-center"
+              >{{(mult this.price this.quantity)}}Đ</p>
+            </div>
+          </div>
+        </div>
+      {{/each}}
     </div>
   </div>
 </main>

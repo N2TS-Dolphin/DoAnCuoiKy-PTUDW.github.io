@@ -313,7 +313,7 @@
 <!-- /Section -->
 
 <script type="module">
-  import ShoppingCartService from '../../../components/user/shoppingcart/shoppingcart.service.js';
+  import createOrderItem from '../../../components/user/shoppingcart/shoppingcart.service.js';
 
   document.addEventListener('DOMContentLoaded', function () {
     // Lấy nút "add to cart"
@@ -325,15 +325,13 @@
       var productName = document.querySelector('.product-name').textContent;
       var productPrice = document.querySelector('.product-price').textContent;
 
-      // Tạo đối tượng sản phẩm
       var product = {
         name: productName,
+        quantity: 1,
         price: productPrice
-        // Thêm các thuộc tính khác cần thiết của sản phẩm
       };
 
-      // Thêm sản phẩm vào giỏ hàng (có thể lưu vào localStorage hoặc server)
-      ShoppingCartService.addToCart(product);
+      createOrderItem(product);
     });
   });
 </script>

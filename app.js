@@ -86,11 +86,8 @@ app.use(flash());
 app.use(passport.initialize())
 app.use(passport.session());
 
-<<<<<<< Updated upstream
-=======
 // Set up multer storage
 let uploadCounter = 0
->>>>>>> Stashed changes
 const storage = multer.diskStorage({
   destination: "./public/img/",
   filename: function (req, file, cb) {
