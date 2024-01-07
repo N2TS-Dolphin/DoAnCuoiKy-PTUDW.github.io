@@ -17,6 +17,7 @@ const accountSchema = new mongoose.Schema(
     birthday: { type: Date },
     role: { type: String, required: false },
     status: { type: Boolean, required: false },
+    verificationCode: { type: String, required: false},
     registrationTime: { type: Date, required: false }
   },
   { collection: "accounts" }
