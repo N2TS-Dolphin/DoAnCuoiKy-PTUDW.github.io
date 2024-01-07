@@ -24,10 +24,24 @@ const getProductByID = async (id) => {
   return product;
 };
 const getRelatedProduct = async (category, currentID) => {
-  return await Product.find({
+  const product = await Product.find({
     category: category,
     _id: { $ne: currentID },
-  }).lean();
+  }).limit(8).lean();
+
+  let productsData = []
+  for(const each of product){
+    const temp = {
+      _id: each._id,
+      productName: each.productName,
+      category: each.category,
+      manufacturer: each.manufacturer,
+      price: each.price,
+      productImg: each.productImg[0]
+    }
+    productsData.push(temp)
+  }
+  return productsData
 };
 const sortProductsByTime = (productData) => {
   const sortedProducts = [...productData];

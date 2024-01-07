@@ -93,6 +93,18 @@ async function generateData(
   let allProducts = await Product.find().lean().exec();
 
   const productData = products.slice((page - 1) * 6, page * 6);
+  let productsData = []
+  for(const each of productData){
+    const temp = {
+      _id: each._id,
+      productName: each.productName,
+      category: each.category,
+      manufacturer: each.manufacturer,
+      price: each.price,
+      productImg: each.productImg[0]
+    }
+    productsData.push(temp)
+  }
   const categories = [
     ...new Set(allProducts.map((product) => product.category)),
   ];
@@ -106,7 +118,7 @@ async function generateData(
   let fivePage = getFivePage(totalPage, page);
 
   return {
-    products: productData,
+    products: productsData,
     categories,
     manufacturers,
     currentSearch: search,
