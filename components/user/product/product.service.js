@@ -2,12 +2,8 @@ const { Product, Review } = require("./product.model");
 
 const getProductByID = async (id) => {
   const products = await Product.findById(id).lean();
-  const creationTime =
-    products.creationTime.getDate() +
-    "/" +
-    products.creationTime.getMonth() +
-    "/" +
-    products.creationTime.getFullYear();
+  const month = products.creationTime.getMonth() + 1
+  const creationTime = products.creationTime.getDate() + "/" + month + "/" + products.creationTime.getFullYear();
   const product = {
     _id: products._id,
     productName: products.productName,
