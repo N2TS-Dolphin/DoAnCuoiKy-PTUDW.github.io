@@ -1,67 +1,80 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-const multer = require('multer');
-const fs = require('fs');
-const crypto = require('crypto');
-const path = require('path');
+const multer = require("multer");
+const fs = require("fs");
+const crypto = require("crypto");
+const path = require("path");
+const { Account } = require("../../account/account.model");
+const passport = require("passport");
+var LocalStrategy = require("passport-local").Strategy;
+const { check, validationResult } = require("express-validator");
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, 'public/avatar/');
-    },
-    filename: (req, file, cb) => {
-      cb(null, `${req.session.user}${path.extname(file.originalname)}`);
-    },
-  });
-
-const upload = multer({ storage });
-router.use(upload.single('avatar'));
-
-router.get('/', function(req, res){
-    res.render("user/profile/user-profile", 
-    {layout: "userLayout",
-    account: req.session.user
-    })
+  destination: (req, file, cb) => {
+    cb(null, "public/avatar/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${req.session.user}${path.extname(file.originalname)}`);
+  },
 });
 
-router.use('/avatar', express.static('public/avatar'));
-let defaultAvatar = "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg";
+const upload = multer({ storage });
+router.use(upload.single("avatar"));
+
+router.get("/", function (req, res) {
+  var messages = req.flash("error");
+  res.render("user/profile/index", {
+    messages: messages,
+    hasErrors: messages.length > 0,
+    account: req.session.user,
+    layout: "userLayout",
+  });
+});
+
+router.use("/avatar", express.static("public/avatar"));
+let defaultAvatar =
+  "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg";
 
 // API endpoint để lấy đường dẫn avatar
-router.get('/api/avatar', (req, res) => {
-    res.json({ avatar: defaultAvatar });
+router.get("/api/avatar", (req, res) => {
+  res.json({ avatar: defaultAvatar });
 });
 
 // API endpoint để cập nhật avatar
-router.post('/api/avatar', upload.single('avatar'), (req, res) => {
-
-    const avatarPath = req.file.filename;
-    res.json({ avatar: `/avatar/${avatarPath}` });
-
-
-    // const email = 'example'; // Thay thế bằng logic lấy email của người dùng
-
-    // if (!email || !req.file) {
-    //     return res.status(400).json({ success: false, error: 'Invalid request' });
-    // }
-
-    // // Generate a unique filename using crypto and preserve the original extension
-    // const uniqueFilename = crypto.createHash('md5').update(`${email}-${Date.now()}`).digest('hex');
-    // const originalExtension = req.file.originalname.split('.').pop();
-    // const fileName = `${uniqueFilename}.${originalExtension}`;
-
-    // const filePath = `public/avatar/${fileName}`;
-
-    // // Ghi file ảnh vào thư mục public/avatar
-    // fs.writeFile(filePath, req.file.buffer, (err) => {
-    //     if (err) {
-    //         console.log(err);
-    //         return res.status(500).json({ success: false, error: 'Failed to save avatar' });
-    //     }
-
-    //     defaultAvatar = `/avatar/${fileName}`;
-    //     res.json({ success: true, avatar: defaultAvatar });
-    // });
+router.post("/api/avatar", upload.single("avatar"), (req, res) => {
+  const avatarPath = req.file.filename;
+  res.json({ avatar: `/avatar/${avatarPath}` });
 });
+
+router.post(
+  "/",
+  async (req, res) => {
+    if (req.session.user) {
+      const OldPassword = req.body.oldpassword;
+      const NewPassword = req.body.newpassword;
+
+      const user = await Account.findOne({ email: req.session.user });
+
+      console.log(user.password);
+      console.log(OldPassword);
+
+      if (!user.validPassword(OldPassword)) {
+        req.flash("error", "Wrong Old Password.");
+        return res.redirect("/user-profile");
+      }
+
+      if (NewPassword.length < 5) {
+        req.flash("error", "Your password must be at least 5 characters.");
+        return res.redirect("/user-profile");
+      }
+
+      user.password = user.encryptPassword(NewPassword);
+      await user.save();
+      res.redirect("/login");
+    } else {
+      res.redirect("/login");
+    }
+  }
+);
 
 module.exports = router;
