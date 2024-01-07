@@ -104,7 +104,7 @@ passport.use(
         if (!user.status) {
           return done(null, 'false', { message: "Account not verified" });
         }
-        return done(null, user);
+        return done(null, user, {email: email});
       });
     }
   )

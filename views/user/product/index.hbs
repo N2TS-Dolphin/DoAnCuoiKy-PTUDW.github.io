@@ -151,7 +151,6 @@
             <li><a href="#"><i class="fa fa-exchange"></i>
                 add to compare</a></li>
           </ul>
-
           <ul class="product-links">
             <li>Category:</li>
             <li><a href="/collection?category={{product.category}}">{{product.category}}</a></li>
@@ -160,7 +159,6 @@
             <li>Manufacturer:</li>
             <li><a href="/collection?manufacturer={{product.manufacturer}}">{{product.manufacturer}}</a></li>
           </ul>
-
           <ul class="product-links">
             <li>Share:</li>
             <li><a href="#"><i class="fa fa-facebook"></i></a></li>
@@ -313,3 +311,29 @@
   <!-- /container -->
 </div>
 <!-- /Section -->
+
+<script type="module">
+  import ShoppingCartService from '../../../components/user/shoppingcart/shoppingcart.service.js';
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Lấy nút "add to cart"
+    var addToCartButton = document.querySelector('.add-to-cart-btn');
+
+    // Thêm sự kiện click cho nút
+    addToCartButton.addEventListener('click', function () {
+      // Lấy thông tin sản phẩm từ DOM
+      var productName = document.querySelector('.product-name').textContent;
+      var productPrice = document.querySelector('.product-price').textContent;
+
+      // Tạo đối tượng sản phẩm
+      var product = {
+        name: productName,
+        price: productPrice
+        // Thêm các thuộc tính khác cần thiết của sản phẩm
+      };
+
+      // Thêm sản phẩm vào giỏ hàng (có thể lưu vào localStorage hoặc server)
+      ShoppingCartService.addToCart(product);
+    });
+  });
+</script>
