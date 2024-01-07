@@ -75,7 +75,8 @@ require('./config/passport'); //vượt qua passport để config trang đăng n
 app.use(session({
   secret: 'adsa897adsa98bs',
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
 }))
 app.use(flash());
 app.use(passport.initialize())

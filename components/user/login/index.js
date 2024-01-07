@@ -38,6 +38,7 @@ router.post("/", function (req, res, next) {
         return next(err);
       }
       // If authenticated successfully, redirect to the dashboard or home page
+      req.session.user = info.email;
       return res.redirect("/users");
     });
   })(req, res, next);
