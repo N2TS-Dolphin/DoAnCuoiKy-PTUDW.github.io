@@ -5,10 +5,10 @@ const shoppingcartService = require("./shoppingcart.service");
 
 router.get("/", async function (req, res, next) {
   if (req.session.user) {
-    const cart = await shoppingcartService.getShoppingCart(shoppingcartService.getAccountID(req.session.user));
+    const cart = await shoppingcartService.getShoppingCart(await shoppingcartService.getAccountID(req.session.user));
 
     var messages = req.flash("error");
-    res.render("user/shoppingcart/index", {
+    res.render("user/shoppingcart", {
       messages: messages,
       hasErrors: messages.length > 0,
       cart: cart,
