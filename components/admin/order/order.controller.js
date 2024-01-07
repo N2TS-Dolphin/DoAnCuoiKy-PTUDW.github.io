@@ -32,7 +32,18 @@ const getFilterOrder = async (req, res, next) => {
     })
 }
 const getOrderDetail = async (req, res, next) => {
-    
+    const orderID = req.params.id
+    const message = req.query.mess
+    if(!orderID){
+        res.redirect("/order-admin")
+    } else {
+        const order = await orderService.findOrderByID(orderID)
+        res.render("admin/order/order-detail", {
+            order: order,
+            message: message,
+            layout: "adminLayout"
+        })
+    }
 }
 
 const updateOrder = async (req, res, next) => {

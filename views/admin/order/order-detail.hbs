@@ -1,0 +1,68 @@
+{{#sections "css"}}
+    <link rel="stylesheet" type="text/css" href="/css/order-detail.css">
+{{/sections}}
+{{#sections "js"}}
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/plugins/pace.min.js"></script>
+{{/sections}}
+<main class="app-content">
+    <div class="order-page">
+        <div class="section-one">
+            <p class="content-title">Chi tiết đơn hàng</p>
+        </div>
+        <div class="section-two">
+            <form action="/order-admin/order-detail/{{order._id}}" method="POST">
+                <div class="component">
+                    <span class="label">ID Đơn hàng: {{order._id}}</span>
+                </div>
+                <div class="component">
+                    <span class="label">Email người nhận: {{order.accountEmail}}</span>
+                </div>
+                <div class="component">
+                    <p class="label">Địa chỉ nhận hàng: {{order.address}} sao</p>
+                </div>
+                <div class="component-line">
+                    <p class="label">Tổng giá tiền: {{order.totalPrice}}VNĐ</p>
+                    <p class="label">Ngày đặt hàng: {{order.orderTime}}</p>
+                </div>
+                
+                <div class="component-column">
+                    <span class="label">Trạng thái hiện tại: {{order.status}}</span>
+                    <select class="dropdown" name="status">
+                        <option value="{{order.status}}">{{order.status}}</option>
+                        <option value="Đang giao">Đang giao</option>
+                        <option value="Hoàn thành">Hoàn thành</option>
+                        <option value="Đã hủy">Đã hủy</option>
+                    </select>
+                </div>
+                
+                <p class="label">Sản phảm đơn hàng:</p>
+                <div class="table">
+                    <div class="table-row">
+                        <div class="table-column-cell"><p class="table-content">Tên sản phẩm</p></div>
+                        <div class="table-column-cell"><p class="table-content">Giá sản phẩm</p></div>
+                        <div class="table-column-cell"><p class="table-content">Số lượng mua</p></div>
+                        <div class="table-column-cell"><p class="table-content">Tổng giá tiền</p></div>
+                    </div>
+                    
+                    <div id="table-content">
+                        {{#each order.orderItems}}
+                            <div class="table-row">
+                                <div class="table-cell"><p class="table-content">{{this.productName}}</p></div>
+                                <div class="table-cell"><p class="table-content">{{this.productPrice}}VNĐ</p></div>
+                                <div class="table-cell"><p class="table-content">{{this.quantity}}</p></div>
+                                <div class="table-cell"><p class="table-content">{{this.price}}VNĐ</p></div>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+
+                {{#if message}}<p class="label">Thông báo: {{message}}</p>{{/if}}
+                <button type="submit" class="submit-button">Thay đổi</button>
+            </form>
+        </div>
+    </div>
+</main>

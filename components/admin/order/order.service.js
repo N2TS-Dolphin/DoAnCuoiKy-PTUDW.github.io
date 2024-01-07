@@ -55,11 +55,45 @@ const getFivePage = (totalPage, page) => {
 const countFilterOrder = async (filter) => {
     return await Order.find(filter).countDocuments()
 }
+const findOrderByID = async (orderID) => {
+    const order = await Order.findOne({_id: orderID}).populate("accountID").exec()
+    let date = ""
+    if(order.orderTime != null){
+        date = formatDate(order.orderTime)
+    }
+    console.log(order)
+    let orderItems = []
+    for(const each of order.orderItemID){
+        const orderItem = await OrderItem.findOne({_id: each._id}).populate("productID").exec()
+        if(orderItem){
+            const temp = {
+                productName: orderItem.productID.productName,
+                productPrice: orderItem.productID.price,
+                quantity: orderItem.quantity,
+                price: orderItem.price
+            }
+            orderItems.push(temp)
+        } 
+    }
+    console.log(orderItems)
+
+    const result = {
+        _id: order._id,
+        totalPrice: order.totalPrice,
+        status: order.status,
+        address: order.address,
+        orderTime: date,
+        accountEmail: order.accountID.email,
+        orderItems: orderItems
+    }
+    console.log(result)
+    return result 
+}
 module.exports = {
     getAllOrder,
     getFilterOrder,
     countAllOrder,
     getFivePage,
     countFilterOrder,
-
+    findOrderByID,
 }
