@@ -47,7 +47,16 @@ const getOrderDetail = async (req, res, next) => {
 }
 
 const updateOrder = async (req, res, next) => {
-    
+    let mess = ""
+    const orderID = req.params.id 
+    const status = req.body.status
+    try{ 
+        await orderService.updateOrder(orderID, status)
+        mess = "Trạng thái thay đổi thành " + status + "."
+    } catch(error){
+        mess = "Không thể lưu trạng thái vào cơ sở dữ liệu."
+    }
+    res.redirect("/order-admin/order-detail/" + orderID + "?mess=" + mess)
 }
 
 module.exports = {

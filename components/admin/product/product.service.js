@@ -155,7 +155,6 @@ const updateProduct = async (productID, productName, price, category,
                 }
             },{new: true}
         )
-        console.log("Updated productImg: " + product.productImg)
     }
 }
 

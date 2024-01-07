@@ -61,7 +61,6 @@ const findOrderByID = async (orderID) => {
     if(order.orderTime != null){
         date = formatDate(order.orderTime)
     }
-    console.log(order)
     let orderItems = []
     for(const each of order.orderItemID){
         const orderItem = await OrderItem.findOne({_id: each._id}).populate("productID").exec()
@@ -75,7 +74,6 @@ const findOrderByID = async (orderID) => {
             orderItems.push(temp)
         } 
     }
-    console.log(orderItems)
 
     const result = {
         _id: order._id,
@@ -86,9 +84,14 @@ const findOrderByID = async (orderID) => {
         accountEmail: order.accountID.email,
         orderItems: orderItems
     }
-    console.log(result)
     return result 
 }
+const updateOrder = async (orderID, status) => {
+    if(status){
+        const order = await Order.findOneAndUpdate({_id: orderID}, {status: status},{new: true})
+    }
+}
+
 module.exports = {
     getAllOrder,
     getFilterOrder,
@@ -96,4 +99,5 @@ module.exports = {
     getFivePage,
     countFilterOrder,
     findOrderByID,
+    updateOrder,
 }

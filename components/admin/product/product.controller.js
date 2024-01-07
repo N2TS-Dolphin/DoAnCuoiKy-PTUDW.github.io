@@ -100,7 +100,7 @@ const createProduct = async (req, res, next) => {
     } else {
         try{ 
             await productService.createNewProduct(productName, price, category, manufacturer, status, description, fileNames)
-            mess = "Thêm sản phẩm thành công."
+            mess = "Thêm sản phẩm mới thành công."
         } catch(error){
             await productService.deleteFile(fileNames)
             mess = "Không thể lưu vào cơ sở dữ liệu."

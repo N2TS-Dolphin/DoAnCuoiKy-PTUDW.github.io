@@ -84,15 +84,16 @@ app.use(passport.initialize())
 app.use(passport.session());
 
 // Set up multer storage
-let uploadCounter = 0
+// let uploadCounter = 0
 const storage = multer.diskStorage({
   destination: "./public/img/", // specify the folder where images will be stored
   filename: function (req, file, cb) {
-    uploadCounter++
-    cb(null, file.fieldname + '-' + Date.now() + '-' + uploadCounter + path.extname(file.originalname));
+    // uploadCounter++
+    setTimeout(() => {}, 100);
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
   },
 });
-uploadCounter = 0
+// uploadCounter = 0
 const upload = multer({ storage });
 
 
