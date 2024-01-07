@@ -13,6 +13,8 @@ const express_handlebars_sections = require('express-handlebars-sections');
 var paginate = require('handlebars-paginate')
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
+const multer = require('multer');
+const fs = require('fs/promises');
 
 // // Kết nối đến database
 // mongoose.connect('mongodb+srv://404foundbugs:404foundbugs@websitedatabase.746k9dj.mongodb.net/GA2?retryWrites=true&w=majority', {useNewUrlParser:true, useUnifiedTopology: true});
@@ -81,6 +83,15 @@ app.use(flash());
 app.use(passport.initialize())
 app.use(passport.session());
 
+// Set up multer storage
+const storage = multer.diskStorage({
+  destination: "./public/img/", // specify the folder where images will be stored
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage });
+
 var indexRouter = require('./components/user/home/index.js');
 var loginRouter = require('./components/user/login/index.js');
 var signupRouter = require('./components/user/signup/index.js');
@@ -112,7 +123,7 @@ app.use('/logout', logoutRouter);
 app.use('/collection', collectionRouter);
 app.use('/product', productRouter);
 app.use('/home-admin', homeARouter);
-app.use('/product-admin', productARouter);
+app.use('/product-admin', productARouter(upload));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
